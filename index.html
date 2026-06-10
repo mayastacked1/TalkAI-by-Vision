@@ -266,7 +266,8 @@
   .legal-box li { margin-bottom: 6px; font-size: 13.5px; color: var(--text-muted); line-height: 1.5; }
   .legal-box p { font-size: 13.5px; color: var(--text-muted); line-height: 1.6; }
 
-  .profile-card { display: flex; align-items: center; gap: 16px; background: var(--surface); border: 1px solid var(--border); padding: 20px; border-radius: 14px; margin-top: 16px; }
+  .profile-grid { display: flex; flex-direction: column; gap: 16px; margin-top: 16px; }
+  .profile-card { display: flex; align-items: center; gap: 16px; background: var(--surface); border: 1px solid var(--border); padding: 20px; border-radius: 14px; }
   .profile-avatar { width: 48px; height: 48px; background: var(--brand-gradient); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-family: var(--font-display); font-weight: 700; color: #fff; font-size: 18px; }
 
   .changelog-timeline { display: flex; flex-direction: column; gap: 20px; position: relative; padding-left: 20px; border-left: 1px solid var(--border); margin-top: 20px; }
@@ -349,7 +350,7 @@
     <div class="sidebar-bottom">
       <button class="sidebar-action" onclick="showScreen('about')">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
-        About & Founder
+        About & Developers
       </button>
       <button class="sidebar-action" onclick="showScreen('changelog')">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
@@ -445,13 +446,31 @@
         <div class="legal-box">
           <p>TalkAI by Vision is an AI-powered assistant designed to help users think, create, learn, and solve problems faster. Built with a focus on speed, simplicity, and accessibility, TalkAI combines modern AI capabilities with a clean and intuitive user experience.</p>
         </div>
-        <div class="section-title">Founder Profile</div>
-        <div class="profile-card">
-          <div class="profile-avatar">V</div>
-          <div>
-            <h3 style="margin:0; font-size:16px;">Vision</h3>
-            <p style="font-size:12px; color:var(--text-muted); margin-top:2px;">Founder & Lead Developer</p>
-            <p style="font-size:13px; color:var(--text-dim); margin-top:6px;">Building practical AI tools that are accessible to everyone.</p>
+        <div class="section-title">Core Development Team</div>
+        <div class="profile-grid">
+          <div class="profile-card">
+            <div class="profile-avatar">V</div>
+            <div>
+              <h3 style="margin:0; font-size:16px;">Vision</h3>
+              <p style="font-size:12px; color:var(--text-muted); margin-top:2px;">Founder & Lead Developer</p>
+              <p style="font-size:13px; color:var(--text-dim); margin-top:6px;">Building practical AI tools that are accessible to everyone.</p>
+            </div>
+          </div>
+          <div class="profile-card">
+            <div class="profile-avatar">M</div>
+            <div>
+              <h3 style="margin:0; font-size:16px;">Marlon</h3>
+              <p style="font-size:12px; color:var(--text-muted); margin-top:2px;">Lead Developer</p>
+              <p style="font-size:13px; color:var(--text-dim); margin-top:6px;">Architecting data pipelines and high-performance system layouts.</p>
+            </div>
+          </div>
+          <div class="profile-card">
+            <div class="profile-avatar">Y</div>
+            <div>
+              <h3 style="margin:0; font-size:16px;">Yuji</h3>
+              <p style="font-size:12px; color:var(--text-muted); margin-top:2px;">Assistant Developer</p>
+              <p style="font-size:13px; color:var(--text-dim); margin-top:6px;">Optimizing user experience frameworks and module integration features.</p>
+            </div>
           </div>
         </div>
       </div>
