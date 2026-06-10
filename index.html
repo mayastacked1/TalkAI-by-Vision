@@ -80,10 +80,8 @@
     transition: background 0.3s, color 0.3s;
   }
 
-  /* ── Layout ── */
   .app { display: flex; height: 100vh; overflow: hidden; }
 
-  /* ── Sidebar ── */
   .sidebar {
     width: var(--sidebar-w);
     background: var(--surface);
@@ -97,13 +95,7 @@
     overflow: hidden;
   }
 
-  .logo-area {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 0 4px;
-  }
-
+  .logo-area { display: flex; align-items: center; gap: 10px; padding: 0 4px; }
   .logo-icon {
     width: 34px; height: 34px;
     background: var(--text);
@@ -117,21 +109,8 @@
     flex-shrink: 0;
   }
 
-  .logo-text {
-    font-family: var(--font-display);
-    font-weight: 700;
-    font-size: 15px;
-    letter-spacing: -0.3px;
-    line-height: 1.2;
-  }
-
-  .logo-sub {
-    font-size: 10px;
-    color: var(--text-muted);
-    font-weight: 400;
-    letter-spacing: 0.5px;
-    text-transform: uppercase;
-  }
+  .logo-text { font-family: var(--font-display); font-weight: 700; font-size: 15px; letter-spacing: -0.3px; line-height: 1.2; }
+  .logo-sub { font-size: 10px; color: var(--text-muted); font-weight: 400; letter-spacing: 0.5px; text-transform: uppercase; }
 
   .new-chat-btn {
     display: flex; align-items: center; gap: 8px;
@@ -147,10 +126,8 @@
     transition: opacity 0.15s, transform 0.1s;
     letter-spacing: 0.1px;
   }
-
   .new-chat-btn:hover { opacity: 0.85; transform: translateY(-1px); }
   .new-chat-btn:active { transform: translateY(0); }
-
   .new-chat-btn svg { width: 15px; height: 15px; flex-shrink: 0; }
 
   .history-section { flex: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 3px; }
@@ -158,659 +135,133 @@
   .history-section::-webkit-scrollbar-track { background: transparent; }
   .history-section::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
 
-  .history-label {
-    font-size: 10px;
-    color: var(--text-dim);
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    font-weight: 600;
-    padding: 4px 8px 8px;
-  }
-
-  .history-item {
-    display: flex; align-items: center; gap: 8px;
-    padding: 9px 10px;
-    border-radius: 9px;
-    cursor: pointer;
-    transition: background 0.15s;
-    font-size: 13px;
-    color: var(--text-muted);
-    line-height: 1.3;
-  }
-
+  .history-label { font-size: 10px; color: var(--text-dim); text-transform: uppercase; letter-spacing: 1px; font-weight: 600; padding: 4px 8px 8px; }
+  .history-item { display: flex; align-items: center; gap: 8px; padding: 9px 10px; border-radius: 9px; cursor: pointer; transition: background 0.15s; font-size: 13px; color: var(--text-muted); line-height: 1.3; }
   .history-item:hover { background: var(--surface2); color: var(--text); }
   .history-item.active { background: var(--surface2); color: var(--text); }
-
   .history-item svg { width: 14px; height: 14px; flex-shrink: 0; opacity: 0.5; }
+  .history-title { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; flex: 1; }
 
-  .history-title {
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    flex: 1;
-  }
-
-  .sidebar-bottom {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-    border-top: 1px solid var(--border);
-    padding-top: 14px;
-  }
-
-  .sidebar-action {
-    display: flex; align-items: center; gap: 9px;
-    padding: 9px 10px;
-    border-radius: 9px;
-    cursor: pointer;
-    font-size: 13px;
-    color: var(--text-muted);
-    transition: background 0.15s, color 0.15s;
-    border: none;
-    background: none;
-    text-align: left;
-    font-family: var(--font-body);
-    width: 100%;
-  }
-
+  .sidebar-bottom { display: flex; flex-direction: column; gap: 4px; border-top: 1px solid var(--border); padding-top: 14px; }
+  .sidebar-action { display: flex; align-items: center; gap: 9px; padding: 9px 10px; border-radius: 9px; cursor: pointer; font-size: 13px; color: var(--text-muted); transition: background 0.15s, color 0.15s; border: none; background: none; text-align: left; font-family: var(--font-body); width: 100%; }
   .sidebar-action:hover { background: var(--surface2); color: var(--text); }
   .sidebar-action svg { width: 15px; height: 15px; flex-shrink: 0; }
 
-  /* ── Main Chat ── */
   .main { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
-
-  .topbar {
-    height: 58px;
-    display: flex; align-items: center; justify-content: space-between;
-    padding: 0 24px;
-    border-bottom: 1px solid var(--border);
-    flex-shrink: 0;
-  }
-
-  .model-tag {
-    display: flex; align-items: center; gap: 7px;
-    font-size: 12px;
-    color: var(--text-muted);
-    background: var(--surface2);
-    padding: 5px 12px;
-    border-radius: 20px;
-    border: 1px solid var(--border);
-    user-select: none;
-  }
-
-  .model-dot {
-    width: 6px; height: 6px;
-    background: #4ade80;
-    border-radius: 50%;
-    animation: pulse 2s infinite;
-  }
-
-  @keyframes pulse {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.4; }
-  }
+  .topbar { height: 58px; display: flex; align-items: center; justify-content: space-between; padding: 0 24px; border-bottom: 1px solid var(--border); flex-shrink: 0; }
+  
+  .model-tag { display: flex; align-items: center; gap: 7px; font-size: 12px; color: var(--text-muted); background: var(--surface2); padding: 5px 12px; border-radius: 20px; border: 1px solid var(--border); user-select: none; }
+  .model-dot { width: 6px; height: 6px; background: #4ade80; border-radius: 50%; animation: pulse 2s infinite; }
+  @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
 
   .topbar-right { display: flex; align-items: center; gap: 10px; }
-
-  .icon-btn {
-    width: 34px; height: 34px;
-    border: 1px solid var(--border);
-    background: none;
-    color: var(--text-muted);
-    border-radius: 9px;
-    cursor: pointer;
-    display: flex; align-items: center; justify-content: center;
-    transition: background 0.15s, color 0.15s, border-color 0.15s;
-  }
-
+  .icon-btn { width: 34px; height: 34px; border: 1px solid var(--border); background: none; color: var(--text-muted); border-radius: 9px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background 0.15s, color 0.15s, border-color 0.15s; }
   .icon-btn:hover { background: var(--surface2); color: var(--text); border-color: var(--text-muted); }
   .icon-btn svg { width: 16px; height: 16px; }
 
-  /* ── Messages ── */
-  .messages-wrap {
-    flex: 1;
-    overflow-y: auto;
-    padding: 32px 0;
-    scroll-behavior: smooth;
-  }
-
+  .messages-wrap { flex: 1; overflow-y: auto; padding: 32px 0; scroll-behavior: smooth; }
   .messages-wrap::-webkit-scrollbar { width: 4px; }
-  .messages-wrap::-webkit-scrollbar-track { background: transparent; }
   .messages-wrap::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+  .messages-inner { max-width: 720px; margin: 0 auto; padding: 0 24px; display: flex; flex-direction: column; gap: 8px; }
 
-  .messages-inner {
-    max-width: 720px;
-    margin: 0 auto;
-    padding: 0 24px;
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-  }
+  .welcome { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 60vh; gap: 24px; text-align: center; }
+  .welcome-logo { width: 64px; height: 64px; background: var(--text); color: var(--bg); border-radius: 18px; display: flex; align-items: center; justify-content: center; font-family: var(--font-display); font-weight: 800; font-size: 26px; letter-spacing: -1px; margin-bottom: 4px; }
+  .welcome-title { font-family: var(--font-display); font-weight: 700; font-size: 32px; letter-spacing: -1px; line-height: 1.1; }
+  .welcome-tagline { font-size: 14px; color: var(--text-muted); max-width: 360px; line-height: 1.6; }
 
-  /* ── Welcome Screen ── */
-  .welcome {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    min-height: 60vh;
-    gap: 24px;
-    text-align: center;
-  }
+  .suggestions { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; max-width: 520px; margin-top: 8px; }
+  .suggestion-chip { background: var(--surface2); border: 1px solid var(--border); color: var(--text-muted); padding: 8px 16px; border-radius: 20px; font-size: 13px; cursor: pointer; transition: background 0.15s, color 0.15s, border-color 0.15s; }
+  .suggestion-chip:hover { background: var(--surface); color: var(--text); border-color: var(--text-muted); }
 
-  .welcome-logo {
-    width: 64px; height: 64px;
-    background: var(--text);
-    color: var(--bg);
-    border-radius: 18px;
-    display: flex; align-items: center; justify-content: center;
-    font-family: var(--font-display);
-    font-weight: 800;
-    font-size: 26px;
-    letter-spacing: -1px;
-    margin-bottom: 4px;
-  }
-
-  .welcome-title {
-    font-family: var(--font-display);
-    font-weight: 700;
-    font-size: 32px;
-    letter-spacing: -1px;
-    line-height: 1.1;
-  }
-
-  .welcome-tagline {
-    font-size: 14px;
-    color: var(--text-muted);
-    max-width: 360px;
-    line-height: 1.6;
-  }
-
-  .suggestions {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    justify-content: center;
-    max-width: 520px;
-    margin-top: 8px;
-  }
-
-  .suggestion-chip {
-    background: var(--surface2);
-    border: 1px solid var(--border);
-    color: var(--text-muted);
-    padding: 8px 16px;
-    border-radius: 20px;
-    font-size: 13px;
-    cursor: pointer;
-    transition: background 0.15s, color 0.15s, border-color 0.15s;
-  }
-
-  .suggestion-chip:hover {
-    background: var(--surface);
-    color: var(--text);
-    border-color: var(--text-muted);
-  }
-
-  /* ── Message Bubbles ── */
   .msg-group { display: flex; gap: 12px; max-width: 100%; }
   .msg-group.user { flex-direction: row-reverse; }
-
-  .avatar {
-    width: 30px; height: 30px;
-    border-radius: 8px;
-    display: flex; align-items: center; justify-content: center;
-    font-family: var(--font-display);
-    font-size: 12px;
-    font-weight: 700;
-    flex-shrink: 0;
-    margin-top: 2px;
-  }
-
-  .avatar.ai {
-    background: var(--text);
-    color: var(--bg);
-  }
-
-  .avatar.user {
-    background: var(--surface2);
-    color: var(--text-muted);
-    border: 1px solid var(--border);
-  }
+  .avatar { width: 30px; height: 30px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-family: var(--font-display); font-size: 12px; font-weight: 700; flex-shrink: 0; margin-top: 2px; }
+  .avatar.ai { background: var(--text); color: var(--bg); }
+  .avatar.user { background: var(--surface2); color: var(--text-muted); border: 1px solid var(--border); }
 
   .bubble-wrap { display: flex; flex-direction: column; gap: 4px; max-width: calc(100% - 46px); }
   .msg-group.user .bubble-wrap { align-items: flex-end; }
+  .bubble { padding: 12px 16px; border-radius: var(--bubble-radius); font-size: 14px; line-height: 1.65; word-break: break-word; transition: background 0.3s; }
+  .user-msg { background: var(--user-bubble); color: var(--text); border: 1px solid var(--border); border-bottom-right-radius: 5px; }
+  .ai-msg { background: var(--ai-bubble); color: var(--text); border: 1px solid var(--border-soft); border-bottom-left-radius: 5px; }
+  .msg-time { font-size: 10px; color: var(--text-dim); padding: 0 4px; }
 
-  .bubble {
-    padding: 12px 16px;
-    border-radius: var(--bubble-radius);
-    font-size: 14px;
-    line-height: 1.65;
-    word-break: break-word;
-    transition: background 0.3s;
-  }
-
-  .user-msg {
-    background: var(--user-bubble);
-    color: var(--text);
-    border: 1px solid var(--border);
-    border-bottom-right-radius: 5px;
-  }
-
-  .ai-msg {
-    background: var(--ai-bubble);
-    color: var(--text);
-    border: 1px solid var(--border-soft);
-    border-bottom-left-radius: 5px;
-  }
-
-  .msg-time {
-    font-size: 10px;
-    color: var(--text-dim);
-    padding: 0 4px;
-  }
-
-  /* ── Typing Indicator ── */
-  .typing-indicator {
-    display: flex; align-items: center; gap: 5px;
-    padding: 14px 16px;
-    background: var(--ai-bubble);
-    border: 1px solid var(--border-soft);
-    border-radius: var(--bubble-radius);
-    border-bottom-left-radius: 5px;
-    width: fit-content;
-  }
-
-  .typing-dot {
-    width: 6px; height: 6px;
-    background: var(--text-muted);
-    border-radius: 50%;
-    animation: typing 1.2s infinite;
-  }
-
+  .typing-indicator { display: flex; align-items: center; gap: 5px; padding: 14px 16px; background: var(--ai-bubble); border: 1px solid var(--border-soft); border-radius: var(--bubble-radius); border-bottom-left-radius: 5px; width: fit-content; }
+  .typing-dot { width: 6px; height: 6px; background: var(--text-muted); border-radius: 50%; animation: typing 1.2s infinite; }
   .typing-dot:nth-child(2) { animation-delay: 0.2s; }
   .typing-dot:nth-child(3) { animation-delay: 0.4s; }
+  @keyframes typing { 0%, 60%, 100% { transform: translateY(0); opacity: 0.4; } 30% { transform: translateY(-5px); opacity: 1; } }
 
-  @keyframes typing {
-    0%, 60%, 100% { transform: translateY(0); opacity: 0.4; }
-    30% { transform: translateY(-5px); opacity: 1; }
-  }
-
-  /* ── Code blocks in AI messages ── */
-  .bubble pre {
-    background: var(--surface2);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 12px 14px;
-    overflow-x: auto;
-    font-size: 12.5px;
-    line-height: 1.6;
-    margin: 8px 0;
-    font-family: 'SF Mono', 'Fira Code', monospace;
-  }
-
-  .bubble code {
-    background: var(--surface2);
-    padding: 2px 6px;
-    border-radius: 4px;
-    font-size: 12.5px;
-    font-family: 'SF Mono', 'Fira Code', monospace;
-  }
-
+  .bubble pre { background: var(--surface2); border: 1px solid var(--border); border-radius: 8px; padding: 12px 14px; overflow-x: auto; font-size: 12.5px; line-height: 1.6; margin: 8px 0; font-family: 'SF Mono', 'Fira Code', monospace; }
+  .bubble code { background: var(--surface2); padding: 2px 6px; border-radius: 4px; font-size: 12.5px; font-family: 'SF Mono', 'Fira Code', monospace; }
   .bubble pre code { background: none; padding: 0; }
-
   .bubble p { margin-bottom: 8px; }
   .bubble p:last-child { margin-bottom: 0; }
   .bubble strong { font-weight: 600; color: var(--text); }
   .bubble ul, .bubble ol { padding-left: 20px; margin: 6px 0; }
   .bubble li { margin-bottom: 4px; }
 
-  /* ── Input Area ── */
-  .input-area {
-    padding: 16px 24px 20px;
-    flex-shrink: 0;
-  }
-
+  .input-area { padding: 16px 24px 20px; flex-shrink: 0; }
   .input-inner { max-width: 720px; margin: 0 auto; }
-
-  .input-wrap {
-    display: flex; align-items: flex-end; gap: 10px;
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 16px;
-    padding: 10px 10px 10px 16px;
-    transition: border-color 0.2s, background 0.3s;
-  }
-
+  .input-wrap { display: flex; align-items: flex-end; gap: 10px; background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 10px 10px 10px 16px; transition: border-color 0.2s, background 0.3s; }
   .input-wrap:focus-within { border-color: var(--text-muted); }
 
-  .chat-input {
-    flex: 1;
-    background: none;
-    border: none;
-    outline: none;
-    color: var(--text);
-    font-family: var(--font-body);
-    font-size: 14px;
-    resize: none;
-    max-height: 140px;
-    min-height: 22px;
-    line-height: 1.55;
-    padding: 2px 0;
-    scrollbar-width: none;
-  }
-
-  .chat-input::-webkit-scrollbar { display: none; }
+  .chat-input { flex: 1; background: none; border: none; outline: none; color: var(--text); font-family: var(--font-body); font-size: 14px; resize: none; max-height: 140px; min-height: 22px; line-height: 1.55; padding: 2px 0; }
   .chat-input::placeholder { color: var(--text-muted); }
 
-  .send-btn {
-    width: 36px; height: 36px;
-    background: var(--text);
-    color: var(--bg);
-    border: none;
-    border-radius: 10px;
-    cursor: pointer;
-    display: flex; align-items: center; justify-content: center;
-    transition: opacity 0.15s, transform 0.1s;
-    flex-shrink: 0;
-  }
-
+  .send-btn { width: 36px; height: 36px; background: var(--text); color: var(--bg); border: none; border-radius: 10px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: opacity 0.15s, transform 0.1s; flex-shrink: 0; }
   .send-btn:hover { opacity: 0.8; transform: scale(0.97); }
-  .send-btn:active { transform: scale(0.94); }
   .send-btn:disabled { opacity: 0.25; cursor: not-allowed; transform: none; }
   .send-btn svg { width: 16px; height: 16px; }
+  .input-hint { text-align: center; font-size: 11px; color: var(--text-dim); margin-top: 10px; }
 
-  .input-hint {
-    text-align: center;
-    font-size: 11px;
-    color: var(--text-dim);
-    margin-top: 10px;
-    letter-spacing: 0.2px;
-  }
-
-  /* ── Modal ── */
-  .modal-overlay {
-    position: fixed; inset: 0;
-    background: rgba(0,0,0,0.75);
-    backdrop-filter: blur(6px);
-    z-index: 100;
-    display: flex; align-items: center; justify-content: center;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.2s;
-  }
-
+  .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.75); backdrop-filter: blur(6px); z-index: 100; display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: opacity 0.2s; }
   .modal-overlay.open { opacity: 1; pointer-events: all; }
-
-  .modal-box {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 20px;
-    width: 520px;
-    max-width: 94vw;
-    max-height: 85vh;
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    transform: translateY(12px);
-    transition: transform 0.2s;
-    box-shadow: 0 32px 80px rgba(0,0,0,0.6);
-  }
-
+  .modal-box { background: var(--surface); border: 1px solid var(--border); border-radius: 20px; width: 520px; max-width: 94vw; max-height: 85vh; overflow: hidden; display: flex; flex-direction: column; transform: translateY(12px); transition: transform 0.2s; }
   .modal-overlay.open .modal-box { transform: translateY(0); }
+  .modal-header { display: flex; align-items: center; justify-content: space-between; padding: 20px 24px 0; }
+  .modal-title { font-family: var(--font-display); font-weight: 700; font-size: 18px; letter-spacing: -0.4px; }
+  .modal-close { width: 30px; height: 30px; background: var(--surface2); border: 1px solid var(--border); color: var(--text-muted); border-radius: 8px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 18px; }
 
-  .modal-header {
-    display: flex; align-items: center; justify-content: space-between;
-    padding: 20px 24px 0;
-  }
-
-  .modal-title {
-    font-family: var(--font-display);
-    font-weight: 700;
-    font-size: 18px;
-    letter-spacing: -0.4px;
-  }
-
-  .modal-close {
-    width: 30px; height: 30px;
-    background: var(--surface2);
-    border: 1px solid var(--border);
-    color: var(--text-muted);
-    border-radius: 8px;
-    cursor: pointer;
-    display: flex; align-items: center; justify-content: center;
-    transition: background 0.15s;
-    font-size: 18px;
-    line-height: 1;
-  }
-
-  .modal-close:hover { background: var(--border); color: var(--text); }
-
-  /* Tabs */
-  .modal-tabs {
-    display: flex;
-    gap: 0;
-    padding: 16px 24px 0;
-    border-bottom: 1px solid var(--border);
-    margin-top: 4px;
-  }
-
-  .tab-btn {
-    padding: 8px 16px 10px;
-    background: none;
-    border: none;
-    border-bottom: 2px solid transparent;
-    color: var(--text-muted);
-    font-family: var(--font-body);
-    font-size: 13px;
-    font-weight: 500;
-    cursor: pointer;
-    transition: color 0.15s, border-color 0.15s;
-    margin-bottom: -1px;
-  }
-
+  .modal-tabs { display: flex; padding: 16px 24px 0; border-bottom: 1px solid var(--border); margin-top: 4px; }
+  .tab-btn { padding: 8px 16px 10px; background: none; border: none; border-bottom: 2px solid transparent; color: var(--text-muted); font-family: var(--font-body); font-size: 13px; font-weight: 500; cursor: pointer; }
   .tab-btn.active { color: var(--text); border-bottom-color: var(--text); }
-  .tab-btn:hover { color: var(--text); }
 
-  .modal-body {
-    flex: 1;
-    overflow-y: auto;
-    padding: 20px 24px 24px;
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-  }
-
-  .modal-body::-webkit-scrollbar { width: 3px; }
-  .modal-body::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
-
+  .modal-body { flex: 1; overflow-y: auto; padding: 20px 24px 24px; display: flex; flex-direction: column; gap: 4px; }
   .tab-panel { display: none; flex-direction: column; gap: 4px; }
   .tab-panel.active { display: flex; }
 
-  .setting-row {
-    display: flex; align-items: center; justify-content: space-between;
-    padding: 14px 0;
-    border-bottom: 1px solid var(--border-soft);
-    gap: 16px;
-  }
-
-  .setting-row:last-child { border-bottom: none; }
-
+  .setting-row { display: flex; align-items: center; justify-content: space-between; padding: 14px 0; border-bottom: 1px solid var(--border-soft); gap: 16px; }
   .setting-info { flex: 1; }
+  .setting-label { font-size: 13px; font-weight: 500; color: var(--text); margin-bottom: 2px; }
+  .setting-desc { font-size: 11px; color: var(--text-muted); line-height: 1.4; }
 
-  .setting-label {
-    font-size: 13px;
-    font-weight: 500;
-    color: var(--text);
-    margin-bottom: 2px;
-  }
-
-  .setting-desc {
-    font-size: 11px;
-    color: var(--text-muted);
-    line-height: 1.4;
-  }
-
-  /* Toggle */
-  .toggle {
-    position: relative;
-    width: 40px; height: 22px;
-    flex-shrink: 0;
-    cursor: pointer;
-  }
-
+  .toggle { position: relative; width: 40px; height: 22px; flex-shrink: 0; cursor: pointer; }
   .toggle input { opacity: 0; width: 0; height: 0; position: absolute; }
-
-  .toggle-track {
-    position: absolute; inset: 0;
-    background: var(--border);
-    border-radius: 11px;
-    transition: background 0.2s;
-  }
-
+  .toggle-track { position: absolute; inset: 0; background: var(--border); border-radius: 11px; transition: background 0.2s; }
   .toggle input:checked + .toggle-track { background: var(--text); }
+  .toggle-thumb { position: absolute; top: 3px; left: 3px; width: 16px; height: 16px; background: #666; border-radius: 50%; transition: transform 0.2s, background 0.2s; }
+  .toggle input:checked ~ .toggle-thumb { transform: translateX(18px); background: var(--bg); }
 
-  .toggle-thumb {
-    position: absolute;
-    top: 3px; left: 3px;
-    width: 16px; height: 16px;
-    background: #666;
-    border-radius: 50%;
-    transition: transform 0.2s, background 0.2s;
-  }
-
-  .toggle input:checked ~ .toggle-thumb {
-    transform: translateX(18px);
-    background: var(--bg);
-  }
-
-  /* Select */
-  .select-control {
-    background: var(--surface2);
-    border: 1px solid var(--border);
-    color: var(--text);
-    font-family: var(--font-body);
-    font-size: 13px;
-    padding: 7px 10px;
-    border-radius: 8px;
-    cursor: pointer;
-    outline: none;
-    min-width: 140px;
-    transition: border-color 0.15s;
-  }
-
-  .select-control:focus { border-color: var(--text-muted); }
-
-  /* API Key input */
-  .api-input {
-    flex: 1;
-    background: var(--surface2);
-    border: 1px solid var(--border);
-    color: var(--text);
-    font-family: 'SF Mono', 'Fira Code', monospace;
-    font-size: 12px;
-    padding: 8px 12px;
-    border-radius: 8px;
-    outline: none;
-    transition: border-color 0.15s;
-  }
-
-  .api-input::placeholder { color: var(--text-dim); }
-  .api-input:focus { border-color: var(--text-muted); }
-
-  .api-row { display: flex; gap: 8px; align-items: center; }
-
-  .save-btn {
-    background: var(--text);
-    color: var(--bg);
-    border: none;
-    padding: 8px 14px;
-    border-radius: 8px;
-    font-family: var(--font-body);
-    font-size: 12px;
-    font-weight: 500;
-    cursor: pointer;
-    transition: opacity 0.15s;
-    white-space: nowrap;
-    flex-shrink: 0;
-  }
-
-  .save-btn:hover { opacity: 0.8; }
+  .select-control { background: var(--surface2); border: 1px solid var(--border); color: var(--text); font-family: var(--font-body); font-size: 13px; padding: 7px 10px; border-radius: 8px; cursor: pointer; min-width: 140px; }
+  .api-input { flex: 1; background: var(--surface2); border: 1px solid var(--border); color: var(--text); font-family: 'SF Mono', 'Fira Code', monospace; font-size: 12px; padding: 8px 12px; border-radius: 8px; outline: none; }
+  .save-btn { background: var(--text); color: var(--bg); border: none; padding: 8px 14px; border-radius: 8px; font-family: var(--font-body); font-size: 12px; font-weight: 500; cursor: pointer; white-space: nowrap; }
 
   .range-wrap { display: flex; align-items: center; gap: 10px; }
+  .range-input { -webkit-appearance: none; width: 130px; height: 3px; background: var(--border); border-radius: 2px; outline: none; }
+  .range-input::-webkit-slider-thumb { -webkit-appearance: none; width: 14px; height: 14px; background: var(--text); border-radius: 50%; }
+  .range-val { font-size: 12px; color: var(--text-muted); min-width: 30px; text-align: right; }
+  .section-heading { font-size: 10px; text-transform: uppercase; letter-spacing: 1px; font-weight: 600; color: var(--text-dim); margin: 8px 0 6px; padding-bottom: 6px; border-bottom: 1px solid var(--border-soft); }
 
-  .range-input {
-    -webkit-appearance: none;
-    width: 130px;
-    height: 3px;
-    background: var(--border);
-    border-radius: 2px;
-    outline: none;
-    cursor: pointer;
-  }
+  .toast { position: fixed; bottom: 28px; left: 50%; transform: translateX(-50%) translateY(20px); background: var(--text); color: var(--bg); padding: 10px 20px; border-radius: 10px; font-size: 13px; font-weight: 500; opacity: 0; pointer-events: none; transition: opacity 0.2s, transform 0.2s; z-index: 999; }
+  .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
 
-  .range-input::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    width: 14px; height: 14px;
-    background: var(--text);
-    border-radius: 50%;
-    cursor: pointer;
-  }
-
-  .range-val {
-    font-size: 12px;
-    color: var(--text-muted);
-    min-width: 30px;
-    text-align: right;
-  }
-
-  .section-heading {
-    font-size: 10px;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    font-weight: 600;
-    color: var(--text-dim);
-    margin: 8px 0 6px;
-    padding-bottom: 6px;
-    border-bottom: 1px solid var(--border-soft);
-  }
-
-  /* Toast */
-  .toast {
-    position: fixed;
-    bottom: 28px; left: 50%;
-    transform: translateX(-50%) translateY(20px);
-    background: var(--text);
-    color: var(--bg);
-    padding: 10px 20px;
-    border-radius: 10px;
-    font-size: 13px;
-    font-weight: 500;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.2s, transform 0.2s;
-    z-index: 999;
-    white-space: nowrap;
-  }
-
-  .toast.show {
-    opacity: 1;
-    transform: translateX(-50%) translateY(0);
-  }
-
-  /* Responsive */
-  @media (max-width: 640px) {
-    .sidebar { display: none; }
-    .topbar { padding: 0 16px; }
-    .messages-inner, .input-inner { padding: 0 16px; }
-    .input-area { padding: 12px 16px 16px; }
-  }
+  @media (max-width: 640px) { .sidebar { display: none; } .topbar { padding: 0 16px; } .messages-inner, .input-inner { padding: 0 16px; } .input-area { padding: 12px 16px 16px; } }
 </style>
 </head>
 <body>
 
 <div class="app" id="app">
-
   <aside class="sidebar">
     <div class="logo-area">
       <div class="logo-icon">T</div>
@@ -821,21 +272,18 @@
     </div>
 
     <button class="new-chat-btn" onclick="newChat()">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
       New conversation
     </button>
-
-    <div class="history-section" id="historyList">
-      <div class="history-label">Recent</div>
-    </div>
+    <div class="history-section" id="historyList"><div class="history-label">Recent</div></div>
 
     <div class="sidebar-bottom">
       <button class="sidebar-action" onclick="openSettings('appearance')">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M4.93 4.93a10 10 0 0 0 0 14.14"/></svg>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M4.93 4.93a10 10 0 0 0 0 14.14"/></svg>
         Appearance
       </button>
       <button class="sidebar-action" onclick="openSettings('general')">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
         General Settings
       </button>
     </div>
@@ -848,8 +296,8 @@
         <span id="modelLabel">Llama 3.3 70B</span>
       </div>
       <div class="topbar-right">
-        <button class="icon-btn" onclick="openSettings('general')" title="Settings">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+        <button class="icon-btn" onclick="openSettings('general')">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
         </button>
       </div>
     </div>
@@ -867,8 +315,6 @@
             <div class="suggestion-chip" onclick="sendSuggestion('Write a short poem about the night sky')">Write me a poem</div>
             <div class="suggestion-chip" onclick="sendSuggestion('What are the best productivity habits?')">Productivity habits</div>
             <div class="suggestion-chip" onclick="sendSuggestion('Help me debug my JavaScript code')">Debug JavaScript</div>
-            <div class="suggestion-chip" onclick="sendSuggestion('Summarize the latest AI trends in 2025')">AI trends</div>
-            <div class="suggestion-chip" onclick="sendSuggestion('Give me a quick recipe for pasta carbonara')">Quick recipe</div>
           </div>
         </div>
       </div>
@@ -879,10 +325,9 @@
         <div class="input-wrap">
           <textarea class="chat-input" id="chatInput" placeholder="Message TalkAI…" rows="1" onkeydown="handleKey(event)" oninput="autoResize(this)"></textarea>
           <button class="send-btn" id="sendBtn" onclick="sendMessage()" disabled>
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
           </button>
         </div>
-        <div class="input-hint">TalkAI can make mistakes. Verify important info.</div>
       </div>
     </div>
   </main>
@@ -890,142 +335,38 @@
 
 <div class="modal-overlay" id="settingsModal" onclick="closeOnOverlay(event)">
   <div class="modal-box">
-    <div class="modal-header">
-      <div class="modal-title">Settings</div>
-      <button class="modal-close" onclick="closeSettings()">&times;</button>
-    </div>
-
+    <div class="modal-header"><div class="modal-title">Settings</div><button class="modal-close" onclick="closeSettings()">&times;</button></div>
     <div class="modal-tabs">
       <button class="tab-btn active" id="tab-general" onclick="switchTab('general')">General</button>
       <button class="tab-btn" id="tab-appearance" onclick="switchTab('appearance')">Appearance</button>
     </div>
-
     <div class="modal-body">
       <div class="tab-panel active" id="panel-general">
         <div class="section-heading">Preferences</div>
         <div class="setting-row">
-          <div class="setting-info">
-            <div class="setting-label">Enable streaming</div>
-            <div class="setting-desc">Stream assistant text responses in real-time</div>
-          </div>
-          <label class="toggle">
-            <input type="checkbox" id="toggle-stream" checked onchange="saveSetting('stream', this.checked)"/>
-            <div class="toggle-track"></div>
-            <div class="toggle-thumb"></div>
-          </label>
+          <div class="setting-info"><div class="setting-label">Save history</div></div>
+          <label class="toggle"><input type="checkbox" id="toggle-history" checked onchange="saveSetting('history', this.checked)"/><div class="toggle-track"></div><div class="toggle-thumb"></div></label>
         </div>
         <div class="setting-row">
-          <div class="setting-info">
-            <div class="setting-label">Sound effects</div>
-            <div class="setting-desc">Play subtle alerts when a response completes</div>
-          </div>
-          <label class="toggle">
-            <input type="checkbox" id="toggle-sound" onchange="saveSetting('sound', this.checked)"/>
-            <div class="toggle-track"></div>
-            <div class="toggle-thumb"></div>
-          </label>
+          <div class="setting-info"><div class="setting-label">Enter to send</div></div>
+          <label class="toggle"><input type="checkbox" id="toggle-enter" checked onchange="saveSetting('enterSend', this.checked)"/><div class="toggle-track"></div><div class="toggle-thumb"></div></label>
         </div>
         <div class="setting-row">
-          <div class="setting-info">
-            <div class="setting-label">Save history</div>
-            <div class="setting-desc">Keep conversations saved locally on this browser</div>
-          </div>
-          <label class="toggle">
-            <input type="checkbox" id="toggle-history" checked onchange="saveSetting('history', this.checked)"/>
-            <div class="toggle-track"></div>
-            <div class="toggle-thumb"></div>
-          </label>
-        </div>
-        <div class="setting-row">
-          <div class="setting-info">
-            <div class="setting-label">Enter to send</div>
-            <div class="setting-desc">Press Enter to send, Shift+Enter for new line</div>
-          </div>
-          <label class="toggle">
-            <input type="checkbox" id="toggle-enter" checked onchange="saveSetting('enterSend', this.checked)"/>
-            <div class="toggle-track"></div>
-            <div class="toggle-thumb"></div>
-          </label>
-        </div>
-        <div class="setting-row">
-          <div class="setting-info">
-            <div class="setting-label">Show timestamps</div>
-            <div class="setting-desc">Display time sent next to message bubbles</div>
-          </div>
-          <label class="toggle">
-            <input type="checkbox" id="toggle-timestamps" onchange="applyTimestamps(this.checked)"/>
-            <div class="toggle-track"></div>
-            <div class="toggle-thumb"></div>
-          </label>
-        </div>
-
-        <div class="section-heading" style="margin-top:12px;">System Prompt</div>
-        <div class="setting-row" style="flex-direction:column; align-items:flex-start; gap:10px;">
-          <div class="setting-info">
-            <div class="setting-label">Custom instructions</div>
-            <div class="setting-desc">Tell TalkAI how to respond to you</div>
-          </div>
-          <textarea id="systemPromptInput" class="api-input" rows="3" style="width:100%; resize:vertical; font-family:var(--font-body); font-size:13px;" placeholder="e.g. You are a helpful assistant. Always be concise."></textarea>
-          <button class="save-btn" onclick="saveSystemPrompt()">Save prompt</button>
-        </div>
-
-        <div class="section-heading" style="margin-top:12px;">Data</div>
-        <div class="setting-row">
-          <div class="setting-info">
-            <div class="setting-label">Clear all conversations</div>
-            <div class="setting-desc">Permanently delete your chat history</div>
-          </div>
-          <button class="save-btn" style="background:#333; color:#fff;" onclick="clearHistory()">Clear</button>
+          <div class="setting-info"><div class="setting-label">Show timestamps</div></div>
+          <label class="toggle"><input type="checkbox" id="toggle-timestamps" onchange="applyTimestamps(this.checked)"/><div class="toggle-track"></div><div class="toggle-thumb"></div></label>
         </div>
       </div>
 
       <div class="tab-panel" id="panel-appearance">
         <div class="section-heading">Theme</div>
         <div class="setting-row">
-          <div class="setting-info">
-            <div class="setting-label">Color scheme</div>
-            <div class="setting-desc">Switch between dark and light mode</div>
-          </div>
-          <select class="select-control" id="themeSelect" onchange="applyTheme(this.value)">
-            <option value="dark">Dark</option>
-            <option value="light">Light</option>
-          </select>
+          <div class="setting-info"><div class="setting-label">Color scheme</div></div>
+          <select class="select-control" id="themeSelect" onchange="applyTheme(this.value)"><option value="dark">Dark</option><option value="light">Light</option></select>
         </div>
-
         <div class="section-heading" style="margin-top:12px;">Typography</div>
         <div class="setting-row">
-          <div class="setting-info">
-            <div class="setting-label">Font size</div>
-            <div class="setting-desc">Base font size for messages</div>
-          </div>
-          <div class="range-wrap">
-            <input type="range" class="range-input" id="fontSizeRange" min="12" max="18" value="14" oninput="applyFontSize(this.value)"/>
-            <span class="range-val" id="fontSizeVal">14px</span>
-          </div>
-        </div>
-
-        <div class="section-heading" style="margin-top:12px;">Chat Bubbles</div>
-        <div class="setting-row">
-          <div class="setting-info">
-            <div class="setting-label">Bubble style</div>
-            <div class="setting-desc">Shape of message bubbles</div>
-          </div>
-          <select class="select-control" id="bubbleStyle" onchange="applyBubbleStyle(this.value)">
-            <option value="18px">Rounded</option>
-            <option value="8px">Subtle</option>
-            <option value="4px">Sharp</option>
-          </select>
-        </div>
-        <div class="setting-row">
-          <div class="setting-info">
-            <div class="setting-label">Compact mode</div>
-            <div class="setting-desc">Reduce padding for denser conversations</div>
-          </div>
-          <label class="toggle">
-            <input type="checkbox" id="toggle-compact" onchange="applyCompact(this.checked)"/>
-            <div class="toggle-track"></div>
-            <div class="toggle-thumb"></div>
-          </label>
+          <div class="setting-info"><div class="setting-label">Font size</div></div>
+          <div class="range-wrap"><input type="range" class="range-input" id="fontSizeRange" min="12" max="18" value="14" oninput="applyFontSize(this.value)"/><span class="range-val" id="fontSizeVal">14px</span></div>
         </div>
       </div>
     </div>
@@ -1035,16 +376,15 @@
 <div class="toast" id="toast"></div>
 
 <script>
-  // ── State ──
   let conversations = JSON.parse(localStorage.getItem('talkai_convos') || '[]');
   let currentConvoId = null;
   let messages = []; 
   let isLoading = false;
   let settings = JSON.parse(localStorage.getItem('talkai_settings') || JSON.stringify({
     apiKey: 'placeholder',
-    model: 'llama-3.3-70b', // Updated to match Cerebras structure
+    model: 'llama-3.3-70b', 
     theme: 'dark',
-    stream: true,
+    stream: false,
     sound: false,
     history: true,
     enterSend: true,
@@ -1057,31 +397,24 @@
     systemPrompt: ''
   }));
 
-  // ── Init ──
   (function init() {
     applyTheme(settings.theme, true);
     document.getElementById('themeSelect').value = settings.theme;
     document.getElementById('fontSizeRange').value = settings.fontSize;
     document.getElementById('fontSizeVal').textContent = settings.fontSize + 'px';
     
-    // Safety check ensuring we point to standard llama-3.3-70b
     if (settings.model.includes('groq') || settings.model === 'llama-3.3-70b-versatile') {
       settings.model = 'llama-3.3-70b';
       localStorage.setItem('talkai_settings', JSON.stringify(settings));
     }
     
-    document.getElementById('toggle-stream').checked = settings.stream;
-    document.getElementById('toggle-sound').checked = settings.sound;
     document.getElementById('toggle-history').checked = settings.history;
     document.getElementById('toggle-enter').checked = settings.enterSend;
     document.getElementById('toggle-timestamps').checked = settings.timestamps;
-    document.getElementById('toggle-compact').checked = settings.compact;
-    document.getElementById('systemPromptInput').value = settings.systemPrompt || '';
     document.getElementById('modelLabel').textContent = modelName(settings.model);
     
     applyFontSize(settings.fontSize, true);
     applyBubbleStyle(settings.bubbleRadius, true);
-    if (settings.compact) applyCompact(true, true);
     renderHistory();
 
     document.getElementById('chatInput').addEventListener('input', function() {
@@ -1090,33 +423,12 @@
   })();
 
   function modelName(val) {
-    const map = {
-      'llama-3.3-70b': 'Llama 3.3 70B (Cerebras)',
-      'llama-3.1-8b': 'Llama 3.1 8B'
-    };
-    return map[val] || val;
+    return val === 'llama-3.3-70b' ? 'Llama 3.3 70B (Cerebras)' : val;
   }
 
-  // ── Settings ──
   function saveSetting(key, val) {
     settings[key] = val;
     localStorage.setItem('talkai_settings', JSON.stringify(settings));
-  }
-
-  function saveSystemPrompt() {
-    const val = document.getElementById('systemPromptInput').value.trim();
-    settings.systemPrompt = val;
-    saveSetting('systemPrompt', val);
-    showToast('System prompt instructions updated');
-  }
-
-  // Clear local storage overrides if a user switches back with old groq keys cached
-  if (localStorage.getItem('talkai_settings')) {
-    let activeData = JSON.parse(localStorage.getItem('talkai_settings'));
-    if (activeData.model === 'llama-3.3-70b-versatile') {
-      activeData.model = 'llama-3.3-70b';
-      localStorage.setItem('talkai_settings', JSON.stringify(activeData));
-    }
   }
 
   function applyTheme(mode, silent) {
@@ -1127,9 +439,7 @@
 
   function applyFontSize(size, silent) {
     document.documentElement.style.setProperty('--font-size-base', size + 'px');
-    if (document.getElementById('fontSizeVal')) {
-      document.getElementById('fontSizeVal').textContent = size + 'px';
-    }
+    if (document.getElementById('fontSizeVal')) document.getElementById('fontSizeVal').textContent = size + 'px';
     settings.fontSize = parseInt(size);
     if (!silent) localStorage.setItem('talkai_settings', JSON.stringify(settings));
   }
@@ -1143,43 +453,12 @@
   function applyTimestamps(checked) {
     settings.timestamps = checked;
     localStorage.setItem('talkai_settings', JSON.stringify(settings));
-    document.querySelectorAll('.msg-time').forEach(t => {
-      t.style.display = checked ? 'block' : 'none';
-    });
+    document.querySelectorAll('.msg-time').forEach(t => t.style.display = checked ? 'block' : 'none');
   }
 
-  function applyCompact(checked, silent) {
-    document.documentElement.style.setProperty('--bubble-radius', checked ? '10px' : '16px');
-    document.querySelectorAll('.bubble').forEach(b => {
-      b.style.padding = checked ? '8px 12px' : '';
-    });
-    settings.compact = checked;
-    if (!silent) localStorage.setItem('talkai_settings', JSON.stringify(settings));
-  }
-
-  function clearHistory() {
-    if (!confirm('Delete all conversations?')) return;
-    conversations = [];
-    localStorage.removeItem('talkai_convos');
-    newChat();
-    renderHistory();
-    showToast('History cleared');
-  }
-
-  // ── Modal ──
-  function openSettings(tab) {
-    document.getElementById('settingsModal').classList.add('open');
-    if (tab) switchTab(tab);
-  }
-
-  function closeSettings() {
-    document.getElementById('settingsModal').classList.remove('open');
-  }
-
-  function closeOnOverlay(e) {
-    if (e.target === document.getElementById('settingsModal')) closeSettings();
-  }
-
+  function openSettings(tab) { document.getElementById('settingsModal').classList.add('open'); if (tab) switchTab(tab); }
+  function closeSettings() { document.getElementById('settingsModal').classList.remove('open'); }
+  function closeOnOverlay(e) { if (e.target === document.getElementById('settingsModal')) closeSettings(); }
   function switchTab(name) {
     document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
     document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
@@ -1187,60 +466,33 @@
     document.getElementById('panel-' + name).classList.add('active');
   }
 
-  // ── Toast ──
   function showToast(msg) {
     const t = document.getElementById('toast');
-    t.textContent = msg;
-    t.classList.add('show');
+    t.textContent = msg; t.classList.add('show');
     setTimeout(() => t.classList.remove('show'), 2200);
   }
 
-  // ── Chat ──
   function newChat() {
     if (messages.length > 0) saveCurrentConvo();
-    messages = [];
-    currentConvoId = null;
-    const inner = document.getElementById('messagesInner');
-    inner.innerHTML = `
+    messages = []; currentConvoId = null;
+    document.getElementById('messagesInner').innerHTML = `
       <div class="welcome" id="welcomeScreen">
         <div class="welcome-logo">T</div>
-        <div>
-          <div class="welcome-title">Good to see you.</div>
-          <div class="welcome-tagline" style="margin-top:8px;">Powered by Cerebras. Ask me anything — I'm fast, sharp, and free.</div>
-        </div>
+        <div><div class="welcome-title">Good to see you.</div><div class="welcome-tagline" style="margin-top:8px;">Powered by Cerebras. Ask me anything — I'm fast, sharp, and free.</div></div>
         <div class="suggestions">
           <div class="suggestion-chip" onclick="sendSuggestion('Explain quantum computing simply')">Explain quantum computing</div>
           <div class="suggestion-chip" onclick="sendSuggestion('Write a short poem about the night sky')">Write me a poem</div>
-          <div class="suggestion-chip" onclick="sendSuggestion('What are the best productivity habits?')">Productivity habits</div>
-          <div class="suggestion-chip" onclick="sendSuggestion('Help me debug my JavaScript code')">Debug JavaScript</div>
-          <div class="suggestion-chip" onclick="sendSuggestion('Summarize the latest AI trends in 2025')">AI trends</div>
-          <div class="suggestion-chip" onclick="sendSuggestion('Give me a quick recipe for pasta carbonara')">Quick recipe</div>
         </div>
       </div>`;
-    
     document.getElementById('chatInput').value = '';
     document.getElementById('sendBtn').disabled = true;
     autoResize(document.getElementById('chatInput'));
     renderHistory();
   }
 
-  function sendSuggestion(text) {
-    document.getElementById('chatInput').value = text;
-    document.getElementById('sendBtn').disabled = false;
-    sendMessage();
-  }
-
-  function handleKey(e) {
-    if (e.key === 'Enter' && !e.shiftKey && settings.enterSend) {
-      e.preventDefault();
-      sendMessage();
-    }
-  }
-
-  function autoResize(el) {
-    el.style.height = 'auto';
-    el.style.height = el.scrollHeight + 'px';
-  }
+  function sendSuggestion(text) { document.getElementById('chatInput').value = text; document.getElementById('sendBtn').disabled = false; sendMessage(); }
+  function handleKey(e) { if (e.key === 'Enter' && !e.shiftKey && settings.enterSend) { e.preventDefault(); sendMessage(); } }
+  function autoResize(el) { el.style.height = 'auto'; el.style.height = el.scrollHeight + 'px'; }
 
   async function sendMessage() {
     if (isLoading) return;
@@ -1248,36 +500,21 @@
     const text = input.value.trim();
     if (!text) return;
 
-    input.value = '';
-    document.getElementById('sendBtn').disabled = true;
-    input.style.height = 'auto';
-
-    const welcome = document.getElementById('welcomeScreen');
-    if (welcome) welcome.remove();
-
-    if (!currentConvoId) {
-      currentConvoId = 'convo_' + Date.now();
-    }
+    input.value = ''; document.getElementById('sendBtn').disabled = true; input.style.height = 'auto';
+    const welcome = document.getElementById('welcomeScreen'); if (welcome) welcome.remove();
+    if (!currentConvoId) currentConvoId = 'convo_' + Date.now();
 
     const timeStr = new Date().toLocaleTimeString([], {hour: '2-digit', minute: '2-digit'});
     messages.push({ role: 'user', content: text, time: timeStr });
     appendMessage('user', text, timeStr);
 
     const typingId = 'typing_' + Date.now();
-    appendTyping(typingId);
-    isLoading = true;
+    appendTyping(typingId); isLoading = true;
 
     try {
-      const apiKey = settings.apiKey;
       const payload = {
         model: settings.model,
-        messages: [
-          ...(settings.systemPrompt ? [{ role: 'system', content: settings.systemPrompt }] : []),
-          ...messages.filter(m => m.role !== 'system').map(m => ({
-            role: m.role === 'ai' ? 'assistant' : m.role,
-            content: m.content
-          }))
-        ],
+        messages: messages.map(m => ({ role: m.role === 'ai' ? 'assistant' : m.role, content: m.content })),
         max_tokens: parseInt(settings.maxTokens),
         temperature: parseFloat(settings.temperature),
         stream: false
@@ -1285,10 +522,7 @@
 
       const res = await fetch('/api/chat', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': 'Bearer ' + apiKey
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload)
       });
 
@@ -1297,82 +531,49 @@
 
       if (!res.ok) {
         const errMsg = data.error?.message || `API error ${res.status}`;
-        messages.push({ role: 'assistant', content: '⚠ ' + errMsg, time: timeStr });
         appendMessage('ai', '⚠ ' + errMsg, timeStr);
       } else {
         const reply = data.choices?.[0]?.message?.content || '(No response)';
         const replyTime = new Date().toLocaleTimeString([], {hour: '2-digit', minute: '2-digit'});
-        messages.push({ role: 'assistant', content: reply, time: replyTime });
+        messages.push({ role: 'ai', content: reply, time: replyTime });
         appendMessage('ai', reply, replyTime);
       }
     } catch(e) {
       removeTyping(typingId);
-      const errMsg = 'Connection error: ' + e.message;
-      messages.push({ role: 'assistant', content: '⚠ ' + errMsg, time: timeStr });
-      appendMessage('ai', '⚠ ' + errMsg, timeStr);
+      appendMessage('ai', '⚠ Connection error: ' + e.message, timeStr);
     }
 
-    isLoading = false;
-    saveCurrentConvo();
-    renderHistory();
+    isLoading = false; saveCurrentConvo(); renderHistory();
   }
 
   function appendMessage(role, content, time) {
     const inner = document.getElementById('messagesInner');
-    const div = document.createElement('div');
-    div.className = 'msg-group ' + role;
-
+    const div = document.createElement('div'); div.className = 'msg-group ' + role;
     const htmlContent = role === 'ai' ? formatAI(content) : `<p>${escapeHtml(content)}</p>`;
-    const showTime = settings.timestamps ? 'block' : 'none';
-
     div.innerHTML = `
       <div class="avatar ${role}">${role === 'ai' ? 'AI' : 'U'}</div>
       <div class="bubble-wrap">
         <div class="bubble ${role}-msg">${htmlContent}</div>
-        <div class="msg-time" style="display: ${showTime}">${time}</div>
+        <div class="msg-time" style="display: ${settings.timestamps ? 'block' : 'none'}">${time}</div>
       </div>`;
-
-    inner.appendChild(div);
-    scrollToBottom();
+    inner.appendChild(div); scrollToBottom();
   }
 
   function appendTyping(id) {
     const inner = document.getElementById('messagesInner');
-    const div = document.createElement('div');
-    div.className = 'msg-group ai';
-    div.id = id;
+    const div = document.createElement('div'); div.className = 'msg-group ai'; div.id = id;
     div.innerHTML = `
       <div class="avatar ai">AI</div>
-      <div class="bubble-wrap">
-        <div class="typing-indicator">
-          <div class="typing-dot"></div>
-          <div class="typing-dot"></div>
-          <div class="typing-dot"></div>
-        </div>
-      </div>`;
-    inner.appendChild(div);
-    scrollToBottom();
+      <div class="bubble-wrap"><div class="typing-indicator"><div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div></div></div>`;
+    inner.appendChild(div); scrollToBottom();
   }
 
-  function removeTyping(id) {
-    const el = document.getElementById(id);
-    if (el) el.remove();
-  }
+  function removeTyping(id) { const el = document.getElementById(id); if (el) el.remove(); }
+  function scrollToBottom() { const wrap = document.getElementById('messagesWrap'); wrap.scrollTo({ top: wrap.scrollHeight, behavior: 'smooth' }); }
+  function escapeHtml(str) { return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
 
-  function scrollToBottom() {
-    const wrap = document.getElementById('messagesWrap');
-    wrap.scrollTo({ top: wrap.scrollHeight, behavior: 'smooth' });
-  }
-
-  function escapeHtml(str) {
-    return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
-  }
-
-  // Formatting helpers
   function formatAI(text) {
-    text = text.replace(/```(\w*)\n?([\s\S]*?)```/g, (_, lang, code) => {
-      return `<pre><code>${escapeHtml(code.trim())}</code></pre>`;
-    });
+    text = text.replace(/```(\w*)\n?([\s\S]*?)```/g, (_, lang, code) => `<pre><code>${escapeHtml(code.trim())}</code></pre>`);
     text = text.replace(/`([^`]+)`/g, '<code>$1</code>');
     text = text.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
     text = text.replace(/\*(.+?)\*/g, '<em>$1</em>');
@@ -1384,33 +585,24 @@
     if (messages.length === 0 || !currentConvoId) return;
     const title = messages[0].content.substring(0, 24) + (messages[0].content.length > 24 ? '...' : '');
     const existingIdx = conversations.findIndex(c => c.id === currentConvoId);
-    
     if (existingIdx > -1) {
       conversations[existingIdx].messages = [...messages];
       conversations[existingIdx].updatedAt = Date.now();
-      const updated = conversations.splice(existingIdx, 1)[0];
-      conversations.unshift(updated);
+      conversations.unshift(conversations.splice(existingIdx, 1)[0]);
     } else {
       conversations.unshift({ id: currentConvoId, title, messages: [...messages], updatedAt: Date.now() });
     }
-
     if (conversations.length > 50) conversations = conversations.slice(0, 50);
     localStorage.setItem('talkai_convos', JSON.stringify(conversations));
   }
 
   function renderHistory() {
     const list = document.getElementById('historyList');
-    const existing = list.querySelectorAll('.history-item');
-    existing.forEach(e => e.remove());
-
-    if (conversations.length === 0) return;
-
+    list.querySelectorAll('.history-item').forEach(e => e.remove());
     conversations.slice(0, 20).forEach(c => {
       const item = document.createElement('div');
       item.className = 'history-item' + (c.id === currentConvoId ? ' active' : '');
-      item.innerHTML = `
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-        <span class="history-title">${escapeHtml(c.title)}</span>`;
+      item.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg><span class="history-title">${escapeHtml(c.title)}</span>`;
       item.onclick = () => loadConvo(c.id);
       list.appendChild(item);
     });
@@ -1418,23 +610,11 @@
 
   function loadConvo(id) {
     if (currentConvoId !== id && messages.length > 0) saveCurrentConvo();
-    currentConvoId = id;
-    const convo = conversations.find(c => c.id === id);
-    if (!convo) return;
+    currentConvoId = id; const convo = conversations.find(c => c.id === id); if (!convo) return;
     messages = [...convo.messages];
-    
-    const welcome = document.getElementById('welcomeScreen');
-    if (welcome) welcome.remove();
-
-    const inner = document.getElementById('messagesInner');
-    inner.innerHTML = '';
-    
-    messages.forEach(m => {
-      if (m.role !== 'system') {
-        appendMessage(m.role === 'assistant' ? 'ai' : m.role, m.content, m.time || '');
-      }
-    });
-
+    const welcome = document.getElementById('welcomeScreen'); if (welcome) welcome.remove();
+    const inner = document.getElementById('messagesInner'); inner.innerHTML = '';
+    messages.forEach(m => appendMessage(m.role === 'assistant' || m.role === 'ai' ? 'ai' : 'user', m.content, m.time || ''));
     renderHistory();
   }
 </script>
