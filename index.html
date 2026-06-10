@@ -29,6 +29,9 @@
     --bubble-radius: 18px;
     --z-sidebar: 90;
     --z-modal: 100;
+    
+    /* BRAND ICON GRADIENT CAPABILITY */
+    --brand-gradient: linear-gradient(135deg, #7a62f0 0%, #4097ff 100%);
   }
 
   [data-theme="light"] {
@@ -95,12 +98,20 @@
   }
 
   .logo-area { display: flex; align-items: center; gap: 10px; padding: 0 4px; }
+  
+  /* PREMIUM CODE-BASED LOGO ICON */
   .logo-icon {
     width: 34px; height: 34px;
+    background: var(--brand-gradient);
+    color: #ffffff;
     border-radius: 9px;
     display: flex; align-items: center; justify-content: center;
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: 16px;
+    letter-spacing: -0.5px;
     flex-shrink: 0;
-    object-fit: contain;
+    box-shadow: 0 4px 12px rgba(122, 98, 240, 0.2);
   }
 
   .logo-text { font-family: var(--font-display); font-weight: 700; font-size: 15px; letter-spacing: -0.3px; line-height: 1.2; }
@@ -145,7 +156,6 @@
   .history-item:hover { background: var(--surface2); color: var(--text); padding-left: 14px; }
   .history-item.active { background: var(--surface2); color: var(--text); }
   
-  /* COLLAPSE ANIMATION LAYER FOR DELETING ITEMS */
   .history-item.deleting {
     transform: translateX(-100%);
     opacity: 0;
@@ -218,7 +228,7 @@
 
   .avatar { width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-family: var(--font-display); font-size: 11px; font-weight: 700; flex-shrink: 0; transition: transform 0.2s ease; }
   .msg-group:hover .avatar { transform: scale(1.05); }
-  .avatar.ai { background: var(--text); color: var(--bg); }
+  .avatar.ai { background: var(--brand-gradient); color: #ffffff; }
   .avatar.user { background: var(--surface2); color: var(--text-muted); border: 1px solid var(--border); }
 
   .bubble-wrap { display: flex; flex-direction: column; gap: 4px; max-width: calc(100% - 46px); }
@@ -231,7 +241,20 @@
   .msg-time { font-size: 10px; color: var(--text-dim); padding: 0 4px; }
 
   .welcome { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 65vh; gap: 20px; text-align: center; padding: 0 10px; animation: fadeUp 0.5s ease forwards; }
-  .welcome-logo { width: 80px; height: 80px; object-fit: contain; }
+  
+  /* MAIN LANDING LOGO CONFIGURATION */
+  .welcome-logo { 
+    width: 64px; height: 64px; 
+    background: var(--brand-gradient); 
+    color: #ffffff; 
+    border-radius: 18px; 
+    display: flex; align-items: center; justify-content: center; 
+    font-family: var(--font-display); 
+    font-weight: 800; 
+    font-size: 26px; 
+    box-shadow: 0 10px 30px rgba(122, 98, 240, 0.3);
+  }
+  
   .welcome-title { font-family: var(--font-display); font-weight: 700; font-size: 28px; letter-spacing: -0.5px; }
   .welcome-tagline { font-size: 13.5px; color: var(--text-muted); max-width: 400px; line-height: 1.5; }
 
@@ -314,7 +337,6 @@
   .about-brand-box { background: var(--surface2); border: 1px solid var(--border); padding: 18px 14px; border-radius: 12px; text-align: center; margin-top: 6px; }
   .about-version-badge { display: inline-block; font-size: 11px; font-family: monospace; padding: 2px 8px; background: var(--border); color: var(--text-muted); border-radius: 10px; margin-top: 8px; }
 
-  /* EXEC CREW MATRIX CARD LAYOUT */
   .exec-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 12px; }
   .exec-card { background: var(--surface); border: 1px solid var(--border); padding: 12px; border-radius: 10px; text-align: left; }
   .exec-name { font-size: 13px; font-weight: 600; color: var(--text); }
@@ -351,7 +373,7 @@
   
   <aside class="sidebar" id="sidebar">
     <div class="logo-area">
-      <img src="logo.png" class="logo-icon" alt="TalkAI Logo">
+      <div class="logo-icon">T</div>
       <div>
         <div class="logo-text">TalkAI</div>
         <div class="logo-sub">by Vision</div>
@@ -397,7 +419,7 @@
     <div class="messages-wrap" id="messagesWrap">
       <div class="messages-inner" id="messagesInner">
         <div class="welcome" id="welcomeScreen">
-          <img src="logo.png" class="welcome-logo" alt="TalkAI Logo">
+          <div class="welcome-logo">T</div>
           <div>
             <div class="welcome-title">Good to see you.</div>
             <div class="welcome-tagline" style="margin-top:6px;">Created by <strong>Vision</strong>, powered by <strong>Cerebras</strong>. Sharp, concise, and optimized for speed.</div>
@@ -568,7 +590,7 @@
     messages = []; currentConvoId = null;
     document.getElementById('messagesInner').innerHTML = `
       <div class="welcome" id="welcomeScreen">
-        <img src="logo.png" class="welcome-logo" alt="TalkAI Logo">
+        <div class="welcome-logo">T</div>
         <div><div class="welcome-title">Good to see you.</div><div class="welcome-tagline" style="margin-top:6px;">Created by <strong>Vision</strong>, powered by <strong>Cerebras</strong>. Sharp, concise, and optimized for speed.</div></div>
         <div class="suggestions">
           <div class="suggestion-chip" onclick="sendSuggestion('who made this website?')">Who made this website?</div>
@@ -619,15 +641,10 @@
         </button>
       `;
       
-      // ANIMATED DELETION CLICK LISTENER HANDLER
       const delBtn = item.querySelector('.history-delete-btn');
       delBtn.onclick = (e) => {
-        e.stopPropagation(); // Stop parent tracking selection trigger
-        
-        // Trigger visual CSS transform slider track collapse
+        e.stopPropagation();
         item.classList.add('deleting');
-        
-        // Wait precisely for the CSS 300ms layout transition window to close before updating structure array data
         setTimeout(() => {
           deleteConversation(convo.id);
         }, 300);
@@ -717,7 +734,6 @@
     const typingId = 'typing_' + Date.now();
     appendTyping(typingId);
     
-    // Placeholder timeout logic simulation mimicking a stream backend return layer
     setTimeout(() => {
       const el = document.getElementById(typingId);
       if (el) el.remove();
