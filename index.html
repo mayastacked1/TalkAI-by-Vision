@@ -80,10 +80,10 @@
     transition: background 0.3s, color 0.3s;
   }
 
-  /* ── Layout ── */
+  /* Layout */
   .app { display: flex; height: 100vh; overflow: hidden; }
 
-  /* ── Sidebar ── */
+  /* Sidebar */
   .sidebar {
     width: var(--sidebar-w);
     background: var(--surface);
@@ -150,7 +150,6 @@
 
   .new-chat-btn:hover { opacity: 0.85; transform: translateY(-1px); }
   .new-chat-btn:active { transform: translateY(0); }
-
   .new-chat-btn svg { width: 15px; height: 15px; flex-shrink: 0; }
 
   .history-section { flex: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 3px; }
@@ -180,7 +179,6 @@
 
   .history-item:hover { background: var(--surface2); color: var(--text); }
   .history-item.active { background: var(--surface2); color: var(--text); }
-
   .history-item svg { width: 14px; height: 14px; flex-shrink: 0; opacity: 0.5; }
 
   .history-title {
@@ -216,7 +214,7 @@
   .sidebar-action:hover { background: var(--surface2); color: var(--text); }
   .sidebar-action svg { width: 15px; height: 15px; flex-shrink: 0; }
 
-  /* ── Main Chat ── */
+  /* Main Chat */
   .main { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
 
   .topbar {
@@ -270,7 +268,7 @@
   .icon-btn:hover { background: var(--surface2); color: var(--text); border-color: var(--text-muted); }
   .icon-btn svg { width: 16px; height: 16px; }
 
-  /* ── Messages ── */
+  /* Messages */
   .messages-wrap {
     flex: 1;
     overflow-y: auto;
@@ -291,7 +289,7 @@
     gap: 8px;
   }
 
-  /* ── Welcome Screen ── */
+  /* Welcome Screen */
   .welcome {
     display: flex;
     flex-direction: column;
@@ -356,7 +354,7 @@
     border-color: var(--text-muted);
   }
 
-  /* ── Message Bubbles ── */
+  /* Message Bubbles */
   .msg-group { display: flex; gap: 12px; max-width: 100%; }
   .msg-group.user { flex-direction: row-reverse; }
 
@@ -371,16 +369,8 @@
     margin-top: 2px;
   }
 
-  .avatar.ai {
-    background: var(--text);
-    color: var(--bg);
-  }
-
-  .avatar.user {
-    background: var(--surface2);
-    color: var(--text-muted);
-    border: 1px solid var(--border);
-  }
+  .avatar.ai { background: var(--text); color: var(--bg); }
+  .avatar.user { background: var(--surface2); color: var(--text-muted); border: 1px solid var(--border); }
 
   .bubble-wrap { display: flex; flex-direction: column; gap: 4px; max-width: calc(100% - 46px); }
   .msg-group.user .bubble-wrap { align-items: flex-end; }
@@ -394,27 +384,11 @@
     transition: background 0.3s;
   }
 
-  .user-msg {
-    background: var(--user-bubble);
-    color: var(--text);
-    border: 1px solid var(--border);
-    border-bottom-right-radius: 5px;
-  }
+  .user-msg { background: var(--user-bubble); color: var(--text); border: 1px solid var(--border); border-bottom-right-radius: 5px; }
+  .ai-msg { background: var(--ai-bubble); color: var(--text); border: 1px solid var(--border-soft); border-bottom-left-radius: 5px; }
+  .msg-time { font-size: 10px; color: var(--text-dim); padding: 0 4px; }
 
-  .ai-msg {
-    background: var(--ai-bubble);
-    color: var(--text);
-    border: 1px solid var(--border-soft);
-    border-bottom-left-radius: 5px;
-  }
-
-  .msg-time {
-    font-size: 10px;
-    color: var(--text-dim);
-    padding: 0 4px;
-  }
-
-  /* ── Typing Indicator ── */
+  /* Typing Indicator */
   .typing-indicator {
     display: flex; align-items: center; gap: 5px;
     padding: 14px 16px;
@@ -440,381 +414,94 @@
     30% { transform: translateY(-5px); opacity: 1; }
   }
 
-  /* ── Code blocks in AI messages ── */
-  .bubble pre {
-    background: var(--surface2);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 12px 14px;
-    overflow-x: auto;
-    font-size: 12.5px;
-    line-height: 1.6;
-    margin: 8px 0;
-    font-family: 'SF Mono', 'Fira Code', monospace;
-  }
-
-  .bubble code {
-    background: var(--surface2);
-    padding: 2px 6px;
-    border-radius: 4px;
-    font-size: 12.5px;
-    font-family: 'SF Mono', 'Fira Code', monospace;
-  }
-
+  /* Markdown Utilities */
+  .bubble pre { background: var(--surface2); border: 1px solid var(--border); border-radius: 8px; padding: 12px 14px; overflow-x: auto; font-size: 12.5px; line-height: 1.6; margin: 8px 0; font-family: 'SF Mono', monospace; }
+  .bubble code { background: var(--surface2); padding: 2px 6px; border-radius: 4px; font-size: 12.5px; font-family: 'SF Mono', monospace; }
   .bubble pre code { background: none; padding: 0; }
-
   .bubble p { margin-bottom: 8px; }
   .bubble p:last-child { margin-bottom: 0; }
   .bubble strong { font-weight: 600; color: var(--text); }
   .bubble ul, .bubble ol { padding-left: 20px; margin: 6px 0; }
   .bubble li { margin-bottom: 4px; }
 
-  /* ── Input Area ── */
-  .input-area {
-    padding: 16px 24px 20px;
-    flex-shrink: 0;
-  }
-
+  /* Input Area */
+  .input-area { padding: 16px 24px 20px; flex-shrink: 0; }
   .input-inner { max-width: 720px; margin: 0 auto; }
-
-  .input-wrap {
-    display: flex; align-items: flex-end; gap: 10px;
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 16px;
-    padding: 10px 10px 10px 16px;
-    transition: border-color 0.2s, background 0.3s;
-  }
-
+  .input-wrap { display: flex; align-items: flex-end; gap: 10px; background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 10px 10px 10px 16px; transition: border-color 0.2s, background 0.3s; }
   .input-wrap:focus-within { border-color: var(--text-muted); }
 
   .chat-input {
-    flex: 1;
-    background: none;
-    border: none;
-    outline: none;
-    color: var(--text);
-    font-family: var(--font-body);
-    font-size: 14px;
-    resize: none;
-    max-height: 140px;
-    min-height: 22px;
-    line-height: 1.55;
-    padding: 2px 0;
-    scrollbar-width: none;
+    flex: 1; background: none; border: none; outline: none; color: var(--text);
+    font-family: var(--font-body); font-size: 14px; resize: none;
+    max-height: 140px; min-height: 22px; line-height: 1.55; padding: 2px 0;
   }
-
-  .chat-input::-webkit-scrollbar { display: none; }
   .chat-input::placeholder { color: var(--text-muted); }
 
   .send-btn {
-    width: 36px; height: 36px;
-    background: var(--text);
-    color: var(--bg);
-    border: none;
-    border-radius: 10px;
-    cursor: pointer;
-    display: flex; align-items: center; justify-content: center;
-    transition: opacity 0.15s, transform 0.1s;
-    flex-shrink: 0;
+    width: 36px; height: 36px; background: var(--text); color: var(--bg); border: none; border-radius: 10px;
+    cursor: pointer; display: flex; align-items: center; justify-content: center; transition: opacity 0.15s, transform 0.1s; flex-shrink: 0;
   }
-
   .send-btn:hover { opacity: 0.8; transform: scale(0.97); }
-  .send-btn:active { transform: scale(0.94); }
   .send-btn:disabled { opacity: 0.25; cursor: not-allowed; transform: none; }
   .send-btn svg { width: 16px; height: 16px; }
+  .input-hint { text-align: center; font-size: 11px; color: var(--text-dim); margin-top: 10px; letter-spacing: 0.2px; }
 
-  .input-hint {
-    text-align: center;
-    font-size: 11px;
-    color: var(--text-dim);
-    margin-top: 10px;
-    letter-spacing: 0.2px;
-  }
-
-  /* ── Modal ── */
-  .modal-overlay {
-    position: fixed; inset: 0;
-    background: rgba(0,0,0,0.75);
-    backdrop-filter: blur(6px);
-    z-index: 100;
-    display: flex; align-items: center; justify-content: center;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.2s;
-  }
-
+  /* Modal */
+  .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.75); backdrop-filter: blur(6px); z-index: 100; display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: opacity 0.2s; }
   .modal-overlay.open { opacity: 1; pointer-events: all; }
-
-  .modal-box {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 20px;
-    width: 520px;
-    max-width: 94vw;
-    max-height: 85vh;
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    transform: translateY(12px);
-    transition: transform 0.2s;
-    box-shadow: 0 32px 80px rgba(0,0,0,0.6);
-  }
-
+  .modal-box { background: var(--surface); border: 1px solid var(--border); border-radius: 20px; width: 520px; max-width: 94vw; max-height: 85vh; overflow: hidden; display: flex; flex-direction: column; transform: translateY(12px); transition: transform 0.2s; box-shadow: 0 32px 80px rgba(0,0,0,0.6); }
   .modal-overlay.open .modal-box { transform: translateY(0); }
-
-  .modal-header {
-    display: flex; align-items: center; justify-content: space-between;
-    padding: 20px 24px 0;
-  }
-
-  .modal-title {
-    font-family: var(--font-display);
-    font-weight: 700;
-    font-size: 18px;
-    letter-spacing: -0.4px;
-  }
-
-  .modal-close {
-    width: 30px; height: 30px;
-    background: var(--surface2);
-    border: 1px solid var(--border);
-    color: var(--text-muted);
-    border-radius: 8px;
-    cursor: pointer;
-    display: flex; align-items: center; justify-content: center;
-    transition: background 0.15s;
-    font-size: 18px;
-    line-height: 1;
-  }
-
+  .modal-header { display: flex; align-items: center; justify-content: space-between; padding: 20px 24px 0; }
+  .modal-title { font-family: var(--font-display); font-weight: 700; font-size: 18px; letter-spacing: -0.4px; }
+  .modal-close { width: 30px; height: 30px; background: var(--surface2); border: 1px solid var(--border); color: var(--text-muted); border-radius: 8px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 18px; }
   .modal-close:hover { background: var(--border); color: var(--text); }
 
-  /* Tabs */
-  .modal-tabs {
-    display: flex;
-    gap: 0;
-    padding: 16px 24px 0;
-    border-bottom: 1px solid var(--border);
-    margin-top: 4px;
-  }
-
-  .tab-btn {
-    padding: 8px 16px 10px;
-    background: none;
-    border: none;
-    border-bottom: 2px solid transparent;
-    color: var(--text-muted);
-    font-family: var(--font-body);
-    font-size: 13px;
-    font-weight: 500;
-    cursor: pointer;
-    transition: color 0.15s, border-color 0.15s;
-    margin-bottom: -1px;
-  }
-
+  .modal-tabs { display: flex; padding: 16px 24px 0; border-bottom: 1px solid var(--border); margin-top: 4px; }
+  .tab-btn { padding: 8px 16px 10px; background: none; border: none; border-bottom: 2px solid transparent; color: var(--text-muted); font-family: var(--font-body); font-size: 13px; font-weight: 500; cursor: pointer; margin-bottom: -1px; }
   .tab-btn.active { color: var(--text); border-bottom-color: var(--text); }
-  .tab-btn:hover { color: var(--text); }
 
-  .modal-body {
-    flex: 1;
-    overflow-y: auto;
-    padding: 20px 24px 24px;
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-  }
-
-  .modal-body::-webkit-scrollbar { width: 3px; }
-  .modal-body::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
-
+  .modal-body { flex: 1; overflow-y: auto; padding: 20px 24px 24px; display: flex; flex-direction: column; gap: 4px; }
   .tab-panel { display: none; flex-direction: column; gap: 4px; }
   .tab-panel.active { display: flex; }
 
-  .setting-row {
-    display: flex; align-items: center; justify-content: space-between;
-    padding: 14px 0;
-    border-bottom: 1px solid var(--border-soft);
-    gap: 16px;
-  }
-
+  .setting-row { display: flex; align-items: center; justify-content: space-between; padding: 14px 0; border-bottom: 1px solid var(--border-soft); gap: 16px; }
   .setting-row:last-child { border-bottom: none; }
-
   .setting-info { flex: 1; }
+  .setting-label { font-size: 13px; font-weight: 500; color: var(--text); margin-bottom: 2px; }
+  .setting-desc { font-size: 11px; color: var(--text-muted); line-height: 1.4; }
 
-  .setting-label {
-    font-size: 13px;
-    font-weight: 500;
-    color: var(--text);
-    margin-bottom: 2px;
-  }
-
-  .setting-desc {
-    font-size: 11px;
-    color: var(--text-muted);
-    line-height: 1.4;
-  }
-
-  /* Toggle */
-  .toggle {
-    position: relative;
-    width: 40px; height: 22px;
-    flex-shrink: 0;
-    cursor: pointer;
-  }
-
+  .toggle { position: relative; width: 40px; height: 22px; flex-shrink: 0; cursor: pointer; }
   .toggle input { opacity: 0; width: 0; height: 0; position: absolute; }
-
-  .toggle-track {
-    position: absolute; inset: 0;
-    background: var(--border);
-    border-radius: 11px;
-    transition: background 0.2s;
-  }
-
+  .toggle-track { position: absolute; inset: 0; background: var(--border); border-radius: 11px; transition: background 0.2s; }
   .toggle input:checked + .toggle-track { background: var(--text); }
+  .toggle-thumb { position: absolute; top: 3px; left: 3px; width: 16px; height: 16px; background: #666; border-radius: 50%; transition: transform 0.2s; }
+  .toggle input:checked ~ .toggle-thumb { transform: translateX(18px); background: var(--bg); }
 
-  .toggle-thumb {
-    position: absolute;
-    top: 3px; left: 3px;
-    width: 16px; height: 16px;
-    background: #666;
-    border-radius: 50%;
-    transition: transform 0.2s, background 0.2s;
-  }
-
-  .toggle input:checked ~ .toggle-thumb {
-    transform: translateX(18px);
-    background: var(--bg);
-  }
-
-  /* Select */
-  .select-control {
-    background: var(--surface2);
-    border: 1px solid var(--border);
-    color: var(--text);
-    font-family: var(--font-body);
-    font-size: 13px;
-    padding: 7px 10px;
-    border-radius: 8px;
-    cursor: pointer;
-    outline: none;
-    min-width: 140px;
-    transition: border-color 0.15s;
-  }
-
-  .select-control:focus { border-color: var(--text-muted); }
-
-  /* API Key input */
-  .api-input {
-    flex: 1;
-    background: var(--surface2);
-    border: 1px solid var(--border);
-    color: var(--text);
-    font-family: 'SF Mono', 'Fira Code', monospace;
-    font-size: 12px;
-    padding: 8px 12px;
-    border-radius: 8px;
-    outline: none;
-    transition: border-color 0.15s;
-  }
-
-  .api-input::placeholder { color: var(--text-dim); }
-  .api-input:focus { border-color: var(--text-muted); }
-
+  .select-control { background: var(--surface2); border: 1px solid var(--border); color: var(--text); font-family: var(--font-body); font-size: 13px; padding: 7px 10px; border-radius: 8px; cursor: pointer; outline: none; min-width: 140px; }
+  .api-input { flex: 1; background: var(--surface2); border: 1px solid var(--border); color: var(--text); font-family: monospace; font-size: 12px; padding: 8px 12px; border-radius: 8px; outline: none; }
   .api-row { display: flex; gap: 8px; align-items: center; }
-
-  .save-btn {
-    background: var(--text);
-    color: var(--bg);
-    border: none;
-    padding: 8px 14px;
-    border-radius: 8px;
-    font-family: var(--font-body);
-    font-size: 12px;
-    font-weight: 500;
-    cursor: pointer;
-    transition: opacity 0.15s;
-    white-space: nowrap;
-    flex-shrink: 0;
-  }
-
-  .save-btn:hover { opacity: 0.8; }
-
+  .save-btn { background: var(--text); color: var(--bg); border: none; padding: 8px 14px; border-radius: 8px; font-family: var(--font-body); font-size: 12px; font-weight: 500; cursor: pointer; white-space: nowrap; }
+  
   .range-wrap { display: flex; align-items: center; gap: 10px; }
-
-  .range-input {
-    -webkit-appearance: none;
-    width: 130px;
-    height: 3px;
-    background: var(--border);
-    border-radius: 2px;
-    outline: none;
-    cursor: pointer;
-  }
-
-  .range-input::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    width: 14px; height: 14px;
-    background: var(--text);
-    border-radius: 50%;
-    cursor: pointer;
-  }
-
-  .range-val {
-    font-size: 12px;
-    color: var(--text-muted);
-    min-width: 30px;
-    text-align: right;
-  }
-
-  .section-heading {
-    font-size: 10px;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    font-weight: 600;
-    color: var(--text-dim);
-    margin: 8px 0 6px;
-    padding-bottom: 6px;
-    border-bottom: 1px solid var(--border-soft);
-  }
+  .range-input { -webkit-appearance: none; width: 130px; height: 3px; background: var(--border); border-radius: 2px; outline: none; }
+  .range-input::-webkit-slider-thumb { -webkit-appearance: none; width: 14px; height: 14px; background: var(--text); border-radius: 50%; }
+  .range-val { font-size: 12px; color: var(--text-muted); min-width: 30px; text-align: right; }
+  .section-heading { font-size: 10px; text-transform: uppercase; letter-spacing: 1px; font-weight: 600; color: var(--text-dim); margin: 8px 0 6px; padding-bottom: 6px; border-bottom: 1px solid var(--border-soft); }
 
   /* Toast */
-  .toast {
-    position: fixed;
-    bottom: 28px; left: 50%;
-    transform: translateX(-50%) translateY(20px);
-    background: var(--text);
-    color: var(--bg);
-    padding: 10px 20px;
-    border-radius: 10px;
-    font-size: 13px;
-    font-weight: 500;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.2s, transform 0.2s;
-    z-index: 999;
-    white-space: nowrap;
-  }
+  .toast { position: fixed; bottom: 28px; left: 50%; transform: translateX(-50%) translateY(20px); background: var(--text); color: var(--bg); padding: 10px 20px; border-radius: 10px; font-size: 13px; font-weight: 500; opacity: 0; pointer-events: none; transition: opacity 0.2s, transform 0.2s; z-index: 999; }
+  .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
 
-  .toast.show {
-    opacity: 1;
-    transform: translateX(-50%) translateY(0);
-  }
-
-  /* Responsive */
   @media (max-width: 640px) {
     .sidebar { display: none; }
     .topbar { padding: 0 16px; }
     .messages-inner, .input-inner { padding: 0 16px; }
-    .input-area { padding: 12px 16px 16px; }
   }
 </style>
 </head>
 <body>
 
 <div class="app" id="app">
-
   <aside class="sidebar">
     <div class="logo-area">
       <div class="logo-icon">T</div>
@@ -825,21 +512,21 @@
     </div>
 
     <button class="new-chat-btn" onclick="newChat()">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
       New conversation
     </button>
 
     <div class="history-section" id="historyList">
       <div class="history-label">Recent</div>
-      </div>
+    </div>
 
     <div class="sidebar-bottom">
       <button class="sidebar-action" onclick="openSettings('appearance')">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M4.93 4.93a10 10 0 0 0 0 14.14"/></svg>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M4.93 4.93a10 10 0 0 0 0 14.14"/></svg>
         Appearance
       </button>
       <button class="sidebar-action" onclick="openSettings('general')">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
         Settings
       </button>
     </div>
@@ -853,11 +540,8 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12"><polyline points="6 9 12 15 18 9"/></svg>
       </div>
       <div class="topbar-right">
-        <button class="icon-btn" title="Search" onclick="showToast('Search coming soon')">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-        </button>
         <button class="icon-btn" title="Settings" onclick="openSettings('general')">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
         </button>
       </div>
     </div>
@@ -875,8 +559,6 @@
             <div class="suggestion-chip" onclick="sendSuggestion('Write a short poem about the night sky')">Write me a poem</div>
             <div class="suggestion-chip" onclick="sendSuggestion('What are the best productivity habits?')">Productivity habits</div>
             <div class="suggestion-chip" onclick="sendSuggestion('Help me debug my JavaScript code')">Debug JavaScript</div>
-            <div class="suggestion-chip" onclick="sendSuggestion('Summarize the latest AI trends in 2025')">AI trends</div>
-            <div class="suggestion-chip" onclick="sendSuggestion('Give me a quick recipe for pasta carbonara')">Quick recipe</div>
           </div>
         </div>
       </div>
@@ -885,9 +567,9 @@
     <div class="input-area">
       <div class="input-inner">
         <div class="input-wrap">
-          <textarea class="chat-input" id="chatInput" placeholder="Message TalkAI…" rows="1" onkeydown="handleKey(event)" oninput="autoResize(this)"></textarea>
+          <textarea class="chat-input" id="chatInput" placeholder="Message TalkAI…" rows="1" onkeydown="handleKey(event)"></textarea>
           <button class="send-btn" id="sendBtn" onclick="sendMessage()" disabled>
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
           </button>
         </div>
         <div class="input-hint">TalkAI may make mistakes. Always verify important information.</div>
@@ -908,36 +590,8 @@
       <button class="tab-btn" onclick="switchTab('model')" id="tab-model">Model</button>
     </div>
     <div class="modal-body">
-
       <div class="tab-panel active" id="panel-general">
-        <div class="section-heading">Groq API Key Configuration</div>
-        <div class="setting-row" style="flex-direction:column; align-items:flex-start; gap:10px;">
-          <div class="setting-info">
-            <div class="setting-label">Enter your Groq API Key</div>
-            <div class="setting-desc">Get your free key from console.groq.com. It is stored securely inside your local browser storage.</div>
-          </div>
-          <div class="api-row" style="width:100%;">
-            <input type="password" id="apiKeyInput" class="api-input" placeholder="gsk_..."/>
-            <button class="save-btn" onclick="saveApiKey()">Save Key</button>
-          </div>
-          <label style="display:flex; align-items:center; gap:6px; font-size:11px; color:var(--text-muted); cursor:pointer; margin-top:4px;">
-            <input type="checkbox" onchange="toggleShowKey(this.checked)"> Show Key
-          </label>
-          <div id="keyStatus" style="font-size:12px; font-weight:500; margin-top:2px;"></div>
-        </div>
-
         <div class="section-heading">Behavior</div>
-        <div class="setting-row">
-          <div class="setting-info">
-            <div class="setting-label">Sound effects</div>
-            <div class="setting-desc">Play a subtle sound on message send</div>
-          </div>
-          <label class="toggle">
-            <input type="checkbox" id="toggle-sound" onchange="saveSetting('sound', this.checked)"/>
-            <div class="toggle-track"></div>
-            <div class="toggle-thumb"></div>
-          </label>
-        </div>
         <div class="setting-row">
           <div class="setting-info">
             <div class="setting-label">Save conversation history</div>
@@ -960,22 +614,13 @@
             <div class="toggle-thumb"></div>
           </label>
         </div>
-        <div class="section-heading" style="margin-top:12px;">System Prompt</div>
-        <div class="setting-row" style="flex-direction:column; align-items:flex-start; gap:10px;">
-          <div class="setting-info">
-            <div class="setting-label">Custom instructions</div>
-            <div class="setting-desc">Tell TalkAI how to respond to you</div>
-          </div>
-          <textarea id="systemPromptInput" class="api-input" rows="3" style="width:100%; resize:vertical; font-family:var(--font-body); font-size:13px;" placeholder="e.g. You are a helpful assistant. Always be concise."></textarea>
-          <button class="save-btn" onclick="saveSystemPrompt()">Save prompt</button>
-        </div>
-        <div class="section-heading" style="margin-top:12px;">Data</div>
+        <div class="section-heading" style="margin-top:12px;">Data Management</div>
         <div class="setting-row">
           <div class="setting-info">
             <div class="setting-label">Clear all conversations</div>
-            <div class="setting-desc">Permanently delete your chat history</div>
+            <div class="setting-desc">Permanently delete local chat history</div>
           </div>
-          <button class="save-btn" style="background:#333; color:#fff;" onclick="clearHistory()">Clear</button>
+          <button class="save-btn" style="background:#333; color:#fff;" onclick="clearHistory()">Clear All</button>
         </div>
       </div>
 
@@ -984,7 +629,7 @@
         <div class="setting-row">
           <div class="setting-info">
             <div class="setting-label">Color scheme</div>
-            <div class="setting-desc">Switch between dark and light mode</div>
+            <div class="setting-desc">Switch between dark and light configurations</div>
           </div>
           <select class="select-control" id="themeSelect" onchange="applyTheme(this.value)">
             <option value="dark">Dark</option>
@@ -995,88 +640,29 @@
         <div class="setting-row">
           <div class="setting-info">
             <div class="setting-label">Font size</div>
-            <div class="setting-desc">Base font size for messages</div>
+            <div class="setting-desc">Adjust the layout font size</div>
           </div>
           <div class="range-wrap">
             <input type="range" class="range-input" id="fontSizeRange" min="12" max="18" value="14" oninput="applyFontSize(this.value)"/>
             <span class="range-val" id="fontSizeVal">14px</span>
           </div>
         </div>
-        <div class="section-heading" style="margin-top:12px;">Chat Bubbles</div>
-        <div class="setting-row">
-          <div class="setting-info">
-            <div class="setting-label">Bubble style</div>
-            <div class="setting-desc">Shape of message bubbles</div>
-          </div>
-          <select class="select-control" id="bubbleStyle" onchange="applyBubbleStyle(this.value)">
-            <option value="18px">Rounded</option>
-            <option value="8px">Subtle</option>
-            <option value="4px">Sharp</option>
-          </select>
-        </div>
-        <div class="setting-row">
-          <div class="setting-info">
-            <div class="setting-label">Compact mode</div>
-            <div class="setting-desc">Reduce padding for denser conversations</div>
-          </div>
-          <label class="toggle">
-            <input type="checkbox" id="toggle-compact" onchange="applyCompact(this.checked)"/>
-            <div class="toggle-track"></div>
-            <div class="toggle-thumb"></div>
-          </label>
-        </div>
-        <div class="setting-row">
-          <div class="setting-info">
-            <div class="setting-label">Show timestamps</div>
-            <div class="setting-desc">Display time under each message</div>
-          </div>
-          <label class="toggle">
-            <input type="checkbox" id="toggle-timestamps" onchange="saveSetting('timestamps', this.checked)"/>
-            <div class="toggle-track"></div>
-            <div class="toggle-thumb"></div>
-          </label>
-        </div>
       </div>
 
       <div class="tab-panel" id="panel-model">
-        <div class="section-heading">Grok Model</div>
+        <div class="section-heading">Groq Target Model</div>
         <div class="setting-row">
           <div class="setting-info">
-            <div class="setting-label">Active model</div>
-            <div class="setting-desc">Choose which Grok model to use</div>
+            <div class="setting-label">Active processing engine</div>
+            <div class="setting-desc">Choose which LLM responds to your texts</div>
           </div>
           <select class="select-control" id="modelSelect" onchange="applyModel(this.value)">
             <option value="llama-3.3-70b-versatile">Llama 3.3 70B</option>
             <option value="llama-3.1-8b-instant">Llama 3.1 8B (Fast)</option>
             <option value="mixtral-8x7b-32768">Mixtral 8x7B</option>
-            <option value="gemma2-9b-it">Gemma 2 9B</option>
-          </select>
-        </div>
-        <div class="section-heading" style="margin-top:12px;">Parameters</div>
-        <div class="setting-row">
-          <div class="setting-info">
-            <div class="setting-label">Temperature</div>
-            <div class="setting-desc">Higher = more creative, lower = more precise</div>
-          </div>
-          <div class="range-wrap">
-            <input type="range" class="range-input" id="tempRange" min="0" max="2" step="0.1" value="0.7" oninput="updateRange('tempRange','tempVal', this.value)"/>
-            <span class="range-val" id="tempVal">0.7</span>
-          </div>
-        </div>
-        <div class="setting-row">
-          <div class="setting-info">
-            <div class="setting-label">Max tokens</div>
-            <div class="setting-desc">Maximum length of each response</div>
-          </div>
-          <select class="select-control" id="maxTokensSelect" onchange="saveSetting('maxTokens', this.value)">
-            <option value="512">512 tokens</option>
-            <option value="1024">1024 tokens</option>
-            <option value="2048" selected>2048 tokens</option>
-            <option value="4096">4096 tokens</option>
           </select>
         </div>
       </div>
-
     </div>
   </div>
 </div>
@@ -1084,158 +670,87 @@
 <div class="toast" id="toast"></div>
 
 <script>
-// ── State ──
+// State Configuration
 let conversations = JSON.parse(localStorage.getItem('talkai_convos') || '[]');
 let currentConvoId = null;
 let messages = []; 
 let isLoading = false;
 
 let settings = JSON.parse(localStorage.getItem('talkai_settings') || JSON.stringify({
-  apiKey: '',
   model: 'llama-3.3-70b-versatile',
   theme: 'dark',
-  sound: false,
   history: true,
   enterSend: true,
-  timestamps: false,
-  fontSize: 14,
-  bubbleRadius: '18px',
-  compact: false,
-  temperature: 0.7,
-  maxTokens: 2048,
-  systemPrompt: ''
+  fontSize: 14
 }));
 
-// ── Init ──
+// Setup & Initialization
 (function init() {
-  applyTheme(settings.theme, true);
+  applyTheme(settings.theme);
   document.getElementById('themeSelect').value = settings.theme;
   document.getElementById('fontSizeRange').value = settings.fontSize;
   document.getElementById('fontSizeVal').textContent = settings.fontSize + 'px';
-  document.getElementById('tempRange').value = settings.temperature;
-  document.getElementById('tempVal').textContent = settings.temperature;
   document.getElementById('modelSelect').value = settings.model;
-  document.getElementById('maxTokensSelect').value = settings.maxTokens;
-  document.getElementById('bubbleStyle').value = settings.bubbleRadius;
-  document.getElementById('apiKeyInput').value = settings.apiKey || '';
-  setTimeout(updateKeyStatus, 100);
-  document.getElementById('toggle-sound').checked = settings.sound;
+  
   document.getElementById('toggle-history').checked = settings.history;
   document.getElementById('toggle-enter').checked = settings.enterSend;
-  document.getElementById('toggle-timestamps').checked = settings.timestamps;
-  document.getElementById('toggle-compact').checked = settings.compact;
-  document.getElementById('systemPromptInput').value = settings.systemPrompt || '';
-  document.getElementById('modelLabel').textContent = modelName(settings.model);
-  applyFontSize(settings.fontSize, true);
-  applyBubbleStyle(settings.bubbleRadius, true);
-  if (settings.compact) applyCompact(true, true);
+  updateModelLabel(settings.model);
+  applyFontSize(settings.fontSize);
   renderHistory();
 
   document.getElementById('chatInput').addEventListener('input', function() {
     document.getElementById('sendBtn').disabled = !this.value.trim();
+    this.style.height = 'auto';
+    this.style.height = Math.min(this.scrollHeight, 140) + 'px';
   });
 })();
 
-function modelName(val) {
-  const map = {'llama-3.3-70b-versatile':'Llama 3.3 70B','llama-3.1-8b-instant':'Llama 3.1 8B','mixtral-8x7b-32768':'Mixtral 8x7B','gemma2-9b-it':'Gemma 2 9B'};
-  return map[val] || val;
-}
-
-// ── Settings ──
 function saveSetting(key, val) {
   settings[key] = val;
   localStorage.setItem('talkai_settings', JSON.stringify(settings));
 }
 
-function saveApiKey() {
-  const val = document.getElementById('apiKeyInput').value.trim();
-  settings.apiKey = val;
-  localStorage.setItem('talkai_settings', JSON.stringify(settings));
-  updateKeyStatus();
-  showToast(val ? 'API key saved' : 'API key cleared');
-}
-
-function updateKeyStatus() {
-  const el = document.getElementById('keyStatus');
-  if (!el) return;
-  const key = settings.apiKey;
-  if (key && key.length > 10) {
-    el.textContent = 'Key active: ' + key.slice(0,8) + '...';
-    el.style.color = '#4ade80';
-  } else {
-    el.textContent = 'No key saved';
-    el.style.color = 'var(--text-muted)';
-  }
-}
-
-function saveSystemPrompt() {
-  settings.systemPrompt = document.getElementById('systemPromptInput').value.trim();
-  localStorage.setItem('talkai_settings', JSON.stringify(settings));
-  showToast('System prompt saved');
-}
-
-function applyTheme(val, silent) {
+function applyTheme(val) {
   document.documentElement.setAttribute('data-theme', val === 'light' ? 'light' : '');
   settings.theme = val;
-  if (!silent) localStorage.setItem('talkai_settings', JSON.stringify(settings));
+  localStorage.setItem('talkai_settings', JSON.stringify(settings));
 }
 
-function applyFontSize(val, silent) {
+function applyFontSize(val) {
   document.documentElement.style.setProperty('--font-size-base', val + 'px');
   document.getElementById('fontSizeVal').textContent = val + 'px';
   settings.fontSize = parseInt(val);
-  if (!silent) localStorage.setItem('talkai_settings', JSON.stringify(settings));
-}
-
-function applyBubbleStyle(val, silent) {
-  document.documentElement.style.setProperty('--bubble-radius', val);
-  settings.bubbleRadius = val;
-  if (!silent) localStorage.setItem('talkai_settings', JSON.stringify(settings));
-}
-
-function applyCompact(checked, silent) {
-  document.documentElement.style.setProperty('--bubble-padding', checked ? '8px 12px' : '12px 16px');
-  settings.compact = checked;
-  if (!silent) localStorage.setItem('talkai_settings', JSON.stringify(settings));
+  localStorage.setItem('talkai_settings', JSON.stringify(settings));
 }
 
 function applyModel(val) {
   settings.model = val;
-  document.getElementById('modelLabel').textContent = modelName(val);
+  updateModelLabel(val);
   localStorage.setItem('talkai_settings', JSON.stringify(settings));
 }
 
-function updateRange(rangeId, valId, val) {
-  document.getElementById(valId).textContent = val;
-  if (rangeId === 'tempRange') saveSetting('temperature', parseFloat(val));
-}
-
-function toggleShowKey(checked) {
-  document.getElementById('apiKeyInput').type = checked ? 'text' : 'password';
+function updateModelLabel(val) {
+  let text = 'Llama 3.3 70B';
+  if (val === 'llama-3.1-8b-instant') text = 'Llama 3.1 8B';
+  if (val === 'mixtral-8x7b-32768') text = 'Mixtral 8x7B';
+  document.getElementById('modelLabel').textContent = text;
 }
 
 function clearHistory() {
-  if (!confirm('Delete all conversations?')) return;
   conversations = [];
   localStorage.removeItem('talkai_convos');
   newChat();
   renderHistory();
-  showToast('History cleared');
+  showToast('History Deleted');
 }
 
-// ── Modal ──
 function openSettings(tab) {
   document.getElementById('settingsModal').classList.add('open');
   if (tab) switchTab(tab);
 }
 
-function closeSettings() {
-  document.getElementById('settingsModal').classList.remove('open');
-}
-
-function closeOnOverlay(e) {
-  if (e.target === document.getElementById('settingsModal')) closeSettings();
-}
+function closeSettings() { document.getElementById('settingsModal').classList.remove('open'); }
+function closeOnOverlay(e) { if (e.target === document.getElementById('settingsModal')) closeSettings(); }
 
 function switchTab(name) {
   document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
@@ -1244,19 +759,14 @@ function switchTab(name) {
   document.getElementById('panel-' + name).classList.add('active');
 }
 
-// ── Toast ──
 function showToast(msg) {
   const t = document.getElementById('toast');
-  t.textContent = msg;
-  t.classList.add('show');
-  setTimeout(() => t.classList.remove('show'), 2200);
+  t.textContent = msg; t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2000);
 }
 
-// ── Chat ──
 function newChat() {
-  if (messages.length > 0) saveCurrentConvo();
-  messages = [];
-  currentConvoId = null;
+  messages = []; currentConvoId = null;
   const inner = document.getElementById('messagesInner');
   inner.innerHTML = `
     <div class="welcome" id="welcomeScreen">
@@ -1270,12 +780,8 @@ function newChat() {
         <div class="suggestion-chip" onclick="sendSuggestion('Write a short poem about the night sky')">Write me a poem</div>
         <div class="suggestion-chip" onclick="sendSuggestion('What are the best productivity habits?')">Productivity habits</div>
         <div class="suggestion-chip" onclick="sendSuggestion('Help me debug my JavaScript code')">Debug JavaScript</div>
-        <div class="suggestion-chip" onclick="sendSuggestion('Summarize the latest AI trends in 2025')">AI trends</div>
-        <div class="suggestion-chip" onclick="sendSuggestion('Give me a quick recipe for pasta carbonara')">Quick recipe</div>
       </div>
     </div>`;
-  document.getElementById('chatInput').value = '';
-  document.getElementById('sendBtn').disabled = true;
   renderHistory();
 }
 
@@ -1288,13 +794,8 @@ function sendSuggestion(text) {
 function handleKey(e) {
   if (settings.enterSend && e.key === 'Enter' && !e.shiftKey) {
     e.preventDefault();
-    if (!isLoading && document.getElementById('chatInput').value.trim()) sendMessage();
+    sendMessage();
   }
-}
-
-function autoResize(el) {
-  el.style.height = 'auto';
-  el.style.height = Math.min(el.scrollHeight, 140) + 'px';
 }
 
 async function sendMessage() {
@@ -1306,69 +807,42 @@ async function sendMessage() {
   if (welcome) welcome.remove();
 
   input.value = '';
-  input.style.height = '';
+  input.style.height = 'auto';
   document.getElementById('sendBtn').disabled = true;
 
-  const now = new Date();
-  const timeStr = now.toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'});
-
-  messages.push({ role: 'user', content: text, time: timeStr });
-  appendMessage('user', text, timeStr);
+  messages.push({ role: 'user', content: text });
+  appendMessage('user', text);
 
   const typingId = 'typing_' + Date.now();
   appendTyping(typingId);
-
   isLoading = true;
 
   try {
-    const apiKey = settings.apiKey;
-    if (!apiKey) {
-      removeTyping(typingId);
-      const err = 'No API key set. Go to Settings → API Settings and enter your Groq key.';
-      messages.push({ role: 'assistant', content: err, time: timeStr });
-      appendMessage('ai', err, timeStr);
-      isLoading = false;
-      return;
-    }
-
-    const payload = {
-      model: settings.model,
-      messages: [
-        ...(settings.systemPrompt ? [{ role: 'system', content: settings.systemPrompt }] : []),
-        ...messages.map(m => ({ role: m.role === 'ai' ? 'assistant' : m.role, content: m.content }))
-      ],
-      max_tokens: parseInt(settings.maxTokens),
-      temperature: parseFloat(settings.temperature)
-    };
-
-    const res = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+    // Corrected to use your local Node environment backend proxy endpoint safely
+    const response = await fetch('/api/chat', {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer ' + apiKey
-      },
-      body: JSON.stringify(payload)
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: settings.model,
+        messages: messages.map(m => ({ role: m.role === 'ai' ? 'assistant' : m.role, content: m.content }))
+      })
     });
 
-    removeTyping(typingId);
+    document.getElementById(typingId).remove();
+    const data = await response.json();
 
-    const data = await res.json().catch(() => ({}));
-    if (!res.ok) {
-      const errMsg = data.error?.message || `API error ${res.status}`;
-      messages.push({ role: 'assistant', content: '⚠ ' + errMsg, time: timeStr });
-      appendMessage('ai', '⚠ ' + errMsg, timeStr);
+    if (data.choices && data.choices[0]) {
+      const reply = data.choices[0].message.content;
+      messages.push({ role: 'ai', content: reply });
+      appendMessage('ai', reply);
+    } else if (data.error) {
+      appendMessage('ai', 'Error from backend: ' + data.error.message);
     } else {
-      const reply = data.choices?.[0]?.message?.content || '(No response)';
-      const replyTime = new Date().toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'});
-      messages.push({ role: 'assistant', content: reply, time: replyTime });
-      appendMessage('ai', reply, replyTime);
+      appendMessage('ai', 'Error: Invalid layout configuration or token issue.');
     }
-
-  } catch(e) {
-    removeTyping(typingId);
-    const errMsg = 'Connection error: ' + e.message + '. Please check your internet connection.';
-    messages.push({ role: 'assistant', content: '⚠ ' + errMsg, time: timeStr });
-    appendMessage('ai', '⚠ ' + errMsg, timeStr);
+  } catch (err) {
+    if (document.getElementById(typingId)) document.getElementById(typingId).remove();
+    appendMessage('ai', 'Could not reach server proxy. Make sure server.js is running.');
   }
 
   isLoading = false;
@@ -1376,135 +850,88 @@ async function sendMessage() {
   renderHistory();
 }
 
-function appendMessage(role, content, time) {
+function appendMessage(role, content) {
   const inner = document.getElementById('messagesInner');
-  const isUser = role === 'user';
-  const showTime = settings.timestamps;
-
   const div = document.createElement('div');
-  div.className = 'msg-group ' + (isUser ? 'user' : 'ai');
-
-  const avatarLabel = isUser ? 'U' : 'T';
-  const avatarClass = isUser ? 'user' : 'ai';
-  const bubbleClass = isUser ? 'user-msg' : 'ai-msg';
-  const formattedContent = isUser ? escapeHtml(content) : formatAI(content);
-
+  div.className = 'msg-group ' + (role === 'user' ? 'user' : 'ai');
+  
+  // Custom minimal parser to handle simple markdown structures natively inside bubbles
+  let formattedContent = formatMarkdown(content);
+  
   div.innerHTML = `
-    <div class="avatar ${avatarClass}">${avatarLabel}</div>
+    <div class="avatar ${role === 'user' ? 'user' : 'ai'}">${role === 'user' ? 'U' : 'T'}</div>
     <div class="bubble-wrap">
-      <div class="bubble ${bubbleClass}">${formattedContent}</div>
-      ${showTime ? `<div class="msg-time">${time}</div>` : ''}
+      <div class="bubble ${role === 'user' ? 'user-msg' : 'ai-msg'}">${formattedContent}</div>
     </div>`;
-
   inner.appendChild(div);
-  scrollToBottom();
+  
+  const wrap = document.getElementById('messagesWrap');
+  wrap.scrollTop = wrap.scrollHeight;
 }
 
 function appendTyping(id) {
   const inner = document.getElementById('messagesInner');
   const div = document.createElement('div');
-  div.className = 'msg-group ai';
-  div.id = id;
+  div.className = 'msg-group ai'; div.id = id;
   div.innerHTML = `
     <div class="avatar ai">T</div>
-    <div class="bubble-wrap">
-      <div class="typing-indicator">
-        <div class="typing-dot"></div>
-        <div class="typing-dot"></div>
-        <div class="typing-dot"></div>
-      </div>
-    </div>`;
+    <div class="bubble-wrap"><div class="typing-indicator"><div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div></div></div>`;
   inner.appendChild(div);
-  scrollToBottom();
-}
-
-function removeTyping(id) {
-  const el = document.getElementById(id);
-  if (el) el.remove();
-}
-
-function scrollToBottom() {
   const wrap = document.getElementById('messagesWrap');
-  wrap.scrollTo({ top: wrap.scrollHeight, behavior: 'smooth' });
+  wrap.scrollTop = wrap.scrollHeight;
 }
 
-function escapeHtml(str) {
-  return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+function escapeHtml(str) { 
+  return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); 
 }
 
-function formatAI(text) {
-  text = text.replace(/```(\w*)\n?([\s\S]*?)```/g, (_, lang, code) => {
-    return `<pre><code>${escapeHtml(code.trim())}</code></pre>`;
-  });
-  text = text.replace(/`([^`]+)`/g, '<code>$1</code>');
-  text = text.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
-  text = text.replace(/\*(.+?)\*/g, '<em>$1</em>');
-  text = text.replace(/^[\-\*] (.+)/gm, '<li>$1</li>');
-  text = text.replace(/(<li>.*<\/li>)/s, '<ul>$1</ul>');
-  text = text.split(/\n\n+/).map(p => {
-    p = p.trim();
-    if (!p) return '';
-    if (p.startsWith('<pre>') || p.startsWith('<ul>')) return p;
-    return '<p>' + p.replace(/\n/g, '<br>') + '</p>';
-  }).join('');
-  return text;
+function formatMarkdown(str) {
+  // Simple layout formatter for code blocks, paragraph line breaks, and strong highlights
+  let sections = str.split('```');
+  for (let i = 0; i < sections.length; i++) {
+    if (i % 2 === 1) {
+      let lines = sections[i].split('\n');
+      let lang = lines[0].trim();
+      let code = lines.slice(1).join('\n');
+      sections[i] = `<pre><code class="language-${lang}">${escapeHtml(code)}</code></pre>`;
+    } else {
+      sections[i] = escapeHtml(sections[i])
+        .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+        .replace(/`(.*?)`/g, '<code>$1</code>')
+        .replace(/\n/g, '<br/>');
+    }
+  }
+  return sections.join('');
 }
 
 function saveCurrentConvo() {
   if (!settings.history || messages.length === 0) return;
-  const firstUser = messages.find(m => m.role === 'user');
-  const title = firstUser ? firstUser.content.slice(0, 48) : 'Conversation';
-
-  if (currentConvoId) {
-    const idx = conversations.findIndex(c => c.id === currentConvoId);
-    if (idx !== -1) {
-      conversations[idx].messages = [...messages];
-      conversations[idx].title = title;
-      conversations[idx].updatedAt = Date.now();
-    }
-  } else {
+  const title = messages[0].content.slice(0, 30);
+  if (!currentConvoId) {
     currentConvoId = 'c_' + Date.now();
-    conversations.unshift({ id: currentConvoId, title, messages: [...messages], updatedAt: Date.now() });
+    conversations.unshift({ id: currentConvoId, title, messages: [...messages] });
+  } else {
+    const c = conversations.find(x => x.id === currentConvoId);
+    if (c) c.messages = [...messages];
   }
-
-  if (conversations.length > 50) conversations = conversations.slice(0, 50);
   localStorage.setItem('talkai_convos', JSON.stringify(conversations));
 }
 
 function renderHistory() {
   const list = document.getElementById('historyList');
-  const existing = list.querySelectorAll('.history-item');
-  existing.forEach(e => e.remove());
-
-  if (conversations.length === 0) return;
-
-  conversations.slice(0, 20).forEach(c => {
+  list.querySelectorAll('.history-item').forEach(e => e.remove());
+  conversations.forEach(c => {
     const item = document.createElement('div');
     item.className = 'history-item' + (c.id === currentConvoId ? ' active' : '');
-    item.innerHTML = `
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-      <span class="history-title">${escapeHtml(c.title)}</span>`;
-    item.onclick = () => loadConvo(c.id);
+    item.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg><span class="history-title">${escapeHtml(c.title)}</span>`;
+    item.onclick = () => {
+      currentConvoId = c.id; messages = [...c.messages];
+      document.getElementById('messagesInner').innerHTML = '';
+      messages.forEach(m => appendMessage(m.role, m.content));
+      renderHistory();
+    };
     list.appendChild(item);
   });
-}
-
-function loadConvo(id) {
-  if (currentConvoId !== id && messages.length > 0) saveCurrentConvo();
-  const convo = conversations.find(c => c.id === id);
-  if (!convo) return;
-
-  currentConvoId = id;
-  messages = [...convo.messages];
-
-  const inner = document.getElementById('messagesInner');
-  inner.innerHTML = '';
-
-  messages.forEach(m => {
-    appendMessage(m.role === 'assistant' ? 'ai' : m.role, m.content, m.time || '');
-  });
-
-  renderHistory();
 }
 </script>
 </body>
