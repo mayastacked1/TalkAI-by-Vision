@@ -1082,9 +1082,10 @@
             <span class="range-val" id="tempVal">0.7</span>
           </div>
         </div>
+        <div class="section-heading" style="margin-top:12px;">Max Generation Length</div>
         <div class="setting-row">
           <div class="setting-info">
-            <div class="setting-label">Max Generation Length</div>
+            <div class="setting-label">Max Tokens</div>
             <div class="setting-desc">Cap output size tokens per message response</div>
           </div>
           <select class="select-control" id="maxTokensSelect" onchange="saveSetting('maxTokens', this.value)">
@@ -1133,7 +1134,6 @@
     document.getElementById('tempRange').value = settings.temperature;
     document.getElementById('tempVal').textContent = settings.temperature;
     
-    // Safety check if user had gemma2 selected previously in localStorage
     if (settings.model === 'gemma2-9b-it') {
       settings.model = 'llama-3.3-70b-versatile';
       localStorage.setItem('talkai_settings', JSON.stringify(settings));
@@ -1276,7 +1276,6 @@
     document.getElementById('settingsModal').classList.remove('open');
   }
 
-  // Custom click overlay handler
   function closeOnOverlay(e) {
     if (e.target === document.getElementById('settingsModal')) closeSettings();
   }
@@ -1364,7 +1363,6 @@
     messages.push({ role: 'user', content: text, time: timeStr });
     appendMessage('user', text, timeStr);
 
-    // Show typing indicator
     const typingId = 'typing_' + Date.now();
     appendTyping(typingId);
     isLoading = true;
@@ -1394,7 +1392,8 @@
         stream: false
       };
 
-      const res = await fetch('https://talkai-proxy.YOUR-SUBDOMAIN.workers.dev', {
+      // Switched to a relative path endpoint so it matches whatever domain it's hosted on natively
+      const res = await fetch('/api/chat', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -1418,7 +1417,7 @@
       }
     } catch(e) {
       removeTyping(typingId);
-      const errMsg = 'Connection error: ' + e.message + '. Please check your internet connection and try again.';
+      const errMsg = 'Connection error: ' + e.message + '. Make sure server.js is running.';
       messages.push({ role: 'assistant', content: '⚠ ' + errMsg, time: timeStr });
       appendMessage('ai', '⚠ ' + errMsg, timeStr);
     }
@@ -1480,17 +1479,12 @@
   }
 
   function formatAI(text) {
-    // code blocks
     text = text.replace(/```(\w*)\n?([\s\S]*?)```/g, (_, lang, code) => {
       return `<pre><code>${escapeHtml(code.trim())}</code></pre>`;
     });
-    // inline code
     text = text.replace(/`([^`]+)`/g, '<code>$1</code>');
-    // bold
-    text = text.replace(/\*\*(.+?)\*\"/g, '<strong>$1</strong>');
-    // italic
+    text = text.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
     text = text.replace(/\*(.+?)\*/g, '<em>$1</em>');
-    // bullet lists
     text = text.replace(/^[\-\*] (.+)/gm, '<li>$1</li>');
     return text;
   }
@@ -1525,7 +1519,7 @@
       item.className = 'history-item' + (c.id === currentConvoId ? ' active' : '');
       item.innerHTML = `
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-        <span class=\"history-title\">${escapeHtml(c.title)}</span>`;
+        <span class="history-title">${escapeHtml(c.title)}</span>`;
       item.onclick = () => loadConvo(c.id);
       list.appendChild(item);
     });
