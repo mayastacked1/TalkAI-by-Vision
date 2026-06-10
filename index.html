@@ -235,12 +235,8 @@
     padding: 5px 12px;
     border-radius: 20px;
     border: 1px solid var(--border);
-    cursor: pointer;
-    transition: border-color 0.15s;
     user-select: none;
   }
-
-  .model-tag:hover { border-color: var(--text-muted); }
 
   .model-dot {
     width: 6px; height: 6px;
@@ -838,10 +834,6 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M4.93 4.93a10 10 0 0 0 0 14.14"/></svg>
         Appearance
       </button>
-      <button class="sidebar-action" onclick="openSettings('api')">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/></svg>
-        API Settings
-      </button>
       <button class="sidebar-action" onclick="openSettings('general')">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
         General Settings
@@ -851,7 +843,7 @@
 
   <main class="main">
     <div class="topbar">
-      <div class="model-tag" onclick="openSettings('api')">
+      <div class="model-tag">
         <div class="model-dot"></div>
         <span id="modelLabel">Llama 3.3 70B</span>
       </div>
@@ -906,7 +898,6 @@
     <div class="modal-tabs">
       <button class="tab-btn active" id="tab-general" onclick="switchTab('general')">General</button>
       <button class="tab-btn" id="tab-appearance" onclick="switchTab('appearance')">Appearance</button>
-      <button class="tab-btn" id="tab-api" onclick="switchTab('api')">API & Model</button>
     </div>
 
     <div class="modal-body">
@@ -1037,65 +1028,6 @@
           </label>
         </div>
       </div>
-
-      <div class="tab-panel" id="panel-api">
-        <div class="section-heading">Groq Authentication</div>
-        <div class="setting-row" style="flex-direction:column; align-items:stretch; gap:10px;">
-          <div style="display:flex; justify-content:space-between; align-items:center;">
-            <div class="setting-info">
-              <div class="setting-label">Groq API Key</div>
-              <div class="setting-desc">Your credentials stay saved locally in your browser</div>
-            </div>
-            <label style="display:flex; align-items:center; gap:6px; font-size:11px; color:var(--text-muted); cursor:pointer;">
-              <input type="checkbox" onchange="toggleShowKey(this.checked)" style="cursor:pointer;"/> Show
-            </label>
-          </div>
-          <div class="api-row">
-            <input type="password" id="apiKeyInput" class="api-input" placeholder="gsk_..." />
-            <button class="save-btn" onclick="saveApiKey()">Save Key</button>
-          </div>
-          <div style="font-size:11px; color:var(--text-muted); margin-top:2px;" id="keyStatus">Checking key configuration...</div>
-        </div>
-
-        <div class="section-heading" style="margin-top:12px;">Active Model</div>
-        <div class="setting-row">
-          <div class="setting-info">
-            <div class="setting-label">Model architecture</div>
-            <div class="setting-desc">Select target LLM profile for queries</div>
-          </div>
-          <select class="select-control" id="modelSelect" onchange="applyModel(this.value)">
-            <option value="llama-3.3-70b-versatile">Llama 3.3 70B</option>
-            <option value="llama-3.1-8b-instant">Llama 3.1 8B</option>
-            <option value="mixtral-8x7b-32768">Mixtral 8x7B</option>
-            <option value="gemma-7b-it">Gemma 7B IT</option>
-          </select>
-        </div>
-
-        <div class="section-heading" style="margin-top:12px;">Parameters</div>
-        <div class="setting-row">
-          <div class="setting-info">
-            <div class="setting-label">Temperature</div>
-            <div class="setting-desc">Higher value results in creative/random outputs</div>
-          </div>
-          <div class="range-wrap">
-            <input type="range" class="range-input" id="tempRange" min="0" max="2" step="0.1" value="0.7" oninput="updateRange('tempRange', 'tempVal', this.value)"/>
-            <span class="range-val" id="tempVal">0.7</span>
-          </div>
-        </div>
-        <div class="section-heading" style="margin-top:12px;">Max Generation Length</div>
-        <div class="setting-row">
-          <div class="setting-info">
-            <div class="setting-label">Max Tokens</div>
-            <div class="setting-desc">Cap output size tokens per message response</div>
-          </div>
-          <select class="select-control" id="maxTokensSelect" onchange="saveSetting('maxTokens', this.value)">
-            <option value="512">512 tokens</option>
-            <option value="1024">1024 tokens</option>
-            <option value="2048" selected>2048 tokens</option>
-            <option value="4096">4096 tokens</option>
-          </select>
-        </div>
-      </div>
     </div>
   </div>
 </div>
@@ -1131,19 +1063,11 @@
     document.getElementById('themeSelect').value = settings.theme;
     document.getElementById('fontSizeRange').value = settings.fontSize;
     document.getElementById('fontSizeVal').textContent = settings.fontSize + 'px';
-    document.getElementById('tempRange').value = settings.temperature;
-    document.getElementById('tempVal').textContent = settings.temperature;
     
     if (settings.model === 'gemma2-9b-it') {
       settings.model = 'llama-3.3-70b-versatile';
       localStorage.setItem('talkai_settings', JSON.stringify(settings));
     }
-    
-    document.getElementById('modelSelect').value = settings.model;
-    document.getElementById('maxTokensSelect').value = settings.maxTokens;
-    document.getElementById('bubbleStyle').value = settings.bubbleRadius;
-    document.getElementById('apiKeyInput').value = settings.apiKey;
-    setTimeout(updateKeyStatus, 100);
     
     document.getElementById('toggle-stream').checked = settings.stream;
     document.getElementById('toggle-sound').checked = settings.sound;
@@ -1178,23 +1102,6 @@
   function saveSetting(key, val) {
     settings[key] = val;
     localStorage.setItem('talkai_settings', JSON.stringify(settings));
-  }
-
-  function saveApiKey() {
-    const v = document.getElementById('apiKeyInput').value.trim();
-    settings.apiKey = v;
-    saveSetting('apiKey', v);
-    updateKeyStatus();
-    showToast('API Key configuration updated');
-  }
-
-  function updateKeyStatus() {
-    const el = document.getElementById('keyStatus');
-    if (!settings.apiKey) {
-      el.innerHTML = '<span style="color:#f43f5e;">❌ No API key saved. Interface requests will fail.</span>';
-    } else {
-      el.innerHTML = '<span style="color:#10b981;">✔ Local token saved (' + settings.apiKey.substring(0,6) + '...)</span>';
-    }
   }
 
   function saveSystemPrompt() {
@@ -1240,21 +1147,6 @@
     });
     settings.compact = checked;
     if (!silent) localStorage.setItem('talkai_settings', JSON.stringify(settings));
-  }
-
-  function applyModel(val) {
-    settings.model = val;
-    document.getElementById('modelLabel').textContent = modelName(val);
-    localStorage.setItem('talkai_settings', JSON.stringify(settings));
-  }
-
-  function updateRange(rangeId, valId, val) {
-    document.getElementById(valId).textContent = val;
-    if (rangeId === 'tempRange') saveSetting('temperature', parseFloat(val));
-  }
-
-  function toggleShowKey(checked) {
-    document.getElementById('apiKeyInput').type = checked ? 'text' : 'password';
   }
 
   function clearHistory() {
@@ -1369,15 +1261,6 @@
 
     try {
       const apiKey = settings.apiKey;
-      if (!apiKey) {
-        removeTyping(typingId);
-        const err = 'No API key set. Go to Settings → API Key and enter your Groq key.';
-        messages.push({ role: 'assistant', content: err, time: timeStr });
-        appendMessage('ai', err, timeStr);
-        isLoading = false;
-        return;
-      }
-
       const payload = {
         model: settings.model,
         messages: [
@@ -1392,7 +1275,6 @@
         stream: false
       };
 
-      // Switched to a relative path endpoint so it matches whatever domain it's hosted on natively
       const res = await fetch('/api/chat', {
         method: 'POST',
         headers: {
@@ -1417,7 +1299,7 @@
       }
     } catch(e) {
       removeTyping(typingId);
-      const errMsg = 'Connection error: ' + e.message + '. Make sure server.js is running.';
+      const errMsg = 'Connection error: ' + e.message;
       messages.push({ role: 'assistant', content: '⚠ ' + errMsg, time: timeStr });
       appendMessage('ai', '⚠ ' + errMsg, timeStr);
     }
@@ -1478,6 +1360,7 @@
     return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
   }
 
+  // Formatting helpers
   function formatAI(text) {
     text = text.replace(/```(\w*)\n?([\s\S]*?)```/g, (_, lang, code) => {
       return `<pre><code>${escapeHtml(code.trim())}</code></pre>`;
