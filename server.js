@@ -47,10 +47,8 @@ const server = http.createServer((req, res) => {
         return;
       }
 
-      // Seamlessly transition the model name if the frontend requests a legacy Groq string
-      if (bodyObj.model && (bodyObj.model.includes('groq') || bodyObj.model === 'llama-3.3-70b-versatile')) {
-        bodyObj.model = 'llama-3.3-70b';
-      }
+      // FIXED: Overwrites any model payload string coming from client/local storage to match Cerebras' strict endpoint name
+      bodyObj.model = 'llama3.1-70b';
 
       const bodyStr = JSON.stringify(bodyObj);
       console.log(`[cerebras] proxying request. size=${bodyStr.length}`);
