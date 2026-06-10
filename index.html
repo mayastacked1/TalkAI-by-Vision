@@ -860,7 +860,7 @@
           <div class="welcome-logo">T</div>
           <div>
             <div class="welcome-title">Good to see you.</div>
-            <div class="welcome-tagline" style="margin-top:8px;">Powered by Groq. Ask me anything — I'm fast, sharp, and free.</div>
+            <div class="welcome-tagline" style="margin-top:8px;">Powered by Cerebras. Ask me anything — I'm fast, sharp, and free.</div>
           </div>
           <div class="suggestions">
             <div class="suggestion-chip" onclick="sendSuggestion('Explain quantum computing simply')">Explain quantum computing</div>
@@ -1041,8 +1041,8 @@
   let messages = []; 
   let isLoading = false;
   let settings = JSON.parse(localStorage.getItem('talkai_settings') || JSON.stringify({
-    apiKey: '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',
-    model: 'llama-3.3-70b-versatile',
+    apiKey: 'placeholder',
+    model: 'llama-3.3-70b', // Updated to match Cerebras structure
     theme: 'dark',
     stream: true,
     sound: false,
@@ -1064,8 +1064,9 @@
     document.getElementById('fontSizeRange').value = settings.fontSize;
     document.getElementById('fontSizeVal').textContent = settings.fontSize + 'px';
     
-    if (settings.model === 'gemma2-9b-it') {
-      settings.model = 'llama-3.3-70b-versatile';
+    // Safety check ensuring we point to standard llama-3.3-70b
+    if (settings.model.includes('groq') || settings.model === 'llama-3.3-70b-versatile') {
+      settings.model = 'llama-3.3-70b';
       localStorage.setItem('talkai_settings', JSON.stringify(settings));
     }
     
@@ -1090,10 +1091,8 @@
 
   function modelName(val) {
     const map = {
-      'llama-3.3-70b-versatile': 'Llama 3.3 70B',
-      'llama-3.1-8b-instant': 'Llama 3.1 8B',
-      'mixtral-8x7b-32768': 'Mixtral 8x7B',
-      'gemma-7b-it': 'Gemma 7B IT'
+      'llama-3.3-70b': 'Llama 3.3 70B (Cerebras)',
+      'llama-3.1-8b': 'Llama 3.1 8B'
     };
     return map[val] || val;
   }
@@ -1109,6 +1108,15 @@
     settings.systemPrompt = val;
     saveSetting('systemPrompt', val);
     showToast('System prompt instructions updated');
+  }
+
+  // Clear local storage overrides if a user switches back with old groq keys cached
+  if (localStorage.getItem('talkai_settings')) {
+    let activeData = JSON.parse(localStorage.getItem('talkai_settings'));
+    if (activeData.model === 'llama-3.3-70b-versatile') {
+      activeData.model = 'llama-3.3-70b';
+      localStorage.setItem('talkai_settings', JSON.stringify(activeData));
+    }
   }
 
   function applyTheme(mode, silent) {
@@ -1198,7 +1206,7 @@
         <div class="welcome-logo">T</div>
         <div>
           <div class="welcome-title">Good to see you.</div>
-          <div class="welcome-tagline" style="margin-top:8px;">Powered by Groq. Ask me anything — I'm fast, sharp, and free.</div>
+          <div class="welcome-tagline" style="margin-top:8px;">Powered by Cerebras. Ask me anything — I'm fast, sharp, and free.</div>
         </div>
         <div class="suggestions">
           <div class="suggestion-chip" onclick="sendSuggestion('Explain quantum computing simply')">Explain quantum computing</div>
