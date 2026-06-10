@@ -24,7 +24,7 @@
     --radius: 14px;
     --font-display: 'Syne', sans-serif;
     --font-body: 'Inter', sans-serif;
-    --sidebar-w: 260px;
+    --sidebar-w: 280px; /* Slightly widened to gracefully accommodate the longer tagline */
     --font-size-base: 14px;
     --bubble-radius: 18px;
     --z-sidebar: 1000;
@@ -105,24 +105,24 @@
     height: 100%;
   }
 
-  .logo-area { display: flex; align-items: center; gap: 10px; padding: 0 4px; cursor: pointer; }
+  .logo-area { display: flex; align-items: center; gap: 12px; padding: 0 4px; cursor: pointer; }
   
   .logo-icon {
-    width: 34px; height: 34px;
+    width: 38px; height: 38px;
     background: var(--brand-gradient);
     color: #ffffff;
     border-radius: 9px;
     display: flex; align-items: center; justify-content: center;
     font-family: var(--font-display);
     font-weight: 800;
-    font-size: 16px;
+    font-size: 18px;
     letter-spacing: -0.5px;
     flex-shrink: 0;
     box-shadow: 0 4px 12px rgba(122, 98, 240, 0.2);
   }
 
-  .logo-text { font-family: var(--font-display); font-weight: 700; font-size: 15px; letter-spacing: -0.3px; line-height: 1.2; }
-  .logo-sub { font-size: 10px; color: var(--text-muted); font-weight: 400; letter-spacing: 0.5px; text-transform: uppercase; }
+  .logo-text { font-family: var(--font-display); font-weight: 700; font-size: 16px; letter-spacing: -0.3px; line-height: 1.2; }
+  .logo-sub { font-size: 10.5px; color: var(--text-muted); font-weight: 500; letter-spacing: -0.1px; text-transform: none; margin-top: 1px; line-height: 1.3; }
 
   .new-chat-btn {
     display: flex; align-items: center; gap: 8px;
@@ -246,7 +246,7 @@
   
   .chat-input { 
     flex: 1; background: none; border: none; outline: none; color: var(--text); font-family: var(--font-body); 
-    font-size: 16px; /* Blocks mobile Safari automatic layouts selection zooms */
+    font-size: 16px;
     resize: none; max-height: 140px; min-height: 24px; line-height: 1.4; padding: 2px 0; display: block; -webkit-appearance: none;
   }
   .chat-input::placeholder { color: var(--text-muted); }
@@ -347,7 +347,7 @@
       <div class="logo-icon">T</div>
       <div>
         <div class="logo-text">TalkAI</div>
-        <div class="logo-sub">by Vision</div>
+        <div class="logo-sub">Think Faster. Create Smarter. Powered by AI. 🚀</div>
       </div>
     </div>
 
@@ -445,7 +445,7 @@
               <h4>Product</h4>
               <ul>
                 <li><a onclick="showScreen('hero')">Features</a></li>
-                <li><a onclick="startNewChat()">Pricing (Free)</a></li>
+                <li><a onclick="startNewChat()">Pricing (100% Free)</a></li>
                 <li><a onclick="showScreen('changelog')">Changelog</a></li>
               </ul>
             </div>
@@ -520,7 +520,7 @@
             <li>To diagnose pipeline latency and runtime errors</li>
             <li>To tailor interface sizing profiles dynamically</li>
           </ul>
-          <p style="margin-top:14px; font-weight:500; color:var(--text)">We do not sell personal information under any condition framework.</p>
+          <p style="margin-top:14px; font-weight:500; color:var(--text)"> We do not sell personal information under any condition framework.</p>
         </div>
       </div>
     </div>
