@@ -815,7 +815,6 @@
 
 <div class="app" id="app">
 
-  <!-- Sidebar -->
   <aside class="sidebar">
     <div class="logo-area">
       <div class="logo-icon">T</div>
@@ -832,17 +831,12 @@
 
     <div class="history-section" id="historyList">
       <div class="history-label">Recent</div>
-      <!-- populated by JS -->
-    </div>
+      </div>
 
     <div class="sidebar-bottom">
       <button class="sidebar-action" onclick="openSettings('appearance')">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M4.93 4.93a10 10 0 0 0 0 14.14"/></svg>
         Appearance
-      </button>
-      <button class="sidebar-action" onclick="openSettings('api')">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/></svg>
-        API Settings
       </button>
       <button class="sidebar-action" onclick="openSettings('general')">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
@@ -851,7 +845,6 @@
     </div>
   </aside>
 
-  <!-- Main -->
   <main class="main">
     <div class="topbar">
       <div class="model-tag" onclick="openSettings('model')">
@@ -871,7 +864,6 @@
 
     <div class="messages-wrap" id="messagesWrap">
       <div class="messages-inner" id="messagesInner">
-        <!-- Welcome -->
         <div class="welcome" id="welcomeScreen">
           <div class="welcome-logo">T</div>
           <div>
@@ -904,7 +896,6 @@
   </main>
 </div>
 
-<!-- Settings Modal -->
 <div class="modal-overlay" id="settingsModal" onclick="closeOnOverlay(event)">
   <div class="modal-box">
     <div class="modal-header">
@@ -918,20 +909,24 @@
     </div>
     <div class="modal-body">
 
-      <!-- General -->
       <div class="tab-panel active" id="panel-general">
-        <div class="section-heading">Behavior</div>
-        <div class="setting-row">
+        <div class="section-heading">Groq API Key Configuration</div>
+        <div class="setting-row" style="flex-direction:column; align-items:flex-start; gap:10px;">
           <div class="setting-info">
-            <div class="setting-label">Stream responses</div>
-            <div class="setting-desc">Show text as it's generated in real-time</div>
+            <div class="setting-label">Enter your Groq API Key</div>
+            <div class="setting-desc">Get your free key from console.groq.com. It is stored securely inside your local browser storage.</div>
           </div>
-          <label class="toggle">
-            <input type="checkbox" id="toggle-stream" checked onchange="saveSetting('stream', this.checked)"/>
-            <div class="toggle-track"></div>
-            <div class="toggle-thumb"></div>
+          <div class="api-row" style="width:100%;">
+            <input type="password" id="apiKeyInput" class="api-input" placeholder="gsk_..."/>
+            <button class="save-btn" onclick="saveApiKey()">Save Key</button>
+          </div>
+          <label style="display:flex; align-items:center; gap:6px; font-size:11px; color:var(--text-muted); cursor:pointer; margin-top:4px;">
+            <input type="checkbox" onchange="toggleShowKey(this.checked)"> Show Key
           </label>
+          <div id="keyStatus" style="font-size:12px; font-weight:500; margin-top:2px;"></div>
         </div>
+
+        <div class="section-heading">Behavior</div>
         <div class="setting-row">
           <div class="setting-info">
             <div class="setting-label">Sound effects</div>
@@ -984,7 +979,6 @@
         </div>
       </div>
 
-      <!-- Appearance -->
       <div class="tab-panel" id="panel-appearance">
         <div class="section-heading">Theme</div>
         <div class="setting-row">
@@ -1044,7 +1038,6 @@
         </div>
       </div>
 
-      <!-- Model -->
       <div class="tab-panel" id="panel-model">
         <div class="section-heading">Grok Model</div>
         <div class="setting-row">
@@ -1084,26 +1077,23 @@
         </div>
       </div>
 
-      </div>
     </div>
   </div>
 </div>
 
-<!-- Toast -->
 <div class="toast" id="toast"></div>
 
 <script>
 // ── State ──
 let conversations = JSON.parse(localStorage.getItem('talkai_convos') || '[]');
 let currentConvoId = null;
-let messages = []; // {role, content, time}
+let messages = []; 
 let isLoading = false;
 
 let settings = JSON.parse(localStorage.getItem('talkai_settings') || JSON.stringify({
-  apiKey: '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',
+  apiKey: '',
   model: 'llama-3.3-70b-versatile',
   theme: 'dark',
-  stream: true,
   sound: false,
   history: true,
   enterSend: true,
@@ -1127,9 +1117,8 @@ let settings = JSON.parse(localStorage.getItem('talkai_settings') || JSON.string
   document.getElementById('modelSelect').value = settings.model;
   document.getElementById('maxTokensSelect').value = settings.maxTokens;
   document.getElementById('bubbleStyle').value = settings.bubbleRadius;
-  document.getElementById('apiKeyInput').value = settings.apiKey;
+  document.getElementById('apiKeyInput').value = settings.apiKey || '';
   setTimeout(updateKeyStatus, 100);
-  document.getElementById('toggle-stream').checked = settings.stream;
   document.getElementById('toggle-sound').checked = settings.sound;
   document.getElementById('toggle-history').checked = settings.history;
   document.getElementById('toggle-enter').checked = settings.enterSend;
@@ -1142,7 +1131,6 @@ let settings = JSON.parse(localStorage.getItem('talkai_settings') || JSON.string
   if (settings.compact) applyCompact(true, true);
   renderHistory();
 
-  // input enable/disable
   document.getElementById('chatInput').addEventListener('input', function() {
     document.getElementById('sendBtn').disabled = !this.value.trim();
   });
@@ -1207,9 +1195,6 @@ function applyBubbleStyle(val, silent) {
 
 function applyCompact(checked, silent) {
   document.documentElement.style.setProperty('--bubble-padding', checked ? '8px 12px' : '12px 16px');
-  document.querySelectorAll('.bubble').forEach(b => {
-    b.style.padding = checked ? '8px 12px' : '';
-  });
   settings.compact = checked;
   if (!silent) localStorage.setItem('talkai_settings', JSON.stringify(settings));
 }
@@ -1317,7 +1302,6 @@ async function sendMessage() {
   const text = input.value.trim();
   if (!text || isLoading) return;
 
-  // Remove welcome
   const welcome = document.getElementById('welcomeScreen');
   if (welcome) welcome.remove();
 
@@ -1328,11 +1312,9 @@ async function sendMessage() {
   const now = new Date();
   const timeStr = now.toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'});
 
-  // Add user message
   messages.push({ role: 'user', content: text, time: timeStr });
   appendMessage('user', text, timeStr);
 
-  // Show typing
   const typingId = 'typing_' + Date.now();
   appendTyping(typingId);
 
@@ -1342,7 +1324,7 @@ async function sendMessage() {
     const apiKey = settings.apiKey;
     if (!apiKey) {
       removeTyping(typingId);
-      const err = 'No API key set. Go to Settings → API Key and enter your Groq key.';
+      const err = 'No API key set. Go to Settings → API Settings and enter your Groq key.';
       messages.push({ role: 'assistant', content: err, time: timeStr });
       appendMessage('ai', err, timeStr);
       isLoading = false;
@@ -1353,14 +1335,13 @@ async function sendMessage() {
       model: settings.model,
       messages: [
         ...(settings.systemPrompt ? [{ role: 'system', content: settings.systemPrompt }] : []),
-        ...messages.filter(m => m.role !== 'system').map(m => ({ role: m.role === 'ai' ? 'assistant' : m.role, content: m.content }))
+        ...messages.map(m => ({ role: m.role === 'ai' ? 'assistant' : m.role, content: m.content }))
       ],
       max_tokens: parseInt(settings.maxTokens),
-      temperature: parseFloat(settings.temperature),
-      stream: false
+      temperature: parseFloat(settings.temperature)
     };
 
-    const res = await fetch('https://talkai-proxy.talkai.workers.dev', {
+    const res = await fetch('https://api.groq.com/openai/v1/chat/completions', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -1385,7 +1366,7 @@ async function sendMessage() {
 
   } catch(e) {
     removeTyping(typingId);
-    const errMsg = 'Connection error: ' + e.message + '. Please check your internet connection and try again.';
+    const errMsg = 'Connection error: ' + e.message + '. Please check your internet connection.';
     messages.push({ role: 'assistant', content: '⚠ ' + errMsg, time: timeStr });
     appendMessage('ai', '⚠ ' + errMsg, timeStr);
   }
@@ -1452,20 +1433,14 @@ function escapeHtml(str) {
 }
 
 function formatAI(text) {
-  // code blocks
   text = text.replace(/```(\w*)\n?([\s\S]*?)```/g, (_, lang, code) => {
     return `<pre><code>${escapeHtml(code.trim())}</code></pre>`;
   });
-  // inline code
   text = text.replace(/`([^`]+)`/g, '<code>$1</code>');
-  // bold
   text = text.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
-  // italic
   text = text.replace(/\*(.+?)\*/g, '<em>$1</em>');
-  // bullet lists
   text = text.replace(/^[\-\*] (.+)/gm, '<li>$1</li>');
   text = text.replace(/(<li>.*<\/li>)/s, '<ul>$1</ul>');
-  // paragraphs
   text = text.split(/\n\n+/).map(p => {
     p = p.trim();
     if (!p) return '';
@@ -1475,7 +1450,6 @@ function formatAI(text) {
   return text;
 }
 
-// ── History ──
 function saveCurrentConvo() {
   if (!settings.history || messages.length === 0) return;
   const firstUser = messages.find(m => m.role === 'user');
