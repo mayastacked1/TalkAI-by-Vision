@@ -6,7 +6,6 @@ const url = require('url');
 
 const PORT = process.env.PORT || 3000;
 
-// Hardcoded to bypass any accidental environment variable dashboard conflicts on Render
 const CEREBRAS_API_KEY = 'csk-cfnyfhfeved2k4yfnvfxeyfnwr5mpe5xmn2d3yc88ttvnmwp';
 const CEREBRAS_HOST = 'api.cerebras.ai';
 const CEREBRAS_PATH = '/v1/chat/completions';
@@ -23,7 +22,6 @@ const server = http.createServer((req, res) => {
   const parsed = url.parse(req.url, true);
   let pathname = parsed.pathname;
 
-  // Global CORS setup to prevent browser script blocks
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Api-Key, x-api-key');
@@ -34,7 +32,6 @@ const server = http.createServer((req, res) => {
     return;
   }
 
-  // FIXED ROUTING CHECK: Matches both '/api/chat' and '/api/chat/' flawlessly
   if ((pathname === '/api/chat' || pathname === '/api/chat/') && req.method === 'POST') {
     let body = '';
     req.on('data', chunk => body += chunk);
@@ -48,14 +45,13 @@ const server = http.createServer((req, res) => {
         return;
       }
 
-      // FIXED: Switched to an active production reasoning model ID in the current Cerebras catalog
       bodyObj.model = 'gpt-oss-120b';
 
-      // NEW SUMMARY FILTER: Force system instruction to keep answers brief, concise, and summarized
+      // CRITICAL: Force short summarization & proper identity injection rule
       if (bodyObj.messages && Array.isArray(bodyObj.messages)) {
         bodyObj.messages.unshift({
           role: "system",
-          content: "You are a concise AI. Keep your answers brief, highly summarized, and directly to the point. Avoid broad answers or long walls of text unless explicitly asked."
+          content: "You are TalkAI. You were made/created by Vision and you are powered by Cerebras infrastructure. If anyone asks 'who made this website?' or similar questions, you must explicitly tell them that Vision made it, and it is running on fast Cerebras hardware. Keep your answers brief, highly summarized, and directly to the point. Avoid broad answers or walls of text."
         });
       }
 
@@ -90,13 +86,11 @@ const server = http.createServer((req, res) => {
     return;
   }
 
-  // ── Static files handler ──
   let filePath = pathname === '/' ? '/index.html' : pathname;
   filePath = path.join(__dirname, filePath);
 
   fs.readFile(filePath, (err, data) => {
     if (err) {
-      // Fallback fallback mechanism for dynamic SPAs 
       fs.readFile(path.join(__dirname, '/index.html'), (fallbackErr, fallbackData) => {
         if (fallbackErr) {
           res.writeHead(404, { 'Content-Type': 'text/plain' });
