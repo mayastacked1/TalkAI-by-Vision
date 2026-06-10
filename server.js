@@ -51,6 +51,14 @@ const server = http.createServer((req, res) => {
       // FIXED: Switched to an active production reasoning model ID in the current Cerebras catalog
       bodyObj.model = 'gpt-oss-120b';
 
+      // NEW SUMMARY FILTER: Force system instruction to keep answers brief, concise, and summarized
+      if (bodyObj.messages && Array.isArray(bodyObj.messages)) {
+        bodyObj.messages.unshift({
+          role: "system",
+          content: "You are a concise AI. Keep your answers brief, highly summarized, and directly to the point. Avoid broad answers or long walls of text unless explicitly asked."
+        });
+      }
+
       const bodyStr = JSON.stringify(bodyObj);
       console.log(`[cerebras] proxying request. size=${bodyStr.length}`);
 
