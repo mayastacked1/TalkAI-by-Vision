@@ -29,8 +29,6 @@
     --bubble-radius: 18px;
     --z-sidebar: 90;
     --z-modal: 100;
-    
-    /* BRAND ICON GRADIENT CAPABILITY */
     --brand-gradient: linear-gradient(135deg, #7a62f0 0%, #4097ff 100%);
   }
 
@@ -99,7 +97,6 @@
 
   .logo-area { display: flex; align-items: center; gap: 10px; padding: 0 4px; }
   
-  /* PREMIUM CODE-BASED LOGO ICON */
   .logo-icon {
     width: 34px; height: 34px;
     background: var(--brand-gradient);
@@ -242,7 +239,6 @@
 
   .welcome { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 65vh; gap: 20px; text-align: center; padding: 0 10px; animation: fadeUp 0.5s ease forwards; }
   
-  /* MAIN LANDING LOGO CONFIGURATION */
   .welcome-logo { 
     width: 64px; height: 64px; 
     background: var(--brand-gradient); 
@@ -347,12 +343,7 @@
 
   @media (max-width: 900px) {
     .menu-toggle { display: flex; }
-    .sidebar {
-      position: fixed;
-      top: 0; bottom: 0; left: 0;
-      z-index: var(--z-sidebar);
-      transform: translateX(-100%);
-    }
+    .sidebar { position: fixed; top: 0; bottom: 0; left: 0; z-index: var(--z-sidebar); transform: translateX(-100%); }
     .sidebar.open { transform: translateX(0); }
     .sidebar-backdrop.open { display: block; }
   }
@@ -516,9 +507,7 @@
     history: true,
     enterSend: true,
     fontSize: 14,
-    bubbleRadius: '18px',
-    maxTokens: 2048,
-    temperature: 0.3
+    bubbleRadius: '18px'
   }));
 
   (function init() {
@@ -534,20 +523,15 @@
     renderHistory();
 
     document.getElementById('chatInput').addEventListener('input', function() {
-      document.getElementById('sendBtn').disabled = !this.value.trim();
+      if(!isLoading) document.getElementById('sendBtn').disabled = !this.value.trim();
     });
   })();
 
   function toggleSidebar(open) {
     const side = document.getElementById('sidebar');
     const back = document.getElementById('sidebarBackdrop');
-    if (open) {
-      side.classList.add('open');
-      back.classList.add('open');
-    } else {
-      side.classList.remove('open');
-      back.classList.remove('open');
-    }
+    if (open) { side.classList.add('open'); back.classList.add('open'); } 
+    else { side.classList.remove('open'); back.classList.remove('open'); }
   }
 
   function saveSetting(key, val) {
@@ -645,9 +629,7 @@
       delBtn.onclick = (e) => {
         e.stopPropagation();
         item.classList.add('deleting');
-        setTimeout(() => {
-          deleteConversation(convo.id);
-        }, 300);
+        setTimeout(() => { deleteConversation(convo.id); }, 300);
       };
       
       container.appendChild(item);
@@ -658,9 +640,7 @@
     conversations = conversations.filter(c => c.id !== id);
     localStorage.setItem('talkai_convos', JSON.stringify(conversations));
     if (currentConvoId === id) {
-      messages = [];
-      currentConvoId = null;
-      newChat();
+      messages = []; currentConvoId = null; newChat();
     } else {
       renderHistory();
     }
@@ -685,10 +665,17 @@
     const group = document.createElement('div');
     group.className = `msg-group ${role}`;
     
+    // Simple blockformatter for basic code/newline styling
+    let formattedText = text
+      .replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")
+      .replace(/```([\s\S]+?)```/g, '<pre><code>$1</code></pre>')
+      .replace(/`([^`]+?)`/g, '<code>$1</code>')
+      .replace(/\n/g, '<br>');
+
     group.innerHTML = `
       <div class="avatar ${role}">${role === 'ai' ? 'AI' : 'U'}</div>
       <div class="bubble-wrap">
-        <div class="bubble ${role}-msg"><p>${text}</p></div>
+        <div class="bubble ${role}-msg"><p>${formattedText}</p></div>
         <div class="msg-time">${time}</div>
       </div>
     `;
@@ -723,8 +710,13 @@
     const text = input.value.trim();
     if (!text) return;
 
-    input.value = ''; document.getElementById('sendBtn').disabled = true; input.style.height = 'auto';
-    const welcome = document.getElementById('welcomeScreen'); if (welcome) welcome.remove();
+    isLoading = true;
+    input.value = ''; 
+    document.getElementById('sendBtn').disabled = true; 
+    input.style.height = 'auto';
+    
+    const welcome = document.getElementById('welcomeScreen'); 
+    if (welcome) welcome.remove();
     if (!currentConvoId) currentConvoId = 'convo_' + Date.now();
 
     const timeStr = new Date().toLocaleTimeString([], {hour: '2-digit', minute: '2-digit'});
@@ -734,16 +726,45 @@
     const typingId = 'typing_' + Date.now();
     appendTyping(typingId);
     
-    setTimeout(() => {
+    // Prepare conversation logs format structured for your backend proxy system handler
+    const payloadMessages = messages.map(m => ({
+      role: m.role == 'ai' ? 'assistant' : 'user',
+      content: m.content
+    }));
+
+    try {
+      const response = await fetch('/api/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ messages: payloadMessages })
+      });
+
+      const data = await response.json();
+      const el = document.getElementById(typingId);
+      if (el) el.remove();
+
+      const responseTime = new Date().toLocaleTimeString([], {hour: '2-digit', minute: '2-digit'});
+      
+      if (data.choices && data.choices[0] && data.choices[0].message) {
+        const reply = data.choices[0].message.content;
+        messages.push({ role: 'ai', content: reply, time: responseTime });
+        appendMessage('ai', reply, responseTime);
+      } else if (data.error && data.error.message) {
+        appendMessage('ai', `Error: ${data.error.message}`, responseTime);
+      } else {
+        appendMessage('ai', "Received an unexpected error architecture from proxy pipeline layer.", responseTime);
+      }
+    } catch (err) {
       const el = document.getElementById(typingId);
       if (el) el.remove();
       const responseTime = new Date().toLocaleTimeString([], {hour: '2-digit', minute: '2-digit'});
-      const reply = "This is a lightning fast localized processing checkpoint sequence layer.";
-      messages.push({ role: 'ai', content: reply, time: responseTime });
-      appendMessage('ai', reply, responseTime);
+      appendMessage('ai', `Network connection failure: ${err.message}`, responseTime);
+    } finally {
+      isLoading = false;
+      document.getElementById('chatInput').disabled = false;
       saveCurrentConvo();
       renderHistory();
-    }, 750);
+    }
   }
 </script>
 </body>
