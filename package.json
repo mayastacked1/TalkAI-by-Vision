@@ -1,0 +1,13 @@
+{
+  "name": "talkai-by-vision",
+  "version": "1.0.0",
+  "description": "TalkAI by Vision — Groq-powered AI chat interface",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  }
+}
