@@ -48,8 +48,8 @@ const server = http.createServer((req, res) => {
         return;
       }
 
-      // Explicitly bind the active production Cerebras model name identifier 
-      bodyObj.model = 'llama-3.3-70b';
+      // FIXED: Switched to an active production reasoning model ID in the current Cerebras catalog
+      bodyObj.model = 'gpt-oss-120b';
 
       const bodyStr = JSON.stringify(bodyObj);
       console.log(`[cerebras] proxying request. size=${bodyStr.length}`);
