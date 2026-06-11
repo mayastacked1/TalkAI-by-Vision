@@ -21,21 +21,29 @@ const MIME = {
 
 const server = http.createServer((req, res) => {
   const parsed = url.parse(req.url, true);
-  let pathname = parsed.pathname;
+  // Normalize the pathname: remove trailing slashes and convert to lowercase
+  let pathname = parsed.pathname.replace(/\/+$/, '') || '/';
 
   // CORS Headers Configuration
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Api-Key, x-api-key');
 
+  // Handle CORS Preflight Pre-check
   if (req.method === 'OPTIONS') {
     res.writeHead(204);
     res.end();
     return;
   }
 
-  // API Route Handler
-  if ((pathname === '/api/chat' || pathname === '/api/chat/') && req.method === 'POST') {
+  // 1. STRICT API ROUTE HANDLING
+  if (pathname === '/api/chat') {
+    if (req.method !== 'POST') {
+      res.writeHead(405, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({ error: { message: 'Method Not Allowed. Use POST.' } }));
+      return;
+    }
+
     let body = '';
     req.on('data', chunk => body += chunk);
     req.on('end', () => {
@@ -51,7 +59,7 @@ const server = http.createServer((req, res) => {
       // Force a valid supported engine model for Cerebras core
       bodyObj.model = 'llama3.1-8b';
 
-      // CRITICAL: Force prompt brevity, identity rules, and local Philippine context injection
+      // CRITICAL: System prompt injection
       if (bodyObj.messages && Array.isArray(bodyObj.messages)) {
         bodyObj.messages.unshift({
           role: "system",
@@ -63,7 +71,6 @@ const server = http.createServer((req, res) => {
       }
 
       const bodyStr = JSON.stringify(bodyObj);
-      // FIXED: Added backticks/quotes around the log text to stop compilation crashes
       console.log(`[cerebras] proxying request. size=${bodyStr.length}`);
 
       const options = {
@@ -77,7 +84,6 @@ const server = http.createServer((req, res) => {
       };
 
       const proxyReq = https.request(options, (proxyRes) => {
-        // FIXED: Added backticks/quotes around status tracking logs
         console.log(`[cerebras] status=${proxyRes.statusCode}`);
         res.writeHead(proxyRes.statusCode, { 'Content-Type': 'application/json' });
         proxyRes.pipe(res);
@@ -92,15 +98,24 @@ const server = http.createServer((req, res) => {
       proxyReq.write(bodyStr);
       proxyReq.end();
     });
+    return; // Don't let processing drop down to static assets file reading!
+  }
+
+  // 2. STATIC ASSETS ROUTING
+  // If the path starts with /api but didn't match anything above, it's a true broken API endpoint
+  if (pathname.startsWith('/api')) {
+    res.writeHead(404, { 'Content-Type': 'application/json' });
+    res.end(JSON.stringify({ error: { message: 'API Endpoint Not Found' } }));
     return;
   }
 
-  // Static Assets Server Logic
+  // Fallback map layout for client side files
   let filePath = pathname === '/' ? '/index.html' : pathname;
   filePath = path.join(__dirname, filePath);
 
   fs.readFile(filePath, (err, data) => {
     if (err) {
+      // Serve index.html as a fallback for single-page applications (SPA routing)
       fs.readFile(path.join(__dirname, '/index.html'), (fallbackErr, fallbackData) => {
         if (fallbackErr) {
           res.writeHead(404, { 'Content-Type': 'text/plain' });
@@ -119,7 +134,6 @@ const server = http.createServer((req, res) => {
 });
 
 server.listen(PORT, () => {
-  // FIXED: Escaped special character literals inside terminal frame
   console.log(`\n  ┌─────────────────────────────────────┐`);
   console.log(`  │   TalkAI by Vision                  │`);
   console.log(`  │   Running on port ${PORT.toString().padEnd(18)} │`);
