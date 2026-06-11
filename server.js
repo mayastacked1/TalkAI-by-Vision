@@ -2,7 +2,6 @@ const http = require('http');
 const https = require('https');
 const fs = require('fs');
 const path = require('path');
-const url = require('url');
 
 const PORT = process.env.PORT || 3000;
 
@@ -23,17 +22,16 @@ const MIME = {
 };
 
 const server = http.createServer((req, res) => {
-  const parsed = url.parse(req.url, true);
-  
-  // ADJUSTED: Added .toLowerCase() to ensure '/API/chat' or '/api/chat/' don't trigger 404s
-  let pathname = parsed.pathname.replace(/\/+$/, '').toLowerCase() || '/';
+  // FIXED: Replaced deprecated url.parse() with secure WHATWG URL API
+  const baseURL = `http://${req.headers.host || 'localhost'}`;
+  const parsedURL = new URL(req.url, baseURL);
+  let pathname = parsedURL.pathname.replace(/\/+$/, '').toLowerCase() || '/';
 
   // CORS Headers Configuration
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Api-Key, x-api-key');
 
-  // Handle CORS Preflight Pre-check
   if (req.method === 'OPTIONS') {
     res.writeHead(204);
     res.end();
@@ -60,8 +58,8 @@ const server = http.createServer((req, res) => {
         return;
       }
 
-      // Force a valid supported engine model for Cerebras core
-      bodyObj.model = 'llama3.1-8b';
+      // FIXED: Force an updated valid production model for Cerebras core
+      bodyObj.model = 'llama3.3-70b';
 
       // System prompt injection
       if (bodyObj.messages && Array.isArray(bodyObj.messages)) {
