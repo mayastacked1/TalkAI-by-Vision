@@ -1,728 +1,295 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no"/>
-<title>TalkAI by Vision</title>
-<link rel="preconnect" href="https://fonts.googleapis.com"/>
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet"/>
-<style>
-  :root {
-    --bg: #0a0a0a;
-    --surface: #111111;
-    --surface2: #1a1a1a;
-    --border: #222222;
-    --border-soft: #1c1c1c;
-    --text: #f0f0f0;
-    --text-muted: #666666;
-    --text-dim: #3a3a3a;
-    --accent: #ffffff;
-    --accent-glow: rgba(255,255,255,0.06);
-    --user-bubble: #1e1e1e;
-    --ai-bubble: #111111;
-    --radius: 14px;
-    --font-display: 'Syne', sans-serif;
-    --font-body: 'Inter', sans-serif;
-    --sidebar-w: 280px;
-    --font-size-base: 14px;
-    --bubble-radius: 18px;
-    --z-sidebar: 1000;
-    --z-modal: 1100;
-    --brand-gradient: linear-gradient(135deg, #7a62f0 0%, #4097ff 100%);
-  }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TalkAI by Vision</title>
+  <style>
+    :root {
+      --bg-main: #131314;
+      --bg-sidebar: #1e1f20;
+      --bg-message-user: #2b2a33;
+      --bg-message-ai: #1e1f20;
+      --text-main: #e3e3e3;
+      --accent: #a8c7fa;
+      --border: #444746;
+    }
 
-  [data-theme="light"] {
-    --bg: #f8f8f8;
-    --surface: #ffffff;
-    --surface2: #f0f0f0;
-    --border: #e0e0e0;
-    --border-soft: #ebebeb;
-    --text: #111111;
-    --text-muted: #888888;
-    --text-dim: #cccccc;
-    --accent: #000000;
-    --accent-glow: rgba(0,0,0,0.04);
-    --user-bubble: #111111;
-    --ai-bubble: #ffffff;
-  }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: var(--bg-main); color: var(--text-main); display: flex; hieght: 100vh; height: 100vh; overflow: hidden; }
 
-  [data-theme="light"] .user-msg { color: #ffffff; }
-  [data-theme="light"] .ai-msg { color: #111111; border: 1px solid #e0e0e0; }
-  [data-theme="light"] .sidebar { border-right-color: #e0e0e0; }
-  [data-theme="light"] .send-btn { background: #111; color: #fff; }
-  [data-theme="light"] .send-btn:hover { background: #333; }
-  [data-theme="light"] .input-wrap { background: #fff; border-color: #d0d0d0; }
-  [data-theme="light"] .chat-input { color: #111; }
-  [data-theme="light"] .new-chat-btn { background: #111; color: #fff; }
-  [data-theme="light"] .history-item:hover { background: #f0f0f0; }
-  [data-theme="light"] .history-item.active { background: #e8e8e8; }
-  [data-theme="light"] .modal-box { background: #fff; border-color: #ddd; }
-  [data-theme="light"] .setting-row { border-bottom-color: #f0f0f0; }
-  [data-theme="light"] .select-control { background: #f5f5f5; border-color: #ddd; color: #111; }
-  [data-theme="light"] .toggle-track { background: #ddd; }
-  [data-theme="light"] .api-input { background: #f5f5f5; border-color: #ddd; color: #111; }
-  [data-theme="light"] .modal-overlay { background: rgba(255,255,255,0.6); }
-  [data-theme="light"] .tab-btn { color: #888; }
-  [data-theme="light"] .tab-btn.active { color: #111; border-bottom-color: #111; }
-  [data-theme="light"] .welcome-tagline { color: #777; }
-  [data-theme="light"] .doc-card, [data-theme="light"] .feat-card, [data-theme="light"] .legal-box { background: #ffffff; border-color: #e0e0e0; }
+    /* Layout Structure */
+    #sidebar { width: 260px; background: var(--bg-sidebar); border-right: 1px solid var(--border); display: flex; flex-direction: column; padding: 12px; }
+    #main-chat { flex: 1; display: flex; flex-direction: column; height: 100%; position: relative; }
 
-  * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+    /* New Chat Button */
+    .new-chat-btn { background: #2a2b2d; border: 1px solid var(--border); color: var(--text-main); padding: 12px; border-radius: 24px; cursor: pointer; font-weight: 500; margin-bottom: 20px; transition: background 0.2s; display: flex; align-items: center; justify-content: center; gap: 8px; }
+    .new-chat-btn:hover { background: #37393b; }
 
-  html, body {
-    height: 100%;
-    width: 100%;
-    font-family: var(--font-body);
-    background: var(--bg);
-    color: var(--text);
-    font-size: var(--font-size-base);
-    transition: background 0.3s ease, color 0.3s ease;
-    overflow: hidden;
-  }
+    /* History Sidebar List */
+    .history-section { flex: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 4px; }
+    .history-title-label { font-size: 11px; text-transform: uppercase; color: #80868b; font-weight: 700; margin: 0 8px 8px; }
+    
+    .history-item { display: flex; align-items: center; justify-content: space-between; padding: 10px 12px; border-radius: 8px; cursor: pointer; font-size: 14px; transition: background 0.2s; position: relative; }
+    .history-item:hover { background: #2d2e30; }
+    .history-item.active { background: #2d2e30; color: var(--accent); }
+    .history-text { flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; padding-right: 8px; }
+    .history-delete-btn { background: none; border: none; color: #80868b; cursor: pointer; font-size: 16px; opacity: 0; transition: opacity 0.2s, color 0.2s; }
+    .history-item:hover .history-delete-btn { opacity: 1; }
+    .history-delete-btn:hover { color: #ff6b6b; }
 
-  .app { 
-    display: flex; 
-    height: 100vh; 
-    height: -webkit-fill-available; 
-    width: 100vw; 
-    overflow: hidden; 
-    position: relative; 
-  }
+    /* Messaging Viewport */
+    #messagesViewport { flex: 1; overflow-y: auto; padding: 24px 0; display: flex; flex-direction: column; }
+    .message-row { display: flex; padding: 20px 15%; width: 100%; animation: fadeIn 0.3s ease-in-out; }
+    .message-row.user { background: var(--bg-main); }
+    .message-row.assistant { background: var(--bg-message-ai); border-top: 1px solid #28292a; border-bottom: 1px solid #28292a; }
+    
+    .message-content { max-width: 800px; margin: 0 auto; width: 100%; line-height: 1.6; font-size: 15px; }
+    .message-sender { font-weight: 600; font-size: 12px; margin-bottom: 6px; color: #9aa0a6; text-transform: uppercase; letter-spacing: 0.5px; }
 
-  /* SIDEBAR ELEMENT */
-  .sidebar {
-    width: var(--sidebar-w);
-    background: var(--surface);
-    border-right: 1px solid var(--border);
-    display: flex;
-    flex-direction: column;
-    padding: 20px 14px;
-    gap: 20px;
-    flex-shrink: 0;
-    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), background 0.3s ease, border-color 0.3s ease;
-    overflow: hidden;
-    height: 100%;
-  }
+    /* Form Input Area */
+    .input-container { padding: 20px 15%; background: linear-gradient(transparent, var(--bg-main) 20%); }
+    .input-box-wrapper { display: flex; background: #202124; border: 1px solid var(--border); border-radius: 28px; padding: 6px 16px; align-items: center; }
+    .input-box-wrapper:focus-within { border-color: #666; }
+    
+    #chatInput { flex: 1; background: transparent; border: none; color: var(--text-main); font-size: 16px; padding: 10px 0; outline: none; resize: none; max-height: 200px; font-family: inherit; }
+    #sendBtn { background: none; border: none; color: var(--accent); cursor: pointer; padding: 8px; font-weight: 600; display: flex; align-items: center; justify-content: center; transition: transform 0.1s; }
+    #sendBtn:active { transform: scale(0.95); }
+    #sendBtn:disabled { color: #444746; cursor: not-allowed; }
 
-  .logo-area { display: flex; align-items: center; gap: 12px; padding: 0 4px; cursor: pointer; }
-   
-  .logo-icon {
-    width: 38px; height: 38px;
-    background: var(--brand-gradient);
-    color: #ffffff;
-    border-radius: 9px;
-    display: flex; align-items: center; justify-content: center;
-    font-family: var(--font-display);
-    font-weight: 800;
-    font-size: 18px;
-    letter-spacing: -0.5px;
-    flex-shrink: 0;
-    box-shadow: 0 4px 12px rgba(122, 98, 240, 0.2);
-  }
-
-  .logo-text { font-family: var(--font-display); font-weight: 700; font-size: 16px; letter-spacing: -0.3px; line-height: 1.2; }
-  .logo-sub { font-size: 10.5px; color: var(--text-muted); font-weight: 500; letter-spacing: -0.1px; text-transform: none; margin-top: 1px; line-height: 1.3; }
-
-  .new-chat-btn {
-    display: flex; align-items: center; gap: 8px;
-    background: var(--text);
-    color: var(--bg);
-    border: none;
-    border-radius: 10px;
-    padding: 12px 14px;
-    font-family: var(--font-body);
-    font-size: 13px;
-    font-weight: 500;
-    cursor: pointer;
-    transition: background 0.2s ease, opacity 0.2s ease, transform 0.1s ease;
-  }
-  .new-chat-btn:hover { opacity: 0.9; transform: translateY(-1px); }
-  .new-chat-btn svg { width: 15px; height: 15px; flex-shrink: 0; }
-
-  .history-section { flex: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 3px; }
-  .history-label { font-size: 10px; color: var(--text-dim); text-transform: uppercase; letter-spacing: 1px; font-weight: 600; padding: 4px 8px 8px; }
-   
-  .history-item { 
-    position: relative; display: flex; align-items: center; gap: 8px; padding: 11px 38px 11px 10px; border-radius: 9px; cursor: pointer; 
-    transition: background 0.2s ease, color 0.2s ease, padding-left 0.2s ease; font-size: 13px; color: var(--text-muted); line-height: 1.3; max-height: 40px; overflow: hidden;
-  }
-  .history-item:hover, .history-item.active { background: var(--surface2); color: var(--text); }
-   
-  .history-item.deleting { transform: translateX(-100%); opacity: 0; max-height: 0px !important; padding: 0 !important; margin: 0 !important; pointer-events: none; }
-  .history-item svg.chat-icon { width: 14px; height: 14px; flex-shrink: 0; opacity: 0.5; }
-  .history-title { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; flex: 1; }
-
-  .history-delete-btn {
-    position: absolute; right: 8px; top: 50%; transform: translateY(-50%); width: 26px; height: 26px; border-radius: 6px;
-    border: none; background: transparent; color: var(--text-dim); display: flex; align-items: center; justify-content: center; cursor: pointer; opacity: 0; transition: opacity 0.2s ease;
-  }
-  .history-item:hover .history-delete-btn { opacity: 1; }
-  .history-delete-btn:hover { background: rgba(255, 255, 255, 0.1); color: #ff4a4a; }
-
-  .sidebar-bottom { display: flex; flex-direction: column; gap: 2px; border-top: 1px solid var(--border); padding-top: 10px; }
-  .sidebar-action { display: flex; align-items: center; gap: 9px; padding: 10px 10px; border-radius: 9px; cursor: pointer; font-size: 13px; color: var(--text-muted); transition: background 0.2s ease, color 0.2s ease; border: none; background: none; text-align: left; font-family: var(--font-body); width: 100%; }
-  .sidebar-action:hover { background: var(--surface2); color: var(--text); }
-  .sidebar-action svg { width: 15px; height: 15px; flex-shrink: 0; }
-
-  /* MAIN CONTENT LAYOUT */
-  .main { flex: 1; display: flex; flex-direction: column; overflow: hidden; height: 100%; width: 100%; position: relative; }
-  .topbar { height: 58px; display: flex; align-items: center; justify-content: space-between; padding: 0 24px; border-bottom: 1px solid var(--border); flex-shrink: 0; gap: 12px; }
-  .topbar-left { display: flex; align-items: center; gap: 12px; }
-   
-  .menu-toggle { display: none; width: 36px; height: 36px; border: 1px solid var(--border); background: none; color: var(--text); border-radius: 9px; align-items: center; justify-content: center; cursor: pointer; }
-  .menu-toggle svg { width: 18px; height: 18px; }
-
-  .model-tag { display: flex; align-items: center; gap: 7px; font-size: 12px; color: var(--text-muted); background: var(--surface2); padding: 5px 12px; border-radius: 20px; border: 1px solid var(--border); }
-  .model-dot { width: 6px; height: 6px; background: #4ade80; border-radius: 50%; }
-
-  .topbar-right { display: flex; align-items: center; gap: 10px; }
-  .icon-btn { width: 36px; height: 36px; border: 1px solid var(--border); background: none; color: var(--text-muted); border-radius: 9px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
-  .icon-btn svg { width: 16px; height: 16px; }
-
-  /* COMPONENT ROUTER SCREENS */
-  .view-panel { flex: 1; overflow-y: scroll; -webkit-overflow-scrolling: touch; display: none; position: relative; width: 100%; }
-  .view-panel.active { display: block; }
-
-  /* HERO SCREEN / LANDING PAGE UI */
-  .hero-container { max-width: 800px; margin: 0 auto; padding: 40px 24px 60px; display: flex; flex-direction: column; align-items: center; text-align: center; }
-  .hero-badge { background: var(--brand-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-family: var(--font-display); font-weight: 700; font-size: 14px; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 12px; }
-  .hero-title { font-family: var(--font-display); font-weight: 800; font-size: 42px; letter-spacing: -1px; line-height: 1.15; max-width: 680px; margin-bottom: 16px; }
-  .hero-desc { font-size: 16px; color: var(--text-muted); max-width: 580px; line-height: 1.6; margin-bottom: 28px; }
-   
-  .hero-actions { display: flex; gap: 12px; margin-bottom: 48px; }
-  .btn-primary { background: var(--text); color: var(--bg); border: none; padding: 12px 24px; font-weight: 600; font-size: 14px; border-radius: 10px; cursor: pointer; transition: opacity 0.2s; }
-  .btn-secondary { background: var(--surface2); color: var(--text); border: 1px solid var(--border); padding: 12px 24px; font-weight: 600; font-size: 14px; border-radius: 10px; cursor: pointer; }
-  .btn-primary:hover, .btn-secondary:hover { opacity: 0.9; }
-
-  .section-title { font-family: var(--font-display); font-weight: 700; font-size: 22px; margin: 32px 0 16px; width: 100%; text-align: left; border-bottom: 1px solid var(--border-soft); padding-bottom: 8px; }
-   
-  .prompt-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; width: 100%; text-align: left; }
-  .prompt-card { background: var(--surface); border: 1px solid var(--border); padding: 16px; border-radius: 12px; cursor: pointer; transition: border-color 0.2s; font-size: 14px; line-height: 1.5; display: flex; align-items: flex-start; gap: 10px; }
-  .prompt-card:hover { border-color: var(--text-muted); }
-
-  .features-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; width: 100%; text-align: left; }
-  .feat-card { background: var(--surface); border: 1px solid var(--border); padding: 20px; border-radius: 14px; }
-  .feat-icon { font-size: 20px; margin-bottom: 8px; }
-  .feat-title { font-family: var(--font-display); font-weight: 600; font-size: 15px; margin-bottom: 6px; }
-  .feat-desc { font-size: 12.5px; color: var(--text-muted); line-height: 1.5; }
-
-  .checklist-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; width: 100%; text-align: left; }
-  .check-item { display: flex; align-items: center; gap: 10px; font-size: 14px; color: var(--text); padding: 8px 0; }
-  .check-icon { color: #4ade80; font-weight: bold; }
-
-  /* CHAT APPLICATION SCREEN */
-  .messages-wrap { padding: 24px 0; display: flex; flex-direction: column; }
-  .messages-inner { max-width: 760px; margin: 0 auto; padding: 0 24px; display: flex; flex-direction: column; gap: 14px; width: 100%; }
-  .msg-group { display: flex; gap: 12px; max-width: 100%; animation: fadeUp 0.3s ease-out forwards; opacity: 0; }
-  .msg-group.user { flex-direction: row-reverse; }
-  @keyframes fadeUp { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
-
-  .avatar { width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-family: var(--font-display); font-size: 11px; font-weight: 700; flex-shrink: 0; }
-  .avatar.ai { background: var(--brand-gradient); color: #ffffff; }
-  .avatar.user { background: var(--surface2); color: var(--text-muted); border: 1px solid var(--border); }
-
-  .bubble-wrap { display: flex; flex-direction: column; gap: 4px; max-width: calc(100% - 46px); }
-  .msg-group.user .bubble-wrap { align-items: flex-end; }
-  .bubble { padding: 12px 16px; border-radius: var(--bubble-radius); font-size: 14px; line-height: 1.6; word-break: break-word; }
-  .user-msg { background: var(--user-bubble); color: var(--text); border: 1px solid var(--border); border-bottom-right-radius: 5px; }
-  .ai-msg { background: var(--ai-bubble); color: var(--text); border: 1px solid var(--border-soft); border-bottom-left-radius: 5px; }
-  .msg-time { font-size: 10px; color: var(--text-dim); padding: 0 4px; }
-
-  .typing-indicator { display: flex; align-items: center; gap: 5px; padding: 14px 16px; background: var(--ai-bubble); border: 1px solid var(--border-soft); border-radius: var(--bubble-radius); border-bottom-left-radius: 5px; }
-  .typing-dot { width: 6px; height: 6px; background: var(--text-muted); border-radius: 50%; animation: typing 1.2s infinite; }
-  .typing-dot:nth-child(2) { animation-delay: 0.2s; }
-  .typing-dot:nth-child(3) { animation-delay: 0.4s; }
-  @keyframes typing { 0%, 60%, 100% { transform: translateY(0); opacity: 0.4; } 30% { transform: translateY(-4px); opacity: 1; } }
-
-  .bubble pre { background: var(--surface2); border: 1px solid var(--border); border-radius: 8px; padding: 12px; overflow-x: auto; font-size: 12.5px; margin: 8px 0; font-family: monospace; }
-  .bubble code { background: var(--surface2); padding: 2px 5px; border-radius: 4px; font-size: 12.5px; font-family: monospace; }
-
-  /* INPUT CONTROL SECTION */
-  .input-area { padding: 12px 24px 24px; flex-shrink: 0; background: var(--bg); z-index: 10; position: relative; display: none; }
-  .input-area.active { display: block; }
-  .input-inner { max-width: 760px; margin: 0 auto; }
-  .input-wrap { display: flex; align-items: flex-end; gap: 10px; background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 10px 12px 10px 16px; }
-   
-  .chat-input { 
-    flex: 1; background: none; border: none; outline: none; color: var(--text); font-family: var(--font-body); 
-    font-size: 16px;
-    resize: none; max-height: 140px; min-height: 24px; line-height: 1.4; padding: 2px 0; display: block; -webkit-appearance: none;
-  }
-  .chat-input::placeholder { color: var(--text-muted); }
-  .send-btn { width: 38px; height: 38px; background: var(--text); color: var(--bg); border: none; border-radius: 10px; cursor: pointer; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-  .send-btn:disabled { opacity: 0.25; cursor: not-allowed; }
-  .send-btn svg { width: 16px; height: 16px; }
-
-  /* DOCUMENTATION / LEGAL VIEWPORT SCREENS */
-  .doc-container { max-width: 720px; margin: 0 auto; padding: 40px 24px 80px; text-align: left; }
-  .doc-header { margin-bottom: 28px; }
-  .doc-title { font-family: var(--font-display); font-weight: 700; font-size: 32px; letter-spacing: -0.5px; margin-bottom: 8px; }
-  .doc-subtitle { font-size: 14px; color: var(--text-muted); }
-   
-  .legal-box { background: var(--surface); border: 1px solid var(--border); padding: 24px; border-radius: 16px; margin-bottom: 24px; }
-  .legal-box h3 { font-family: var(--font-display); font-weight: 600; font-size: 16px; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
-  .legal-box ul { padding-left: 20px; margin-top: 8px; }
-  .legal-box li { margin-bottom: 6px; font-size: 13.5px; color: var(--text-muted); line-height: 1.5; }
-  .legal-box p { font-size: 13.5px; color: var(--text-muted); line-height: 1.6; }
-
-  .profile-grid { display: flex; flex-direction: column; gap: 16px; margin-top: 16px; }
-  .profile-card { display: flex; align-items: center; gap: 16px; background: var(--surface); border: 1px solid var(--border); padding: 20px; border-radius: 14px; }
-  .profile-avatar { width: 48px; height: 48px; background: var(--brand-gradient); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-family: var(--font-display); font-weight: 700; color: #fff; font-size: 18px; }
-
-  .changelog-timeline { display: flex; flex-direction: column; gap: 20px; position: relative; padding-left: 20px; border-left: 1px solid var(--border); margin-top: 20px; }
-  .changelog-node { position: relative; }
-  .changelog-node::before { content: ''; position: absolute; left: -24px; top: 5px; width: 7px; height: 7px; background: var(--text); border-radius: 50%; }
-  .changelog-ver { font-family: var(--font-display); font-weight: 700; font-size: 15px; margin-bottom: 4px; }
-
-  /* SETTINGS INTERACTIVE MODAL */
-  .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.75); backdrop-filter: blur(6px); z-index: var(--z-modal); display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: opacity 0.2s ease; }
-  .modal-overlay.open { opacity: 1; pointer-events: all; }
-  .modal-box { background: var(--surface); border: 1px solid var(--border); border-radius: 20px; width: 500px; max-width: 92vw; max-height: 80vh; overflow: hidden; display: flex; flex-direction: column; }
-  .modal-header { display: flex; align-items: center; justify-content: space-between; padding: 20px 24px 0; }
-  .modal-title { font-family: var(--font-display); font-weight: 700; font-size: 18px; }
-  .modal-close { width: 32px; height: 32px; background: var(--surface2); border: 1px solid var(--border); color: var(--text-muted); border-radius: 8px; cursor: pointer; font-size: 18px; display: flex; align-items: center; justify-content: center; }
-
-  .modal-tabs { display: flex; padding: 12px 24px 0; border-bottom: 1px solid var(--border); gap: 4px; }
-  .tab-btn { padding: 8px 14px 10px; background: none; border: none; border-bottom: 2px solid transparent; color: var(--text-muted); font-family: var(--font-body); font-size: 13px; font-weight: 500; cursor: pointer; }
-  .tab-btn.active { color: var(--text); border-bottom-color: var(--text); }
-   
-  .modal-body { flex: 1; overflow-y: auto; padding: 16px 24px 24px; display: flex; flex-direction: column; }
-  .tab-panel { display: none; flex-direction: column; }
-  .tab-panel.active { display: flex; }
-
-  .setting-row { display: flex; align-items: center; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid var(--border-soft); gap: 16px; }
-  .setting-label { font-size: 13px; font-weight: 500; }
-   
-  .toggle { position: relative; width: 40px; height: 22px; cursor: pointer; }
-  .toggle input { opacity: 0; width: 0; height: 0; position: absolute; }
-  .toggle-track { position: absolute; inset: 0; background: var(--border); border-radius: 11px; }
-  .toggle input:checked + .toggle-track { background: var(--text); }
-  .toggle-thumb { position: absolute; top: 3px; left: 3px; width: 16px; height: 16px; background: #666; border-radius: 50%; transition: transform 0.2s ease; }
-  .toggle input:checked ~ .toggle-thumb { transform: translateX(18px); background: var(--bg); }
-  .select-control { background: var(--surface2); border: 1px solid var(--border); color: var(--text); font-family: var(--font-body); font-size: 13px; padding: 6px 10px; border-radius: 8px; cursor: pointer; }
-
-  /* MASTER FOOTER SYSTEM */
-  .footer { border-top: 1px solid var(--border); padding: 24px 0 40px; margin-top: 60px; width: 100%; text-align: left; }
-  .footer-copy { font-size: 12px; color: var(--text-dim); display: flex; justify-content: space-between; }
-
-  .sidebar-backdrop { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.4); z-index: calc(var(--z-sidebar) - 1); }
-  .toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(10px); background: var(--text); color: var(--bg); padding: 10px 18px; border-radius: 8px; font-size: 12.5px; font-weight: 500; opacity: 0; pointer-events: none; transition: opacity 0.2s ease, transform 0.2s ease; z-index: 999; }
-  .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
-
-  /* RESPONSIVE CSS MEDIA ADAPTATIONS */
-  @media (max-width: 900px) {
-    .menu-toggle { display: flex; }
-    .sidebar { position: fixed; top: 0; bottom: 0; left: 0; z-index: var(--z-sidebar); transform: translateX(-100%); }
-    .sidebar.open { transform: translateX(0); }
-    .sidebar-backdrop.open { display: block; }
-  }
-  @media (max-width: 600px) {
-    .topbar { padding: 0 16px; }
-    .hero-title { font-size: 30px; }
-    .prompt-grid, .features-grid, .checklist-grid { grid-template-columns: 1fr; }
-    .messages-inner { padding: 0 16px; }
-    .input-area { padding: 10px 12px 20px; }
-    .footer-copy { flex-direction: column; gap: 8px; }
-  }
-</style>
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
+  </style>
 </head>
 <body>
 
-<div class="app" id="app">
-  <div class="sidebar-backdrop" id="sidebarBackdrop" onclick="toggleSidebar(false)"></div>
-   
-  <aside class="sidebar" id="sidebar">
-    <div class="logo-area" onclick="showScreen('hero')">
-      <div class="logo-icon">T</div>
-      <div>
-        <div class="logo-text">TalkAI</div>
-        <div class="logo-sub">Think Faster. Create Smarter. Powered by AI. 🚀</div>
-      </div>
-    </div>
-
+  <aside id="sidebar">
     <button class="new-chat-btn" onclick="startNewChat()">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-      New conversation
+      <span>+</span> New Chat
     </button>
-    <div class="history-section" id="historyList"><div class="history-label">Recent Threads</div></div>
-
-    <div class="sidebar-bottom">
-      <button class="sidebar-action" onclick="showScreen('about')">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
-        About & Developers
-      </button>
-      <button class="sidebar-action" onclick="showScreen('changelog')">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
-        Changelog Update
-      </button>
-      <button class="sidebar-action" onclick="openSettings('appearance')">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
-        System Settings
-      </button>
-    </div>
+    <div class="history-title-label">Recent Threads</div>
+    <div class="history-section" id="historyList">
+      </div>
   </aside>
 
-  <main class="main">
-    <div class="topbar">
-      <div class="topbar-left">
-        <button class="menu-toggle" onclick="toggleSidebar(true)">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
-        </button>
-        <div class="model-tag">
-          <div class="model-dot"></div>
-          <span>llama3.1-8b (Cerebras)</span>
+  <main id="main-chat">
+    <div id="messagesViewport">
+      <div id="messagesInner">
         </div>
-      </div>
-      <div class="topbar-right">
-        <button class="icon-btn" onclick="showScreen('privacy')" title="Privacy Policy">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-        </button>
-      </div>
     </div>
 
-    <div class="view-panel active" id="screen-hero">
-      <div class="hero-container">
-        <div class="hero-badge">TalkAI by Vision</div>
-        <h1 class="hero-title">The Fastest AI Assistant Built for Real Work</h1>
-        <p class="hero-desc">Powered by advanced AI models and optimized infrastructure to help you write, code, research, and create faster.</p>
-         
-        <div class="hero-actions">
-          <button class="btn-primary" onclick="startNewChat()">Start Chatting</button>
-          <button class="btn-secondary" onclick="showScreen('about')">Learn More</button>
-        </div>
-
-        <div class="section-title">Suggested Prompts</div>
-        <div class="prompt-grid">
-          <div class="prompt-card" onclick="triggerPrompt('Build a full-stack authentication system')"><span>💻</span><span>Build a full-stack authentication system</span></div>
-          <div class="prompt-card" onclick="triggerPrompt('Write a professional business proposal')"><span>✍️</span><span>Write a professional business proposal</span></div>
-          <div class="prompt-card" onclick="triggerPrompt('Summarize this article in 5 bullet points')"><span>📚</span><span>Summarize this article in 5 bullet points</span></div>
-          <div class="prompt-card" onclick="triggerPrompt('Teach me machine learning from scratch')"><span>🧠</span><span>Teach me machine learning from scratch</span></div>
-          <div class="prompt-card" onclick="triggerPrompt('Create a weekly study plan')"><span>📅</span><span>Create a weekly study plan</span></div>
-          <div class="prompt-card" onclick="triggerPrompt('Generate a social media marketing campaign')"><span>📈</span><span>Generate a social media marketing campaign</span></div>
-        </div>
-
-        <div class="section-title">What TalkAI Can Do</div>
-        <div class="features-grid">
-          <div class="feat-card"><div class="feat-icon">💬</div><div class="feat-title">Smart Conversations</div><div class="feat-desc">Natural AI-powered discussions and answers.</div></div>
-          <div class="feat-card"><div class="feat-icon">💻</div><div class="feat-title">Code Generation</div><div class="feat-desc">Write, debug, and explain code instantly.</div></div>
-          <div class="feat-card"><div class="feat-icon">🔬</div><div class="feat-title">Research Assistant</div><div class="feat-desc">Summarize documents and complex topics.</div></div>
-          <div class="feat-card"><div class="feat-icon">📝</div><div class="feat-title">Content Creation</div><div class="feat-desc">Generate blogs, emails, and marketing copy.</div></div>
-          <div class="feat-card"><div class="feat-icon">⚡</div><div class="feat-title">Fast Responses</div><div class="feat-desc">Powered by high-performance AI infrastructure.</div></div>
-          <div class="feat-card"><div class="feat-icon">⚙️</div><div class="feat-title">Personalized Experience</div><div class="feat-desc">Themes, chat history, and customizable settings.</div></div>
-        </div>
-
-        <div class="section-title">Why Choose TalkAI?</div>
-        <div class="checklist-grid">
-          <div class="check-item"><span class="check-icon">✓</span> Fast AI Responses</div>
-          <div class="check-item"><span class="check-icon">✓</span> Secure Conversations</div>
-          <div class="check-item"><span class="check-icon">✓</span> Modern Interface</div>
-          <div class="check-item"><span class="check-icon">✓</span> Built by Vision</div>
-          <div class="check-item"><span class="check-icon">✓</span> Continuous Improvements</div>
-          <div class="check-item"><span class="check-icon">✓</span> Enterprise-Grade Infrastructure</div>
-        </div>
-
-        <footer class="footer">
-          <div class="footer-copy">
-            <div>© 2026 TalkAI by Vision. All Rights Reserved.</div>
-            <div style="color:var(--text-dim)">Contact: support@talkai.com</div>
-          </div>
-        </footer>
-      </div>
-    </div>
-
-    <div class="view-panel" id="screen-chat" style="padding-bottom: 20px;">
-      <div class="messages-wrap" id="messagesWrap">
-        <div class="messages-inner" id="messagesInner"></div>
-      </div>
-    </div>
-
-    <div class="view-panel" id="screen-about">
-      <div class="doc-container">
-        <div class="doc-header">
-          <h2 class="doc-title">About TalkAI</h2>
-          <div class="doc-subtitle">Mission statement and corporate architecture parameters</div>
-        </div>
-        <div class="legal-box">
-          <p>TalkAI by Vision is an AI-powered assistant designed to help users think, create, learn, and solve problems faster. Built with a focus on speed, simplicity, and accessibility, TalkAI combines modern AI capabilities with a clean and intuitive user experience.</p>
-        </div>
-        <div class="section-title">Core Development Team</div>
-        <div class="profile-grid">
-          <div class="profile-card">
-            <div class="profile-avatar">V</div>
-            <div>
-              <h3 style="margin:0; font-size:16px;">Vision</h3>
-              <p style="font-size:12px; color:var(--text-muted); margin-top:2px;">Founder & Lead Developer</p>
-              <p style="font-size:13px; color:var(--text-dim); margin-top:6px;">Building practical AI tools that are accessible to everyone.</p>
-            </div>
-          </div>
-          <div class="profile-card">
-            <div class="profile-avatar">M</div>
-            <div>
-              <h3 style="margin:0; font-size:16px;">Marlon</h3>
-              <p style="font-size:12px; color:var(--text-muted); margin-top:2px;">Lead Developer</p>
-              <p style="font-size:13px; color:var(--text-dim); margin-top:6px;">Architecting data pipelines and high-performance system layouts.</p>
-            </div>
-          </div>
-          <div class="profile-card">
-            <div class="profile-avatar">Y</div>
-            <div>
-              <h3 style="margin:0; font-size:16px;">Yuji</h3>
-              <p style="font-size:12px; color:var(--text-muted); margin-top:2px;">Assistant Developer</p>
-              <p style="font-size:13px; color:var(--text-dim); margin-top:6px;">Optimizing user experience frameworks and module integration features.</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="view-panel" id="screen-privacy">
-      <div class="doc-container">
-        <div class="doc-header">
-          <h2 class="doc-title">Privacy Policy</h2>
-          <div class="doc-subtitle">How your data values are maintained and stored safely</div>
-        </div>
-        <div class="legal-box">
-          <p>We respect your privacy. Your conversation contents are processed securely through dynamic proxy pipelines.</p>
-          <h3>Information We Collect</h3>
-          <ul>
-            <li>Chat logs and instruction contexts</li>
-            <li>Account access tokens and dynamic validation IDs</li>
-            <li>Usage metrics and performance telemetry</li>
-          </ul>
-          <h3 style="margin-top:16px;">How We Use Information</h3>
-          <ul>
-            <li>To directly generate accurate context-aware responses</li>
-            <li>To diagnose pipeline latency and runtime errors</li>
-            <li>To tailor interface sizing profiles dynamically</li>
-          </ul>
-          <p style="margin-top:14px; font-weight:500; color:var(--text)"> We do not sell personal information under any condition framework.</p>
-        </div>
-      </div>
-    </div>
-
-    <div class="view-panel" id="screen-changelog">
-      <div class="doc-container">
-        <div class="doc-header">
-          <h2 class="doc-title">Changelog Updates</h2>
-          <div class="doc-subtitle">Tracking development milestones and framework versions</div>
-        </div>
-        <div class="changelog-timeline">
-          <div class="changelog-node">
-            <div class="changelog-ver">v1.1.0 - Production Core API Update</div>
-            <p style="font-size:13.5px; color:var(--text-muted); line-height:1.5;">Connected live async fetch pipelines directly to Cerebras edge nodes for processing user questions dynamically.</p>
-          </div>
-          <div class="changelog-node">
-            <div class="changelog-ver">v1.0.0 - Base Frontend Deployment</div>
-            <p style="font-size:13.5px; color:var(--text-muted); line-height:1.5;">Designed responsive dark/light UI frameworks with Syne typography alignments.</p>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="input-area" id="inputArea">
-      <div class="input-inner">
-        <div class="input-wrap">
-          <textarea class="chat-input" id="chatInput" placeholder="Ask TalkAI anything..." rows="1" oninput="resizeInput()" onkeydown="handleKeyDown(event)"></textarea>
-          <button class="send-btn" id="sendBtn" onclick="sendMessage()" disabled>
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
-          </button>
-        </div>
+    <div class="input-container">
+      <div class="input-box-wrapper">
+        <textarea id="chatInput" rows="1" placeholder="Ask TalkAI..." onkeydown="handleKeyDown(event)"></textarea>
+        <button id="sendBtn" onclick="sendMessage()">Send</button>
       </div>
     </div>
   </main>
-</div>
 
-<div class="modal-overlay" id="settingsModal" onclick="closeSettingsViaOverlay(event)">
-  <div class="modal-box">
-    <div class="modal-header">
-      <div class="modal-title">System Settings</div>
-      <button class="modal-close" onclick="closeSettings()">×</button>
-    </div>
-    <div class="modal-tabs">
-      <button class="tab-btn active" id="tab-appearance" onclick="switchSettingsTab('appearance')">Appearance</button>
-    </div>
-    <div class="modal-body">
-      <div class="tab-panel active" id="panel-appearance">
-        <div class="setting-row">
-          <div class="setting-label">Light Mode Interface</div>
-          <label class="toggle">
-            <input type="checkbox" id="themeToggle" onchange="toggleTheme(this.checked)"/>
-            <div class="toggle-track"></div>
-            <div class="toggle-thumb"></div>
-          </label>
+  <script>
+    let messages = [];
+    let currentConvoId = null;
+    let conversationsDatabase = {}; // Stores { convoId: { title: string, messages: [] } }
+
+    // On page initialization, establish a base tracking state
+    window.onload = () => {
+      startNewChat();
+    };
+
+    function startNewChat() {
+      messages = [];
+      currentConvoId = 'convo_' + Date.now();
+      document.getElementById('messagesInner').innerHTML = `
+        <div class="message-row assistant">
+          <div class="message-content">
+            <div class="message-sender">TalkAI</div>
+            Hello! I am TalkAI, powered by Vision and Cerebras infrastructure. How can I assist you today?
+          </div>
         </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<div class="toast" id="toastMessage">Done!</div>
-
-<script>
-let messages = [];
-let currentConvoId = null;
-let isLoading = false;
-
-// Event handling logic initialization
-document.getElementById('chatInput').addEventListener('input', function() {
-  document.getElementById('sendBtn').disabled = !this.value.trim();
-});
-
-function handleKeyDown(e) {
-  if (e.key === 'Enter' && !e.shiftKey) {
-    e.preventDefault();
-    sendMessage();
-  }
-}
-
-function resizeInput() {
-  const input = document.getElementById('chatInput');
-  input.style.height = 'auto';
-  input.style.height = Math.min(input.scrollHeight, 140) + 'px';
-}
-
-function toggleSidebar(open) {
-  document.getElementById('sidebar').classList.toggle('open', open);
-  document.getElementById('sidebarBackdrop').classList.toggle('open', open);
-}
-
-function showScreen(screenId) {
-  document.querySelectorAll('.view-panel').forEach(p => p.classList.remove('active'));
-  document.getElementById('inputArea').classList.remove('active');
-  
-  if (screenId === 'chat') {
-    document.getElementById('screen-chat').classList.add('active');
-    document.getElementById('inputArea').classList.add('active');
-  } else {
-    document.getElementById(`screen-${screenId}`).classList.add('active');
-  }
-  toggleSidebar(false);
-}
-
-function startNewChat() {
-  messages = [];
-  currentConvoId = 'convo_' + Date.now();
-  document.getElementById('messagesInner').innerHTML = '';
-  showScreen('chat');
-  document.getElementById('chatInput').focus();
-}
-
-function triggerPrompt(text) {
-  startNewChat();
-  document.getElementById('chatInput').value = text;
-  document.getElementById('sendBtn').disabled = false;
-  sendMessage();
-}
-
-function appendMessage(role, text, time) {
-  const inner = document.getElementById('messagesInner');
-  const group = document.createElement('div');
-  group.className = `msg-group ${role}`;
-  
-  group.innerHTML = `
-    <div class="avatar ${role}">${role === 'ai' ? 'AI' : 'U'}</div>
-    <div class="bubble-wrap">
-      <div class="bubble ${role}-msg">${escapeHtml(text)}</div>
-      <div class="msg-time">${time}</div>
-    </div>
-  `;
-  inner.appendChild(group);
-  document.getElementById('screen-chat').scrollTop = document.getElementById('screen-chat').scrollHeight;
-}
-
-function escapeHtml(str) {
-  return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
-}
-
-// REAL API FETCH CONNECTION REPLACING THE SIMULATOR
-async function sendMessage() {
-  if (isLoading) return;
-  const input = document.getElementById('chatInput');
-  const text = input.value.trim();
-  if (!text) return;
-
-  isLoading = true;
-  input.value = '';
-  document.getElementById('sendBtn').disabled = true;
-  input.style.height = 'auto';
-
-  const timeStr = new Date().toLocaleTimeString([], {hour: '2-digit', minute: '2-digit'});
-  messages.push({ role: 'user', content: text });
-  appendMessage('user', text, timeStr);
-
-  const typingId = 'typing_' + Date.now();
-  const inner = document.getElementById('messagesInner');
-  const loader = document.createElement('div');
-  loader.className = 'msg-group ai';
-  loader.id = typingId;
-  loader.innerHTML = `
-    <div class="avatar ai">AI</div>
-    <div class="bubble-wrap">
-      <div class="typing-indicator">
-        <div class="typing-dot"></div>
-        <div class="typing-dot"></div>
-        <div class="typing-dot"></div>
-      </div>
-    </div>
-  `;
-  inner.appendChild(loader);
-  document.getElementById('screen-chat').scrollTop = document.getElementById('screen-chat').scrollHeight;
-
-  try {
-    const apiMessages = messages.map(m => ({
-      role: m.role === 'ai' ? 'assistant' : 'user',
-      content: m.content
-    }));
-
-    const response = await fetch('/api/chat', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ messages: apiMessages })
-    });
-
-    const data = await response.json();
-    const loaderNode = document.getElementById(typingId);
-    if (loaderNode) loaderNode.remove();
-
-    const rTime = new Date().toLocaleTimeString([], {hour: '2-digit', minute: '2-digit'});
-    let reply = "";
-
-    if (data.choices && data.choices[0] && data.choices[0].message) {
-      reply = data.choices[0].message.content;
-    } else if (data.error && data.error.message) {
-      reply = `Proxy Server Error: ${data.error.message}`;
-    } else {
-      reply = "Unexpected payload schema response received.";
+      `;
+      // De-select current active items in sidebar
+      document.querySelectorAll('.history-item').forEach(item => item.classList.remove('active'));
+      document.getElementById('chatInput').focus();
     }
 
-    messages.push({ role: 'ai', content: reply });
-    appendMessage('ai', reply, rTime);
+    function handleKeyDown(event) {
+      if (event.key === 'Enter' && !event.shiftKey) {
+        event.preventDefault();
+        sendMessage();
+      }
+    }
 
-  } catch (err) {
-    const loaderNode = document.getElementById(typingId);
-    if (loaderNode) loaderNode.remove();
-    
-    const rTime = new Date().toLocaleTimeString([], {hour: '2-digit', minute: '2-digit'});
-    const fallbackErrorText = "Failed connecting to local backend. Run your node server file first.";
-    appendMessage('ai', fallbackErrorText, rTime);
-  } finally {
-    isLoading = false;
-  }
-}
+    async function sendMessage() {
+      const inputEl = document.getElementById('chatInput');
+      const sendBtn = document.getElementById('sendBtn');
+      const text = inputEl.value.trim();
+      
+      if (!text) return;
 
-function openSettings(tab) {
-  document.getElementById('settingsModal').classList.add('open');
-}
-function closeSettings() {
-  document.getElementById('settingsModal').classList.remove('open');
-}
-function closeSettingsViaOverlay(e) {
-  if (e.target.id === 'settingsModal') closeSettings();
-}
-function toggleTheme(isLight) {
-  document.body.setAttribute('data-theme', isLight ? 'light' : 'dark');
-}
-</script>
+      // Reset input layout
+      inputEl.value = '';
+      inputEl.style.height = 'auto';
+      inputEl.disabled = true;
+      sendBtn.disabled = true;
+
+      // 1. Append User Message to UI and Memory State
+      messages.push({ role: 'user', content: text });
+      appendMessageUI('user', text);
+
+      // 2. Structural Sidebar Validation Check
+      updateChatHistorySidebar(text);
+
+      // Create placeholders for the assistant response UI
+      const innerContainer = document.getElementById('messagesInner');
+      const responseRow = document.createElement('div');
+      responseRow.className = 'message-row assistant';
+      responseRow.innerHTML = `
+        <div class="message-content">
+          <div class="message-sender">TalkAI</div>
+          <div class="ai-text-target">Thinking...</div>
+        </div>
+      `;
+      innerContainer.appendChild(responseRow);
+      scrollToBottom();
+
+      const textTarget = responseRow.querySelector('.ai-text-target');
+
+      try {
+        // 3. Dispatch data block directly to the server endpoint
+        // NOTE: If testing from a separate port, modify path to 'http://localhost:3000/api/chat'
+        const response = await fetch('/api/chat', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ messages: messages })
+        });
+
+        if (!response.ok) {
+          throw new Error(`Server returned HTTP ${response.status}`);
+        }
+
+        const data = await response.json();
+        const reply = data.choices[0].message.content;
+
+        // 4. Save to Memory state & update actual UI content
+        messages.push({ role: 'assistant', content: reply });
+        textTarget.innerText = reply;
+
+        // Sync the fully finished response back down into the local tracking object
+        conversationsDatabase[currentConvoId].messages = [...messages];
+
+      } catch (err) {
+        console.error('Fetch error:', err);
+        textTarget.innerHTML = `<span style="color: #ff6b6b;">Error: Failed to process response. Please make sure your server is running.</span>`;
+      } finally {
+        inputEl.disabled = false;
+        sendBtn.disabled = false;
+        inputEl.focus();
+        scrollToBottom();
+      }
+    }
+
+    function appendMessageUI(role, content) {
+      const innerContainer = document.getElementById('messagesInner');
+      const row = document.createElement('div');
+      row.className = `message-row ${role}`;
+      
+      row.innerHTML = `
+        <div class="message-content">
+          <div class="message-sender">${role === 'user' ? 'You' : 'TalkAI'}</div>
+          <div>${escapeHtml(content)}</div>
+        </div>
+      `;
+      
+      innerContainer.appendChild(row);
+      scrollToBottom();
+    }
+
+    function updateChatHistorySidebar(firstMsgText) {
+      // If conversation exists already, just sync current state maps
+      if (conversationsDatabase[currentConvoId]) {
+        conversationsDatabase[currentConvoId].messages = [...messages];
+        return;
+      }
+
+      // Generate a brand new conversation state tree
+      conversationsDatabase[currentConvoId] = {
+        title: firstMsgText,
+        messages: [...messages]
+      };
+
+      const historyList = document.getElementById('historyList');
+      const historyItem = document.createElement('div');
+      historyItem.className = 'history-item active';
+      historyItem.id = `item_${currentConvoId}`;
+      
+      // Setup structural clicks to toggle back into older records
+      historyItem.setAttribute('onclick', `loadSavedConversation('${currentConvoId}')`);
+
+      historyItem.innerHTML = `
+        <div class="history-text">${escapeHtml(firstMsgText)}</div>
+        <button class="history-delete-btn" onclick="deleteConversation(event, '${currentConvoId}')">×</button>
+      `;
+
+      // De-activate prior UI items
+      document.querySelectorAll('.history-item').forEach(item => item.classList.remove('active'));
+      
+      // Prepend to top of sidebar stack layout
+      historyList.insertBefore(historyItem, historyList.firstChild);
+    }
+
+    function loadSavedConversation(convoId) {
+      currentConvoId = convoId;
+      messages = [...conversationsDatabase[convoId].messages];
+
+      document.querySelectorAll('.history-item').forEach(item => item.classList.remove('active'));
+      document.getElementById(`item_${convoId}`).classList.add('active');
+
+      const innerContainer = document.getElementById('messagesInner');
+      innerContainer.innerHTML = '';
+
+      messages.forEach(msg => {
+        const row = document.createElement('div');
+        row.className = `message-row ${msg.role}`;
+        row.innerHTML = `
+          <div class="message-content">
+            <div class="message-sender">${msg.role === 'user' ? 'You' : 'TalkAI'}</div>
+            <div>${escapeHtml(msg.content)}</div>
+          </div>
+        `;
+        innerContainer.appendChild(row);
+      });
+      scrollToBottom();
+    }
+
+    function deleteConversation(event, convoId) {
+      event.stopPropagation(); // Avoid triggering parent loadSavedConversation click routine
+      const item = document.getElementById(`item_${convoId}`);
+      if (item) {
+        item.remove();
+        delete conversationsDatabase[convoId];
+        // If user deleted the chat they are currently view pane reading, initialize refresh
+        if (currentConvoId === convoId) {
+          startNewChat();
+        }
+      }
+    }
+
+    function scrollToBottom() {
+      const viewport = document.getElementById('messagesViewport');
+      viewport.scrollTop = viewport.scrollHeight;
+    }
+
+    function escapeHtml(str) {
+      return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
+    }
+
+    // Auto-grow input textarea logic height tracking adjustments
+    const tx = document.getElementById('chatInput');
+    tx.setAttribute('style', 'height:' + (tx.scrollHeight) + 'px;overflow-y:hidden;');
+    tx.addEventListener("input", OnInput, false);
+    function OnInput() {
+      this.style.height = 'auto';
+      this.style.height = (this.scrollHeight) + 'px';
+    }
+  </script>
 </body>
 </html>
