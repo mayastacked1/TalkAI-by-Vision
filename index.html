@@ -16,7 +16,7 @@
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: var(--bg-main); color: var(--text-main); display: flex; hieght: 100vh; height: 100vh; overflow: hidden; }
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: var(--bg-main); color: var(--text-main); display: flex; height: 100vh; overflow: hidden; }
 
     /* Layout Structure */
     #sidebar { width: 260px; background: var(--bg-sidebar); border-right: 1px solid var(--border); display: flex; flex-direction: column; padding: 12px; }
@@ -29,7 +29,7 @@
     /* History Sidebar List */
     .history-section { flex: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 4px; }
     .history-title-label { font-size: 11px; text-transform: uppercase; color: #80868b; font-weight: 700; margin: 0 8px 8px; }
-    
+     
     .history-item { display: flex; align-items: center; justify-content: space-between; padding: 10px 12px; border-radius: 8px; cursor: pointer; font-size: 14px; transition: background 0.2s; position: relative; }
     .history-item:hover { background: #2d2e30; }
     .history-item.active { background: #2d2e30; color: var(--accent); }
@@ -43,7 +43,7 @@
     .message-row { display: flex; padding: 20px 15%; width: 100%; animation: fadeIn 0.3s ease-in-out; }
     .message-row.user { background: var(--bg-main); }
     .message-row.assistant { background: var(--bg-message-ai); border-top: 1px solid #28292a; border-bottom: 1px solid #28292a; }
-    
+     
     .message-content { max-width: 800px; margin: 0 auto; width: 100%; line-height: 1.6; font-size: 15px; }
     .message-sender { font-weight: 600; font-size: 12px; margin-bottom: 6px; color: #9aa0a6; text-transform: uppercase; letter-spacing: 0.5px; }
 
@@ -51,7 +51,7 @@
     .input-container { padding: 20px 15%; background: linear-gradient(transparent, var(--bg-main) 20%); }
     .input-box-wrapper { display: flex; background: #202124; border: 1px solid var(--border); border-radius: 28px; padding: 6px 16px; align-items: center; }
     .input-box-wrapper:focus-within { border-color: #666; }
-    
+     
     #chatInput { flex: 1; background: transparent; border: none; color: var(--text-main); font-size: 16px; padding: 10px 0; outline: none; resize: none; max-height: 200px; font-family: inherit; }
     #sendBtn { background: none; border: none; color: var(--accent); cursor: pointer; padding: 8px; font-weight: 600; display: flex; align-items: center; justify-content: center; transition: transform 0.1s; }
     #sendBtn:active { transform: scale(0.95); }
@@ -67,14 +67,12 @@
       <span>+</span> New Chat
     </button>
     <div class="history-title-label">Recent Threads</div>
-    <div class="history-section" id="historyList">
-      </div>
+    <div class="history-section" id="historyList"></div>
   </aside>
 
   <main id="main-chat">
     <div id="messagesViewport">
-      <div id="messagesInner">
-        </div>
+      <div id="messagesInner"></div>
     </div>
 
     <div class="input-container">
@@ -90,7 +88,6 @@
     let currentConvoId = null;
     let conversationsDatabase = {}; // Stores { convoId: { title: string, messages: [] } }
 
-    // On page initialization, establish a base tracking state
     window.onload = () => {
       startNewChat();
     };
@@ -106,9 +103,12 @@
           </div>
         </div>
       `;
-      // De-select current active items in sidebar
       document.querySelectorAll('.history-item').forEach(item => item.classList.remove('active'));
-      document.getElementById('chatInput').focus();
+      
+      const inputEl = document.getElementById('chatInput');
+      inputEl.value = '';
+      inputEl.style.height = 'auto';
+      inputEl.focus();
     }
 
     function handleKeyDown(event) {
@@ -122,23 +122,22 @@
       const inputEl = document.getElementById('chatInput');
       const sendBtn = document.getElementById('sendBtn');
       const text = inputEl.value.trim();
-      
+       
       if (!text) return;
 
-      // Reset input layout
       inputEl.value = '';
       inputEl.style.height = 'auto';
       inputEl.disabled = true;
       sendBtn.disabled = true;
 
-      // 1. Append User Message to UI and Memory State
+      // 1. Append User Message
       messages.push({ role: 'user', content: text });
       appendMessageUI('user', text);
 
-      // 2. Structural Sidebar Validation Check
+      // 2. Refresh/Create Sidebar Link
       updateChatHistorySidebar(text);
 
-      // Create placeholders for the assistant response UI
+      // Create loading animation placeholder
       const innerContainer = document.getElementById('messagesInner');
       const responseRow = document.createElement('div');
       responseRow.className = 'message-row assistant';
@@ -154,8 +153,7 @@
       const textTarget = responseRow.querySelector('.ai-text-target');
 
       try {
-        // 3. Dispatch data block directly to the server endpoint
-        // NOTE: If testing from a separate port, modify path to 'http://localhost:3000/api/chat'
+        // 3. Dispatch to Server Proxy (Handles relative paths automatically on Render)
         const response = await fetch('/api/chat', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -169,11 +167,10 @@
         const data = await response.json();
         const reply = data.choices[0].message.content;
 
-        // 4. Save to Memory state & update actual UI content
+        // 4. Update UI context and save state
         messages.push({ role: 'assistant', content: reply });
         textTarget.innerText = reply;
 
-        // Sync the fully finished response back down into the local tracking object
         conversationsDatabase[currentConvoId].messages = [...messages];
 
       } catch (err) {
@@ -191,26 +188,24 @@
       const innerContainer = document.getElementById('messagesInner');
       const row = document.createElement('div');
       row.className = `message-row ${role}`;
-      
+       
       row.innerHTML = `
         <div class="message-content">
           <div class="message-sender">${role === 'user' ? 'You' : 'TalkAI'}</div>
           <div>${escapeHtml(content)}</div>
         </div>
       `;
-      
+       
       innerContainer.appendChild(row);
       scrollToBottom();
     }
 
     function updateChatHistorySidebar(firstMsgText) {
-      // If conversation exists already, just sync current state maps
       if (conversationsDatabase[currentConvoId]) {
         conversationsDatabase[currentConvoId].messages = [...messages];
         return;
       }
 
-      // Generate a brand new conversation state tree
       conversationsDatabase[currentConvoId] = {
         title: firstMsgText,
         messages: [...messages]
@@ -220,8 +215,7 @@
       const historyItem = document.createElement('div');
       historyItem.className = 'history-item active';
       historyItem.id = `item_${currentConvoId}`;
-      
-      // Setup structural clicks to toggle back into older records
+       
       historyItem.setAttribute('onclick', `loadSavedConversation('${currentConvoId}')`);
 
       historyItem.innerHTML = `
@@ -229,10 +223,7 @@
         <button class="history-delete-btn" onclick="deleteConversation(event, '${currentConvoId}')">×</button>
       `;
 
-      // De-activate prior UI items
       document.querySelectorAll('.history-item').forEach(item => item.classList.remove('active'));
-      
-      // Prepend to top of sidebar stack layout
       historyList.insertBefore(historyItem, historyList.firstChild);
     }
 
@@ -257,16 +248,22 @@
         `;
         innerContainer.appendChild(row);
       });
+
+      // Clear layout box when historical records switch
+      const inputEl = document.getElementById('chatInput');
+      inputEl.value = '';
+      inputEl.style.height = 'auto';
+      inputEl.focus();
+
       scrollToBottom();
     }
 
     function deleteConversation(event, convoId) {
-      event.stopPropagation(); // Avoid triggering parent loadSavedConversation click routine
+      event.stopPropagation(); 
       const item = document.getElementById(`item_${convoId}`);
       if (item) {
         item.remove();
         delete conversationsDatabase[convoId];
-        // If user deleted the chat they are currently view pane reading, initialize refresh
         if (currentConvoId === convoId) {
           startNewChat();
         }
@@ -282,7 +279,7 @@
       return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
     }
 
-    // Auto-grow input textarea logic height tracking adjustments
+    // Auto-grow configuration logic adjustments
     const tx = document.getElementById('chatInput');
     tx.setAttribute('style', 'height:' + (tx.scrollHeight) + 'px;overflow-y:hidden;');
     tx.addEventListener("input", OnInput, false);
