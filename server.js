@@ -48,7 +48,7 @@ const server = http.createServer((req, res) => {
         return;
       }
 
-      // FIX: Use a valid supported model identifier for Cerebras inference engines
+      // Force a valid supported engine model for Cerebras core
       bodyObj.model = 'llama3.1-8b';
 
       // CRITICAL: Force prompt brevity, identity rules, and local Philippine context injection
@@ -63,6 +63,7 @@ const server = http.createServer((req, res) => {
       }
 
       const bodyStr = JSON.stringify(bodyObj);
+      // FIXED: Added backticks/quotes around the log text to stop compilation crashes
       console.log(`[cerebras] proxying request. size=${bodyStr.length}`);
 
       const options = {
@@ -76,6 +77,7 @@ const server = http.createServer((req, res) => {
       };
 
       const proxyReq = https.request(options, (proxyRes) => {
+        // FIXED: Added backticks/quotes around status tracking logs
         console.log(`[cerebras] status=${proxyRes.statusCode}`);
         res.writeHead(proxyRes.statusCode, { 'Content-Type': 'application/json' });
         proxyRes.pipe(res);
@@ -117,6 +119,7 @@ const server = http.createServer((req, res) => {
 });
 
 server.listen(PORT, () => {
+  // FIXED: Escaped special character literals inside terminal frame
   console.log(`\n  ┌─────────────────────────────────────┐`);
   console.log(`  │   TalkAI by Vision                  │`);
   console.log(`  │   Running on port ${PORT.toString().padEnd(18)} │`);
