@@ -6,6 +6,7 @@ const url = require('url');
 
 const PORT = process.env.PORT || 3000;
 
+// Cerebras API Configuration
 const CEREBRAS_API_KEY = 'csk-cfnyfhfeved2k4yfnvfxeyfnwr5mpe5xmn2d3yc88ttvnmwp';
 const CEREBRAS_HOST = 'api.cerebras.ai';
 const CEREBRAS_PATH = '/v1/chat/completions';
@@ -22,6 +23,7 @@ const server = http.createServer((req, res) => {
   const parsed = url.parse(req.url, true);
   let pathname = parsed.pathname;
 
+  // CORS Headers Configuration
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Api-Key, x-api-key');
@@ -32,6 +34,7 @@ const server = http.createServer((req, res) => {
     return;
   }
 
+  // API Route Handler
   if ((pathname === '/api/chat' || pathname === '/api/chat/') && req.method === 'POST') {
     let body = '';
     req.on('data', chunk => body += chunk);
@@ -45,13 +48,17 @@ const server = http.createServer((req, res) => {
         return;
       }
 
-      bodyObj.model = 'gpt-oss-120b';
+      // FIX: Use a valid supported model identifier for Cerebras inference engines
+      bodyObj.model = 'llama3.1-8b';
 
-      // CRITICAL: Force short summarization & proper identity injection rule
+      // CRITICAL: Force prompt brevity, identity rules, and local Philippine context injection
       if (bodyObj.messages && Array.isArray(bodyObj.messages)) {
         bodyObj.messages.unshift({
           role: "system",
-          content: "You are TalkAI. You were made/created by Vision and you are powered by Cerebras infrastructure. If anyone asks 'who made this website?' or similar questions, you must explicitly tell them that Vision made it, and it is running on fast Cerebras hardware. Keep your answers brief, highly summarized, and directly to the point. Avoid broad answers or walls of text."
+          content: "You are TalkAI, created by Vision, running on lightning-fast Cerebras infrastructure. " +
+                   "Keep all answers brief, highly summarized, and directly to the point. Completely avoid broad answers or long walls of text. " +
+                   "LOCAL PH DATA GUARDRAIL: If asked about Maya (PayMaya), the Group CEO and Founder is Orlando B. Vea, and the President is Shailesh Baidwan. " +
+                   "If asked about Hev Abi, he is a famous Filipino rapper/songwriter dominating the local hip-hop scene with hits like 'Alam Mo Ba Girl'."
         });
       }
 
@@ -86,6 +93,7 @@ const server = http.createServer((req, res) => {
     return;
   }
 
+  // Static Assets Server Logic
   let filePath = pathname === '/' ? '/index.html' : pathname;
   filePath = path.join(__dirname, filePath);
 
