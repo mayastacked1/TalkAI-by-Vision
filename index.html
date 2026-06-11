@@ -81,6 +81,11 @@
     .member-name { font-weight: 600; font-size: 15px; color: var(--text-main); }
     .member-role { font-size: 12px; color: #9aa0a6; text-transform: uppercase; margin-top: 2px; letter-spacing: 0.5px; }
 
+    /* Minimalist Form Controls for Settings */
+    .settings-group { display: flex; flex-direction: column; gap: 6px; margin-top: 12px; }
+    .settings-label { font-size: 12px; color: #9aa0a6; text-transform: uppercase; font-weight: 600; }
+    .settings-select { background: #1e1f20; border: 1px solid var(--border); color: var(--text-main); padding: 8px 12px; border-radius: 6px; outline: none; font-size: 14px; }
+
     @keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
   </style>
 </head>
@@ -148,22 +153,30 @@
         <div class="modal-title">Settings</div>
         <button class="modal-close" onclick="toggleModal('settingsModal', false)">&times;</button>
       </div>
-      <p style="font-size: 14px; color: #c4c7c5; line-height: 1.5;">
-        Configure your workspace configurations, theme attributes, and active proxy rules here.
-      </p>
+      <div class="settings-group">
+        <label class="settings-label">Active Engine</label>
+        <select class="settings-select">
+          <option>Llama 3.3 70B (Cerebras Ultra-Low Latency)</option>
+        </select>
+      </div>
+      <div class="settings-group" style="margin-top: 16px;">
+        <label class="settings-label">Workspace Theme</label>
+        <select class="settings-select">
+          <option>Vision Dark Core (Default)</option>
+        </select>
+      </div>
     </div>
   </div>
 
   <script>
     let messages = [];
     let currentConvoId = null;
-    let conversationsDatabase = {}; // Stores { convoId: { title: string, messages: [] } }
+    let conversationsDatabase = {};
 
     window.onload = () => {
       startNewChat();
     };
 
-    // ADDED: Modal Interface Management Function
     function toggleModal(modalId, show) {
       const modal = document.getElementById(modalId);
       if (show) {
@@ -246,7 +259,9 @@
         messages.push({ role: 'assistant', content: reply });
         textTarget.innerText = reply;
 
-        conversationsDatabase[currentConvoId].messages = [...messages];
+        if (conversationsDatabase[currentConvoId]) {
+          conversationsDatabase[currentConvoId].messages = [...messages];
+        }
 
       } catch (err) {
         console.error('Fetch error:', err);
@@ -276,6 +291,7 @@
     }
 
     function updateChatHistorySidebar(firstMsgText) {
+      // FIXED: Safely verify existence before mapping deep object trees
       if (conversationsDatabase[currentConvoId]) {
         conversationsDatabase[currentConvoId].messages = [...messages];
         return;
@@ -303,11 +319,13 @@
     }
 
     function loadSavedConversation(convoId) {
+      if (!conversationsDatabase[convoId]) return;
       currentConvoId = convoId;
       messages = [...conversationsDatabase[convoId].messages];
 
       document.querySelectorAll('.history-item').forEach(item => item.classList.remove('active'));
-      document.getElementById(`item_${convoId}`).classList.add('active');
+      const activeEl = document.getElementById(`item_${convoId}`);
+      if (activeEl) activeEl.classList.add('active');
 
       const innerContainer = document.getElementById('messagesInner');
       innerContainer.innerHTML = '';
