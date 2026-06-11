@@ -5,8 +5,8 @@ const path = require('path');
 
 const PORT = process.env.PORT || 3000;
 
-// Cerebras API Configuration
-const CEREBRAS_API_KEY = 'csk-cfnyfhfeved2k4yfnvfxeyfnwr5mpe5xmn2d3yc88ttvnmwp';
+// SECURED: Pulls key safely from the Render Environment Panel
+const CEREBRAS_API_KEY = process.env.CEREBRAS_API_KEY || 'csk-cfnyfhfeved2k4yfnvfxeyfnwr5mpe5xmn2d3yc88ttvnmwp';
 const CEREBRAS_HOST = 'api.cerebras.ai';
 const CEREBRAS_PATH = '/v1/chat/completions';
 
@@ -24,8 +24,6 @@ const MIME = {
 const server = http.createServer((req, res) => {
   const baseURL = `http://${req.headers.host || 'localhost'}`;
   const parsedURL = new URL(req.url, baseURL);
-  
-  // Normalize the path: strip trailing slashes, enforce lowercase, and trim spaces
   let pathname = parsedURL.pathname.trim().replace(/\/+$/, '').toLowerCase() || '/';
 
   // CORS Headers Configuration
@@ -50,6 +48,12 @@ const server = http.createServer((req, res) => {
     let body = '';
     req.on('data', chunk => body += chunk);
     req.on('end', () => {
+      if (!CEREBRAS_API_KEY) {
+        res.writeHead(500, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ error: { message: 'Server Config Error: CEREBRAS_API_KEY environment variable is empty.' } }));
+        return;
+      }
+
       let bodyObj;
       try {
         bodyObj = JSON.parse(body);
@@ -59,10 +63,9 @@ const server = http.createServer((req, res) => {
         return;
       }
 
-      // Safe check: extract incoming messages array
       const incomingMessages = bodyObj.messages || [];
 
-      // FIXED: Build a clean array clone instead of altering user history directly
+      // Re-inject core system instructions cleanly
       const optimizedMessages = [
         {
           role: "system",
@@ -74,9 +77,8 @@ const server = http.createServer((req, res) => {
         ...incomingMessages
       ];
 
-      // Assemble a compliant payload structure for Cerebras core API
       const cleanedPayload = {
-        model: 'llama3.3-70b',
+        model: 'llama3.3-70b', // Updated to latest premium production model identifier
         messages: optimizedMessages
       };
 
