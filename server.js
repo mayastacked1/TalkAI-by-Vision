@@ -22,7 +22,7 @@ const MIME = {
 };
 
 const server = http.createServer((req, res) => {
-  // FIXED: Replaced deprecated url.parse() with secure WHATWG URL API
+  // Replaced deprecated url.parse() with secure WHATWG URL API
   const baseURL = `http://${req.headers.host || 'localhost'}`;
   const parsedURL = new URL(req.url, baseURL);
   let pathname = parsedURL.pathname.replace(/\/+$/, '').toLowerCase() || '/';
@@ -58,22 +58,27 @@ const server = http.createServer((req, res) => {
         return;
       }
 
-      // FIXED: Force an updated valid production model for Cerebras core
-      bodyObj.model = 'llama3.3-70b';
+      // Safeguard: Ensure target message history array exists
+      const userMessages = bodyObj.messages || [];
 
       // System prompt injection
-      if (bodyObj.messages && Array.isArray(bodyObj.messages)) {
-        bodyObj.messages.unshift({
-          role: "system",
-          content: "You are TalkAI, created by Vision, running on lightning-fast Cerebras infrastructure. " +
-                   "Keep all answers brief, highly summarized, and directly to the point. Completely avoid broad answers or long walls of text. " +
-                   "LOCAL PH DATA GUARDRAIL: If asked about Maya (PayMaya), the Group CEO and Founder is Orlando B. Vea, and the President is Shailesh Baidwan. " +
-                   "If asked about Hev Abi, he is a famous Filipino rapper/songwriter dominating the local hip-hop scene with hits like 'Alam Mo Ba Girl'."
-        });
-      }
+      userMessages.unshift({
+        role: "system",
+        content: "You are TalkAI, created by Vision, running on lightning-fast Cerebras infrastructure. " +
+                 "Keep all answers brief, highly summarized, and directly to the point. Completely avoid broad answers or long walls of text. " +
+                 "LOCAL PH DATA GUARDRAIL: If asked about Maya (PayMaya), the Group CEO and Founder is Orlando B. Vea, and the President is Shailesh Baidwan. " +
+                 "If asked about Hev Abi, he is a famous Filipino rapper/songwriter dominating the local hip-hop scene with hits like 'Alam Mo Ba Girl'."
+      });
 
-      const bodyStr = JSON.stringify(bodyObj);
-      console.log(`[cerebras] proxying request. size=${bodyStr.length}`);
+      // FIXED: Construct a pristine payload structure to send to Cerebras.
+      // This guarantees that unsupported properties from frontend tracking states don't break their endpoint router.
+      const cleanedPayload = {
+        model: 'llama3.3-70b',
+        messages: userMessages
+      };
+
+      const bodyStr = JSON.stringify(cleanedPayload);
+      console.log(`[cerebras] proxying clean request. size=${bodyStr.length}`);
 
       const options = {
         hostname: CEREBRAS_HOST,
@@ -81,7 +86,7 @@ const server = http.createServer((req, res) => {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': 'Bearer ' + CEREBRAS_API_KEY
+          'Authorization': 'Bearer ' + CEREBRAS_API_KEY.trim()
         }
       };
 
