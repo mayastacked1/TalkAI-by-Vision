@@ -17,12 +17,16 @@ const MIME = {
   '.css':  'text/css',
   '.json': 'application/json',
   '.ico':  'image/x-icon',
+  '.svg':  'image/svg+xml',
+  '.png':  'image/png',
+  '.jpg':  'image/jpeg'
 };
 
 const server = http.createServer((req, res) => {
   const parsed = url.parse(req.url, true);
-  // Normalize the pathname: remove trailing slashes and convert to lowercase
-  let pathname = parsed.pathname.replace(/\/+$/, '') || '/';
+  
+  // ADJUSTED: Added .toLowerCase() to ensure '/API/chat' or '/api/chat/' don't trigger 404s
+  let pathname = parsed.pathname.replace(/\/+$/, '').toLowerCase() || '/';
 
   // CORS Headers Configuration
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -59,7 +63,7 @@ const server = http.createServer((req, res) => {
       // Force a valid supported engine model for Cerebras core
       bodyObj.model = 'llama3.1-8b';
 
-      // CRITICAL: System prompt injection
+      // System prompt injection
       if (bodyObj.messages && Array.isArray(bodyObj.messages)) {
         bodyObj.messages.unshift({
           role: "system",
@@ -98,24 +102,21 @@ const server = http.createServer((req, res) => {
       proxyReq.write(bodyStr);
       proxyReq.end();
     });
-    return; // Don't let processing drop down to static assets file reading!
+    return; 
   }
 
   // 2. STATIC ASSETS ROUTING
-  // If the path starts with /api but didn't match anything above, it's a true broken API endpoint
   if (pathname.startsWith('/api')) {
     res.writeHead(404, { 'Content-Type': 'application/json' });
     res.end(JSON.stringify({ error: { message: 'API Endpoint Not Found' } }));
     return;
   }
 
-  // Fallback map layout for client side files
   let filePath = pathname === '/' ? '/index.html' : pathname;
   filePath = path.join(__dirname, filePath);
 
   fs.readFile(filePath, (err, data) => {
     if (err) {
-      // Serve index.html as a fallback for single-page applications (SPA routing)
       fs.readFile(path.join(__dirname, '/index.html'), (fallbackErr, fallbackData) => {
         if (fallbackErr) {
           res.writeHead(404, { 'Content-Type': 'text/plain' });
