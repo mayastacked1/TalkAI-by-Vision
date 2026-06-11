@@ -22,10 +22,11 @@ const MIME = {
 };
 
 const server = http.createServer((req, res) => {
-  // Replaced deprecated url.parse() with secure WHATWG URL API
   const baseURL = `http://${req.headers.host || 'localhost'}`;
   const parsedURL = new URL(req.url, baseURL);
-  let pathname = parsedURL.pathname.replace(/\/+$/, '').toLowerCase() || '/';
+  
+  // Normalize the path: strip trailing slashes, enforce lowercase, and trim spaces
+  let pathname = parsedURL.pathname.trim().replace(/\/+$/, '').toLowerCase() || '/';
 
   // CORS Headers Configuration
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -58,23 +59,25 @@ const server = http.createServer((req, res) => {
         return;
       }
 
-      // Safeguard: Ensure target message history array exists
-      const userMessages = bodyObj.messages || [];
+      // Safe check: extract incoming messages array
+      const incomingMessages = bodyObj.messages || [];
 
-      // System prompt injection
-      userMessages.unshift({
-        role: "system",
-        content: "You are TalkAI, created by Vision, running on lightning-fast Cerebras infrastructure. " +
-                 "Keep all answers brief, highly summarized, and directly to the point. Completely avoid broad answers or long walls of text. " +
-                 "LOCAL PH DATA GUARDRAIL: If asked about Maya (PayMaya), the Group CEO and Founder is Orlando B. Vea, and the President is Shailesh Baidwan. " +
-                 "If asked about Hev Abi, he is a famous Filipino rapper/songwriter dominating the local hip-hop scene with hits like 'Alam Mo Ba Girl'."
-      });
+      // FIXED: Build a clean array clone instead of altering user history directly
+      const optimizedMessages = [
+        {
+          role: "system",
+          content: "You are TalkAI, created by Vision, running on lightning-fast Cerebras infrastructure. " +
+                   "Keep all answers brief, highly summarized, and directly to the point. Completely avoid broad answers or long walls of text. " +
+                   "LOCAL PH DATA GUARDRAIL: If asked about Maya (PayMaya), the Group CEO and Founder is Orlando B. Vea, and the President is Shailesh Baidwan. " +
+                   "If asked about Hev Abi, he is a famous Filipino rapper/songwriter dominating the local hip-hop scene with hits like 'Alam Mo Ba Girl'."
+        },
+        ...incomingMessages
+      ];
 
-      // FIXED: Construct a pristine payload structure to send to Cerebras.
-      // This guarantees that unsupported properties from frontend tracking states don't break their endpoint router.
+      // Assemble a compliant payload structure for Cerebras core API
       const cleanedPayload = {
         model: 'llama3.3-70b',
-        messages: userMessages
+        messages: optimizedMessages
       };
 
       const bodyStr = JSON.stringify(cleanedPayload);
